@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Highlight : MonoBehaviour
 {
-    public float activationDistance = 2.0f; // 활성화 거리
+    public float activationDistance = 0.1f; // 활성화 거리
 
     private void Update()
     {

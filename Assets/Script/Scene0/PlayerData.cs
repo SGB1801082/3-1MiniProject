@@ -7,24 +7,37 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
     public readonly string NAME;
     //public readonly string JOB;
     //public readonly Sprite PORTRAIT;
-    public int player_HP;
-    public int player_SN;
+    public float max_Player_Hp;
+    public float cur_Player_Hp;
+    public float max_Player_Sn;
+    public float cur_Player_Sn;
+    public float max_Player_Mp;
+    public float cur_Player_Mp;
     public int player_Gold;
     public float atk_Speed;
+    public float atk_Range;
+    public float base_atk_Dmg;
+    public int level;
+    public float max_Exp;
+    public float cur_Exp;
 
-    public PlayerData()
-    {
-        this.NAME = string.Empty;
-        this.player_HP = 0;
-        this.player_SN = 0;
-        this.player_Gold = 0;
-    }
+
     public PlayerData(string name)
     {
         this.NAME = name;
-        player_HP = 150;
-        player_SN = 150;
+        max_Player_Hp = 10;
+        cur_Player_Hp = max_Player_Hp;
+        max_Player_Mp = 5;
+        cur_Player_Mp = max_Player_Mp;
+        max_Player_Sn = 50;
+        cur_Player_Sn = max_Player_Sn;
+        max_Exp = 10f;
+        cur_Exp = 0f;
         player_Gold = 1500;
+        atk_Speed = 1f;
+        atk_Range = 1f;
+        base_atk_Dmg = 1f;
+        level = 1;
     }
 
     public string GetPlayerName()
@@ -42,13 +55,13 @@ public class SaveData
     public int questId;
     public int questActionIndex;
     //public PlayerData pd;
-    public int p_hp;
-    public int p_sn;
+    public float p_hp;
+    public float p_sn;
     public int p_gold;
 
     //public List<Item> items;
 
-    public SaveData(string name, float x, float y, int qID, int qActID, int hp, int sn, int gold)
+    public SaveData(string name, float x, float y, int qID, int qActID, float hp, float sn, int gold)
     {
         //this.pd = pd;
         this.playerName = name;

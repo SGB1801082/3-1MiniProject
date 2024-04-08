@@ -81,8 +81,8 @@ public class GameUiMgr : MonoBehaviour
     Vector3 lodingPosition;
 
     public int playerGold;
-    public int playerHP;
-    public int playerSN;
+    public float playerHP;
+    public float playerSN;
 
     /*ItemResources itemresources;
     public int itemIndex;
@@ -112,8 +112,8 @@ public class GameUiMgr : MonoBehaviour
     public void SetValues()
     {
         this.playerGold = GameMgr.playerData.player_Gold;
-        this.playerHP = GameMgr.playerData.player_HP;
-        this.playerSN = GameMgr.playerData.player_SN;
+        this.playerHP = GameMgr.playerData.max_Player_Hp;
+        this.playerSN = GameMgr.playerData.max_Player_Sn;
     }
     private void Start()
     {
@@ -414,8 +414,8 @@ public class GameUiMgr : MonoBehaviour
         questMgr.questId = loadData.questId;
         questMgr.questActionIndex = loadData.questActionIndex;
 
-        GameMgr.playerData.player_HP = loadData.p_hp ;
-        GameMgr.playerData.player_SN = loadData.p_sn;
+        GameMgr.playerData.max_Player_Hp = loadData.p_hp ;
+        GameMgr.playerData.max_Player_Sn = loadData.p_sn;
         GameMgr.playerData.player_Gold = loadData.p_gold;
 
         questMgr.ControlQuestObejct();

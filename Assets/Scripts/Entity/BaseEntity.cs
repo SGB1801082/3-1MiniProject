@@ -5,18 +5,20 @@ using UnityEngine.AI;
 
 public class BaseEntity : MonoBehaviour
 {
-    protected float hp;
-    protected float mp;
+    protected float max_Hp;
+    protected float cur_Hp;
+    protected float max_Mp;
+    protected float cur_Mp;
     protected float atkDmg;
-    protected float atkRange = 1f;
+    protected float atkSpd;
+    protected float atkRange;
+    protected bool isAttack = false;
 
     NavMeshAgent agent;
-    SpriteRenderer sprite;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        sprite = GetComponent<SpriteRenderer>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
@@ -41,11 +43,15 @@ public class BaseEntity : MonoBehaviour
     // 1초마다 타겟을 업데이트 하는 메소드
     public IEnumerator UpdateTarget()
     {
-        while (true)
+        if (FindTarget() != null) 
         {
-            yield return new WaitForSeconds(0.5f); // 1초 대기
-            FindTarget();
+            while (true)
+            {
+                yield return new WaitForSeconds(0.5f); // 1초 대기
+                FindTarget();
+            }
         }
+        
     }
 
     // Idle 상태이거나 Attack 상태일때 최대한 피할수 있게 우선순위 높히는 메서드 ( NavMeshPlus 에셋 관련 )
@@ -66,13 +72,17 @@ public class BaseEntity : MonoBehaviour
             agent.SetDestination(target.position);
             SetMovementPriority(true);
         }
+        else
+        {
+            return;
+        }
         
     }
 
     // 공격 사거리에 들어오면 이동 멈추고 공격 준비
     public void StopMove()
     {
-        if (IsAttack())
+        if (isAttack)
         {
             agent.isStopped = true;
             SetMovementPriority(false);
@@ -81,10 +91,9 @@ public class BaseEntity : MonoBehaviour
 
 
     // 공격 사거리에 오면 논리형으로 True or False 반환하는 메서드
-    public bool IsAttack()
+    public bool IsAttack(float range)
     {
-        bool isAttack;
-
+       
         Transform target = FindTarget().transform;
 
         Vector2 tVec = (Vector2)(target.localPosition - transform.position);
@@ -102,8 +111,24 @@ public class BaseEntity : MonoBehaviour
         return isAttack;
     }
 
-    public void Attack()
+    public IEnumerator Attack()
     {
-        Debug.Log("공격함");
+        BaseEntity target = FindTarget().GetComponent<BaseEntity>();
+
+        if (target != null)
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(atkSpd);
+                Debug.Log("공격함");
+                Debug.Log("대상 체력이 줄어듦" + target.gameObject + " " + (target.cur_Hp -= atkDmg));
+
+                if (target.cur_Hp <= 0)
+                {
+                    yield break;
+                }
+            }      
+        }
+     
     }
 }

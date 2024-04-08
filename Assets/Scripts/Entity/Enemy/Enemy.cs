@@ -15,7 +15,7 @@ public class Enemy : BaseEntity
     }
 
     public State _curstate;
-    private StateManager _stateManager;
+    public StateManager _stateManager;
 
 
     private void Start()
@@ -25,6 +25,15 @@ public class Enemy : BaseEntity
         _curstate = State.Idle;
         Debug.Log("Enemy¿« Idle ªÛ≈¬");
         _stateManager = new StateManager(new IdleState(this));
+
+
+        max_Hp = 10f;
+        cur_Hp = max_Hp;
+        max_Mp = 5f;
+        cur_Mp = max_Mp;
+        atkDmg = 1f;
+        atkRange = 1f;
+        atkSpd = 1f;
 
     }
 
@@ -37,7 +46,7 @@ public class Enemy : BaseEntity
                 case State.Idle:
                     if (FindTarget() != null)
                     {
-                        if (IsAttack())
+                        if (IsAttack(atkRange))
                         {
                             ChangeState(State.Attack);
                         }
@@ -51,7 +60,7 @@ public class Enemy : BaseEntity
                 case State.Move:
                     if (FindTarget() != null)
                     {
-                        if (IsAttack())
+                        if (IsAttack(atkRange))
                         {
                             ChangeState(State.Attack);
                         }
@@ -65,7 +74,7 @@ public class Enemy : BaseEntity
                 case State.Attack:
                     if (FindTarget() != null)
                     {
-                        if (!IsAttack())
+                        if (!IsAttack(atkRange))
                         {
                             ChangeState(State.Move);
                         }
@@ -75,9 +84,18 @@ public class Enemy : BaseEntity
                         ChangeState(State.Idle);
                     }
                     break;
+                case State.Death:
+                    Destroy(gameObject);
+                    break;
             }
 
             _stateManager.UpdateState();
+
+            /*if (cur_Hp <= 0)
+            {
+                _curstate = State.Death;
+            }*/
+
         }
     }
 

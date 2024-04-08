@@ -32,7 +32,6 @@ public class BattleManager : MonoBehaviour
 
 
     public BattlePhase _curphase;
-    private List<GameObject> _entity = new List<GameObject>();
 
     private int _mapId;
 
@@ -69,7 +68,6 @@ public class BattleManager : MonoBehaviour
 
         foreach (BaseEntity obj in entity)
         {
-            _entity.Add(obj.gameObject);
             NavMeshAgent nav = obj.GetComponent<NavMeshAgent>();
             EntityDrag drag = obj.GetComponent<EntityDrag>();
 
@@ -81,12 +79,10 @@ public class BattleManager : MonoBehaviour
             {
                 drag.enabled = true;
             }
-
-            obj.enabled = false;
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (_curphase == BattlePhase.Deploy)
         {
@@ -126,7 +122,6 @@ public class BattleManager : MonoBehaviour
 
             foreach (BaseEntity obj in entity)
             {
-                _entity.Add(obj.gameObject);
                 NavMeshAgent nav = obj.GetComponent<NavMeshAgent>();
                 EntityDrag drag = obj.GetComponent<EntityDrag>();
 
@@ -138,8 +133,6 @@ public class BattleManager : MonoBehaviour
                 {
                     drag.enabled = false;
                 }
-
-                obj.enabled = true;
             }
         }
     }
