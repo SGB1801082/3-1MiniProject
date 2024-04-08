@@ -8,15 +8,17 @@ public class ItemHealing : ItemEffect
     public int healPoint = 0;
     public override bool ExcuteRole()
     {
-        /*if (curPlayerHP <= maxPlayerHP*0.7)
+        if ( GameUiMgr.single.player_Cur_HP <= GameUiMgr.single.player_Cur_HP - healPoint )
         {
-            curPlayerHP += maxPlayerHP * 0.3;
+            GameUiMgr.single.player_Cur_HP += healPoint;
+            GameUiMgr.single.SliderChange();
         }
         else
         {
-            curPlayerHP = maxPlayerHP;
-        }*/
-        Debug.Log("PlayerHP "+healPoint);
+            GameUiMgr.single.player_Cur_HP = GameUiMgr.single.player_Max_HP;
+            GameUiMgr.single.SliderChange();
+        }
+
         return true;
     }
 }

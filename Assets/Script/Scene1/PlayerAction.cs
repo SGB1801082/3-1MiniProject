@@ -26,7 +26,6 @@ public class PlayerAction : MonoBehaviour
     }
     private void Update()
     {
-
         // Move Value //플레이어가 대화 상호작용 중일때에는 캐릭터가 움직이지 못 하도록 isActionTalk값이 없을때만 움직일 수 있도록 코드 수정
         h = gUiMgr.isActionTalk ? 0 : Input.GetAxisRaw("Horizontal");
         v = gUiMgr.isActionTalk ? 0 : Input.GetAxisRaw("Vertical");

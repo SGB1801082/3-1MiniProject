@@ -86,7 +86,7 @@ public class QuestMgr : MonoBehaviour
                 {
                     aryQuestObj[0].SetActive(false);
                     Inventory.single.items.Add(ItemResources.instance.itemRS[2]);
-                    GameUiMgr.instance.RedrawSlotUI();
+                    GameUiMgr.single.RedrawSlotUI();
                 }
                 break;
             case 30:

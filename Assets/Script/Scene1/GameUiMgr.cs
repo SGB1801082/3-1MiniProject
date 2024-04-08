@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class GameUiMgr : MonoBehaviour
 {
-    public static GameUiMgr instance;
+    public static GameUiMgr single;
     private GameObject scanObject;//상호작용중인 오브젝트의 정보를 받아오 변수, PlayerAction에서 스캔할 오브젝트정보를 받아오기때문에 얘는 인스펙터에서 안 보여도된다.
     
     [Header("TalkPanel")]
@@ -25,9 +25,15 @@ public class GameUiMgr : MonoBehaviour
     [Header("TextEffect")]
     public TypeEffect typeTextEffect;
 
-    [Header("Player Name/Job")]
-    // GameMgr.PlayerData.NAME/JOB 을 인계받아 화면에 출력할 TMP변수
+    [Header("Player DESC")]
+    //GameMgr.PlayerData.NAME/Level 을 인계받아 화면에 출력할 TMP변수
     public TextMeshProUGUI tmp_PlayerName;
+    public TextMeshProUGUI tmp_PlayerLevle;
+    public TextMeshProUGUI tmp_PlayerGold;
+
+    public Slider s_HP;
+    public Slider s_SN;
+    public Slider s_EXP;
 
     [Header("Button")]
     public GameObject mainButton;// 클릭할 메인 버튼
@@ -80,16 +86,29 @@ public class GameUiMgr : MonoBehaviour
     */
     Vector3 lodingPosition;
 
+    [Header("player State")]
+    public float player_Max_HP;
+    public float player_Cur_HP;
+    public float player_Max_SN;
+    public float player_Cur_SN;
+    private float player_Max_MP;
+    private float player_Cur_MP;
+
     public int playerGold;
-    public float playerHP;
-    public float playerSN;
+    public int playerLevel;
+
+    private float player_Atk_Speed;
+    private float player_Atk_Range;
+    private float player_Base_Atk_Dmg;
+    private float player_Max_EXP;
+    private float player_Cur_EXP;
 
     /*ItemResources itemresources;
     public int itemIndex;
 */
     private void Awake()
     {
-        instance = this;
+        single = this;
     }
     public void AddItemTest()
     {
@@ -101,20 +120,34 @@ public class GameUiMgr : MonoBehaviour
     }
     public void ValueUpdate()
     {
-        playerGold += 15;
-        playerHP += 15;
-        playerSN += 15;
+        int ran = UnityEngine.Random.Range(0, 2);
+        if (ran == 0)
+        {
+            playerGold += 15;
+            player_Max_HP += 15;
+            player_Max_SN += 15;
+            player_Cur_EXP += 2;
 
-        Debug.Log("player gold: " + playerGold);
-        Debug.Log("player hp: " + playerHP);
-        Debug.Log("player sn: " + playerSN);
+            Debug.Log("player gold: " + playerGold);
+            Debug.Log("player max hp: " + player_Max_HP);
+            Debug.Log("player max sn: " + player_Max_SN);
+            Debug.Log("player cur sn: " + player_Cur_EXP);
+        }
+        else
+        {
+            playerGold -= 1;
+            player_Cur_HP -= 1;
+            player_Cur_SN -= 1;
+
+            Debug.Log("player gold: " + playerGold);
+            Debug.Log("player cur hp: " + player_Cur_HP);
+            Debug.Log("player cur sn: " + player_Cur_SN);
+        }
+
+        SliderChange();
     }
-    public void SetValues()
-    {
-        this.playerGold = GameMgr.playerData.player_Gold;
-        this.playerHP = GameMgr.playerData.max_Player_Hp;
-        this.playerSN = GameMgr.playerData.max_Player_Sn;
-    }
+    
+
     private void Start()
     {
 
@@ -130,7 +163,6 @@ public class GameUiMgr : MonoBehaviour
         PlayerDesc.gameObject.SetActive(true);
         DescCheck = true;
 
-        //SetPlayerDatas();
 
         //03-31 Start Inventory - try.4
         inventory = Inventory.single;
@@ -148,18 +180,20 @@ public class GameUiMgr : MonoBehaviour
             Debug.Log("Load Success");
             Debug.Log(GameMgr.playerData.GetPlayerName());
         }
-
+    
         questDesc.text = questMgr.CheckQuest();
 
-        SetValues();
-        
+        SetPlayerDatas();
+
+        SliderChange();
+
         //AddItem test
-//        itemresources = ItemResources.instance;
+        //        itemresources = ItemResources.instance;
 
     }
 
     //03-31 Method Inventory - try.4
-    private void SlotChange(int val)// slotChange 에서 slot의 slotNum을 차례대로 부여함
+    public void SlotChange(int val)// slotChange 에서 slot의 slotNum을 차례대로 부여함
     {
         for (int i = 0; i < slots.Length; i++)
         {
@@ -324,6 +358,44 @@ public class GameUiMgr : MonoBehaviour
     private void SetPlayerDatas()
     {
         tmp_PlayerName.text = GameMgr.playerData.NAME;
+        playerGold = GameMgr.playerData.player_Gold;
+        playerLevel = GameMgr.playerData.player_level;
+
+        tmp_PlayerLevle.text = "Lv." + GameMgr.playerData.player_level .ToString();
+        tmp_PlayerGold.text = GameMgr.playerData.player_Gold .ToString();
+
+        this.player_Max_HP = GameMgr.playerData.max_Player_Hp;
+        this.player_Cur_HP = GameMgr.playerData.cur_Player_Hp;
+
+        this.player_Max_SN = GameMgr.playerData.max_Player_Sn;
+        this.player_Cur_SN = GameMgr.playerData.cur_Player_Sn;
+
+        this.player_Max_MP = GameMgr.playerData.max_Player_Mp;
+        this.player_Cur_MP = GameMgr.playerData.cur_Player_Mp;
+
+        this.player_Atk_Speed = GameMgr.playerData.atk_Speed;
+        this.player_Atk_Range = GameMgr.playerData.atk_Range;
+        this.player_Base_Atk_Dmg = GameMgr.playerData.base_atk_Dmg;
+        this.player_Max_EXP = GameMgr.playerData.player_max_Exp;
+        this.player_Cur_EXP = GameMgr.playerData.player_cur_Exp;
+        
+
+        s_HP.value = this.player_Cur_HP / this.player_Max_HP;
+        s_SN.value = this.player_Cur_SN / this.player_Max_SN;
+        s_EXP.value = this.player_Cur_EXP / this.player_Max_EXP;
+
+    }
+    public void SliderChange()
+    {
+        s_HP.value = this.player_Cur_HP / this.player_Max_HP;
+        s_SN.value = this.player_Cur_SN / this.player_Max_SN;
+        s_EXP.value = this.player_Cur_EXP / this.player_Max_EXP;
+        tmp_PlayerGold.text = this.playerGold.ToString();
+
+        if (playerGold <= 0)
+        {
+            tmp_PlayerGold.text = "0";
+        }
     }
 
     public void TalkAction(GameObject scanObj)
@@ -363,6 +435,7 @@ public class GameUiMgr : MonoBehaviour
             if (scanObj_ID == 8000)
             {
                 SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
+                GameSave();
             }
 
             return;
@@ -393,7 +466,7 @@ public class GameUiMgr : MonoBehaviour
             menuSet.SetActive(false);
         }
 
-        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), player.transform.position.x, player.transform.position.y, questMgr.questId, questMgr.questActionIndex,playerHP ,playerSN,playerGold);
+        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP );
         SaveSystem.Save(gameSaveData, "save");
 
         //  Player DayCount, Player Inventory, Player Desc (Stat, Name, Job, Gold ... ect)
@@ -409,17 +482,34 @@ public class GameUiMgr : MonoBehaviour
         /*Vector3 lodingPosition = new Vector3(loadData.playerX, loadData.playerY);
         player.transform.position = lodingPosition;*/
         //Debug.Log("load x, y: "+loadData.playerX +", "+ loadData.playerY);
+        //SetNowPosition(loadData.playerX, loadData.playerY);
 
-        SetNowPosition(loadData.playerX, loadData.playerY);
+        GameMgr.playerData.max_Player_Hp = loadData.p_max_hp;
+        GameMgr.playerData.cur_Player_Hp = loadData.p_cur_hp;
+
+        GameMgr.playerData.max_Player_Sn = loadData.p_max_sn;
+        GameMgr.playerData.cur_Player_Sn = loadData.p_cur_sn;
+
+        GameMgr.playerData.max_Player_Mp = loadData.p_max_mp;
+        GameMgr.playerData.cur_Player_Mp = loadData.p_cur_mp;
+
+        GameMgr.playerData.player_max_Exp = loadData.p_max_Exp;
+        GameMgr.playerData.player_cur_Exp = loadData.p_cur_Exp;
+
+
+        GameMgr.playerData.player_Gold = loadData.p_gold;
+        GameMgr.playerData.player_level = loadData.p_level;
+
+
+        GameMgr.playerData.atk_Speed = loadData.p_atk_speed;
+        GameMgr.playerData.atk_Range = loadData.p_atk_range;
+        GameMgr.playerData.base_atk_Dmg = loadData.p_base_atk_Dmg;
+
+
         questMgr.questId = loadData.questId;
         questMgr.questActionIndex = loadData.questActionIndex;
-
-        GameMgr.playerData.max_Player_Hp = loadData.p_hp ;
-        GameMgr.playerData.max_Player_Sn = loadData.p_sn;
-        GameMgr.playerData.player_Gold = loadData.p_gold;
-
         questMgr.ControlQuestObejct();
-        GetNowPositon();
+        //GetNowPositon();
 
     }
     public void SetNowPosition(float x, float y)
