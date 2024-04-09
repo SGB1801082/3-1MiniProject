@@ -10,16 +10,25 @@ public class MoveState : BaseState
 
     public override void OnStateEnter()
     {
-        entity.MoveToTarget();
+        if (entity != null && entity.FindTarget() != null)
+        {
+            entity.MoveToTarget();
+        }
     }
 
     public override void OnStateUpdate()
     {
-        entity.MoveToTarget();
+        if (entity != null && entity.FindTarget() != null)
+        {
+            entity.MoveToTarget();
+        }
     }
 
     public override void OnStateExit()
     {
-        entity.StopCoroutine(entity.UpdateTarget());
+        if (entity != null && entity.FindTarget() != null)
+        {
+            entity.StopCoroutine(entity.UpdateTarget());
+        }
     }
 }

@@ -8,8 +8,12 @@ public class AttackState : BaseState
 
     public override void OnStateEnter()
     {
-        entity.StopMove();
-        entity.StartCoroutine(entity.Attack());
+        if (entity != null && entity.FindTarget() != null)
+        {
+            entity.StopMove();
+            entity.StartCoroutine(entity.Attack());
+        }
+        
     }
 
     public override void OnStateUpdate()
@@ -18,6 +22,9 @@ public class AttackState : BaseState
 
     public override void OnStateExit()
     {
-        entity.StopCoroutine(entity.Attack());
+        if (entity != null && entity.FindTarget() != null)
+        {
+            entity.StopCoroutine(entity.Attack());
+        }
     }
 }

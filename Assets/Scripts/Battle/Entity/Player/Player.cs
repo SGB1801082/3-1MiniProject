@@ -80,9 +80,18 @@ public class Player : BaseEntity
                         {
                             ChangeState(State.Move);
                         }
+
+                        if (isAtkDone)
+                        {
+                            Debug.Log("공격 완료 - Idle로 상태 변경 (새로운 타겟 지정)");
+                            isAtkDone = false;
+                            ChangeState(State.Idle);
+                        }
                     }
                     else
                     {
+                        Debug.Log("타겟 없음");
+                        isAtkDone = false;
                         ChangeState(State.Idle);
                     }
                     break;
@@ -114,7 +123,7 @@ public class Player : BaseEntity
         }
     }
 
-    private void ChangeState(State newState)
+    protected void ChangeState(State newState)
     {
         _curstate = newState;
 

@@ -13,6 +13,7 @@ public class BaseEntity : MonoBehaviour
     protected float atkSpd;
     protected float atkRange;
     protected bool isAttack = false;
+    protected bool isAtkDone = false;
 
     NavMeshAgent agent;
 
@@ -36,7 +37,7 @@ public class BaseEntity : MonoBehaviour
         // 가장 가까운 대상 찾기
         GameObject nearestTarget = targets.OrderBy(target => Vector3.Distance(currentPosition, target.transform.position)).FirstOrDefault();
         // 찾은 대상 반환
-        return nearestTarget;
+        return nearestTarget != null ? nearestTarget : null;
     }
 
 
@@ -113,22 +114,26 @@ public class BaseEntity : MonoBehaviour
 
     public IEnumerator Attack()
     {
-        BaseEntity target = FindTarget().GetComponent<BaseEntity>();
+        BaseEntity target = FindTarget()?.GetComponent<BaseEntity>();
+        int i = 0;
 
-        if (target != null)
+        if (target != null && isAttack)
         {
             while (true)
             {
                 yield return new WaitForSeconds(atkSpd);
-                Debug.Log("공격함");
-                Debug.Log("대상 체력이 줄어듦" + target.gameObject + " " + (target.cur_Hp -= atkDmg));
 
-                if (target.cur_Hp <= 0)
+                if (target == null || target.cur_Hp <= 0)
                 {
-                    yield break;
+                    // 공격 중지
+                    isAtkDone = true;
+                    break;
                 }
-            }      
+
+                Debug.Log(i += 1);
+                Debug.Log("공격함");
+                Debug.Log("대상 체력이 줄어듦" + target.gameObject.name + " " + (target.cur_Hp -= atkDmg));
+            }
         }
-     
     }
 }

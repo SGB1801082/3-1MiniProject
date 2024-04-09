@@ -7,6 +7,7 @@ public class DeloyInit : MonoBehaviour
 {
     private Tilemap tilemap; // 타일맵
     public GameObject spritePrefab; // 배치할 스프라이트 프리팹
+    public GameObject deloy_obj; // 클론이 생성 될 빈 개체
     public List<GameObject> highlight = new List<GameObject>();
 
     private void OnEnable()
@@ -40,7 +41,7 @@ public class DeloyInit : MonoBehaviour
                     // 배치된 스프라이트의 크기를 셀의 크기에 맞게 조정
                     sprite.transform.localScale = new Vector3(cellSize.x, cellSize.y, 1f);
 
-                    sprite.transform.SetParent(tilemap.gameObject.transform);
+                    sprite.transform.SetParent(deloy_obj.transform);
                     highlight.Add(sprite);
                 }
             }

@@ -8,7 +8,10 @@ public class IdleState : BaseState
 
     public override void OnStateEnter()
     {
-        entity.StartCoroutine(entity.UpdateTarget());
+        if (entity != null && entity.FindTarget() != null)
+        {
+            entity.StartCoroutine(entity.UpdateTarget());
+        }
     }
 
     public override void OnStateUpdate()
