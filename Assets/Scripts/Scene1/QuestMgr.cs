@@ -11,8 +11,6 @@ public class QuestMgr : MonoBehaviour
     [Header("Quest Object List")]
     public GameObject[] aryQuestObj;
 
-    //
-    private Item item;
     private void Awake()
     {
         dict_questList = new Dictionary<int, QuestData>();
@@ -67,7 +65,7 @@ public class QuestMgr : MonoBehaviour
 
     public void ControlQuestObejct()
     {
-        item = ItemResources.instance.itemRS[2];
+        Item questItem;
         switch (questId)
         {
             case 10:
@@ -77,6 +75,7 @@ public class QuestMgr : MonoBehaviour
                 }
                 break;
             case 20:
+                questItem = ItemResources.instance.itemRS[2];
                 if (questActionIndex == 0)
                 {
                     aryQuestObj[0].SetActive(true);
@@ -85,7 +84,14 @@ public class QuestMgr : MonoBehaviour
                 else if (questActionIndex == 1)
                 {
                     aryQuestObj[0].SetActive(false);
-                    Inventory.single.items.Add(ItemResources.instance.itemRS[2]);
+                    Inventory.single.items.Add(questItem);
+                    GameUiMgr.single.RedrawSlotUI();
+
+                }
+                else if (questActionIndex == 2)
+                {
+                    Debug.Log("Case 22");
+                    Inventory.single.RemoveItem(questItem.itemIndex);
                     GameUiMgr.single.RedrawSlotUI();
                 }
                 break;
@@ -94,7 +100,6 @@ public class QuestMgr : MonoBehaviour
                 {
                     Debug.Log("Case 30");
                 }
-                Inventory.single.RemoveItem( int.Parse(item.ToString()) );
                 break;
         }
     }
