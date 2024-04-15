@@ -84,7 +84,7 @@ public class QuestMgr : MonoBehaviour
                 else if (questActionIndex == 1)
                 {
                     aryQuestObj[0].SetActive(false);
-                    Inventory.single.items.Add(questItem);
+                    Inventory.single.AddItem(questItem);
                     GameUiMgr.single.RedrawSlotUI();
 
                 }

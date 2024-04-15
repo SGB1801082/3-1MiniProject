@@ -10,13 +10,6 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public Item item;
     public Image itemIcon;
 
-    //04-01 Add
-    [Header("GameUiMgr")]
-    public GameUiMgr guiMgr;
-
-    [Header("Tooltip")]
-    public Tooltip tooltip;
-
     public void UpdateSloutUI()
     {
         itemIcon.sprite = item.itemImage;
@@ -30,29 +23,29 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (guiMgr.activeInventory == true)
+        if (GameUiMgr.single.activeInventory == true)
         {
             if (item != null)
             {
                 if (item.itemImage != null)
                 {
-                    tooltip.gameObject.SetActive(true);
-                    tooltip.SetupTooltip(item.itemName, item.itemTitle, item.itemDesc, item.itemImage);
+                    GameUiMgr.single.tooltip.SetActive(true);
+                    GameUiMgr.single.SetupTooltip(item.itemName, item.itemTitle, item.itemDesc, item.itemImage);
                 }
                 else
-                    tooltip.gameObject.SetActive(false);
+                    GameUiMgr.single.tooltip.SetActive(false);
             }
         }
         else
         {
-            tooltip.gameObject.SetActive(false);
+            GameUiMgr.single.tooltip.SetActive(false);
         }
         
 
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        tooltip.gameObject.SetActive(false);
+        GameUiMgr.single.tooltip.SetActive(false);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -75,6 +68,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                     if (isUse)
                     {
                         Inventory.single.RemoveItem(slotnum);
+                        GameUiMgr.single.tooltip.SetActive(false);
                     }
                     break;
                 case Item.ItemType.Ect:

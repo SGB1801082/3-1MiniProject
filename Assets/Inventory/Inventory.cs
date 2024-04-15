@@ -21,7 +21,6 @@ public class Inventory : MonoBehaviour
             onSlotCountChange.Invoke(slotCnt);
         }
     }
-    
 
     #region Singletone
     public static Inventory single;
@@ -38,7 +37,7 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        slotCnt = 5;
+        slotCnt = 15;
     }
 
     //method

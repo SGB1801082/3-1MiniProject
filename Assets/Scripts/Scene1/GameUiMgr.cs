@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class GameUiMgr : MonoBehaviour
 {
@@ -81,11 +80,20 @@ public class GameUiMgr : MonoBehaviour
     public Transform slotHolder;
 
     private Inventory inventory;
-    /*
-        [Header("ToolTip")]
-        private Tooltip tooltip;
-    */
-    Vector3 lodingPosition;
+
+    [Header("ToolTip")]
+    public GameObject tooltip;
+    public TextMeshProUGUI textName;
+    public TextMeshProUGUI textTitle;
+    public TextMeshProUGUI textDesc;
+    //public TextMeshProUGUI textPower;
+    public Image imgIcon;
+
+    private float canvaseWidth;
+    private RectTransform tooltipRect;
+
+
+    //Vector3 lodingPosition;// player Position
 
     [Header("player State")]
     public float player_Max_HP;
@@ -104,9 +112,6 @@ public class GameUiMgr : MonoBehaviour
     private float player_Max_EXP;
     private float player_Cur_EXP;
 
-    /*ItemResources itemresources;
-    public int itemIndex;
-*/
     private void Awake()
     {
         single = this;
@@ -116,9 +121,8 @@ public class GameUiMgr : MonoBehaviour
         Debug.Log("AddItem");
 
         Item newItem = ItemResources.instance.itemRS[1]; // 새로운 아이템 생성
-        inventory.AddItem(newItem); // 인벤토리에 아이템 추가
-
-        //RedrawSlotUI();
+        inventory.AddItem(newItem); // 인벤토리에 아이템 추가,
+        RedrawSlotUI();
     }
     public void ValueUpdate()
     {
@@ -188,9 +192,6 @@ public class GameUiMgr : MonoBehaviour
         SetPlayerDatas();
 
         SliderChange();
-
-        //AddItem test
-        //        itemresources = ItemResources.instance;
 
     }
 
@@ -270,6 +271,8 @@ public class GameUiMgr : MonoBehaviour
         {
             ActiveInventory();
         }
+        //Tooltip
+        MoveTooltip();
 
         /*Debug.Log("x:" + player.transform.position.x);시발시발시발
         Debug.Log("y:" + player.transform.position.y);*/
@@ -517,19 +520,20 @@ public class GameUiMgr : MonoBehaviour
         //GetNowPositon();
 
     }
+    #region PlayerPosition
     public void SetNowPosition(float x, float y)
     {
         //Debug.Log("set x, y: " + x + ", " + y);
-        lodingPosition.x = x;
-        lodingPosition.y = y;
+        //lodingPosition.x = x;
+        //lodingPosition.y = y;
     }
     public void GetNowPositon()
     {
         //Debug.Log("get x, y: " + lodingPosition.x + ", " + lodingPosition.y);
-        player.transform.position = lodingPosition;
+        //player.transform.position = lodingPosition;
         //Debug.Log("P x, y: " + player.transform.position.x + ", " + player.transform.position.y);
     }
-
+    #endregion
     public void OnVideoOption_S1()
     {
         if (videoOption_S1.gameObject.activeSelf)
@@ -553,11 +557,32 @@ public class GameUiMgr : MonoBehaviour
         {
             for (int i = 0; i < inventory.items.Count; i++)
             {
-                slots[i].tooltip.gameObject.SetActive(false);
+                tooltip.SetActive(false);
             }
         }
     }
+    public void SetupTooltip(string _name, string _title, string _desc, Sprite _img)
+    {
+        textName.text = _name;
 
+        textTitle.text = _title;
+
+        textDesc.text = _desc;
+
+        imgIcon.sprite = _img;
+    }
+    private void MoveTooltip()
+    {
+        tooltip.transform.position = Input.mousePosition;
+        // 04-15 ToolTip
+        canvaseWidth = GetComponentInParent<CanvasScaler>().referenceResolution.x * 0.5f;
+        tooltipRect = tooltip.GetComponent<RectTransform>();
+
+        if (tooltipRect.anchoredPosition.x + tooltipRect.sizeDelta.x > canvaseWidth)
+            tooltipRect.pivot = new Vector2(1, 0);
+        else
+            tooltipRect.pivot = new Vector2(0, 0);
+    }
 
     public void OnClickedQuite()
     {
