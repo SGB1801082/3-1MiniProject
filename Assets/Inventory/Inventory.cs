@@ -46,9 +46,13 @@ public class Inventory : MonoBehaviour
     {
         if (items.Count < slotCnt)
         {
+            _item.itemIndex = items.Count;
             items.Add(_item);
+            //Debug.Log(_item.itemIndex);
+
             if (onChangeItem != null)
                 onChangeItem.Invoke();
+            
             return true;
         }
         return false;
@@ -56,9 +60,24 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(int _index)
     {
-        items.RemoveAt(_index);
-        onChangeItem.Invoke();
+        if (_index >= 0 && _index < items.Count)
+        {
+            items.RemoveAt(_index);
+
+            // 아이템이 제거될 때 남은 아이템들의 itemIndex 수정
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].itemIndex = i;
+            }
+
+            onChangeItem?.Invoke();
+        }
+        else
+        {
+            Debug.Log("Invalid index to remove item!");
+        }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

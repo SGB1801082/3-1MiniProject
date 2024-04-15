@@ -23,6 +23,8 @@ public class Item
     public string itemTitle;
     public string itemDesc;
 
+    public int itemIndex;
+
     public bool Use()
     {
         bool isUsed = false;

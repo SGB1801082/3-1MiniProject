@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class GameUiMgr : MonoBehaviour
 {
@@ -114,9 +115,10 @@ public class GameUiMgr : MonoBehaviour
     {
         Debug.Log("AddItem");
 
-        inventory.items.Add(ItemResources.instance.itemRS[1]);
+        Item newItem = ItemResources.instance.itemRS[1]; // 새로운 아이템 생성
+        inventory.AddItem(newItem); // 인벤토리에 아이템 추가
 
-        RedrawSlotUI();
+        //RedrawSlotUI();
     }
     public void ValueUpdate()
     {
@@ -219,6 +221,9 @@ public class GameUiMgr : MonoBehaviour
         for(int i = 0; i< inventory.items.Count; i++)
         {
             slots[i].item = inventory.items[i];
+            slots[i].item.itemIndex = i;
+            Debug.Log(slots[i].item.itemIndex);
+
             slots[i].UpdateSloutUI();
         }
     }
