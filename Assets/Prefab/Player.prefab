@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7397898992233326483}
   - component: {fileID: 4781915419220315532}
-  - component: {fileID: 5107165486766102915}
   - component: {fileID: 2529130608390493281}
   - component: {fileID: 3158630500733204812}
+  - component: {fileID: -5583349646987284359}
   - component: {fileID: 7290721332234880372}
   - component: {fileID: 8811124800605819279}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -89,18 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5107165486766102915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8126696727815886533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bacbb4a51c1d3344990676e03a87ca44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &2529130608390493281
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -150,6 +138,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-5583349646987284359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8126696727815886533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bacbb4a51c1d3344990676e03a87ca44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  max_Hp: 0
+  cur_Hp: 0
+  max_Mp: 0
+  cur_Mp: 0
+  atkDmg: 0
+  atkSpd: 0
+  atkRange: 0
+  isAttack: 0
+  isAtkDone: 0
+  _curstate: 0
 --- !u!114 &7290721332234880372
 MonoBehaviour:
   m_ObjectHideFlags: 0

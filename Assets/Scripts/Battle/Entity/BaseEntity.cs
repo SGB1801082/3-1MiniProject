@@ -5,17 +5,33 @@ using UnityEngine.AI;
 
 public class BaseEntity : MonoBehaviour
 {
-    protected float max_Hp;
-    protected float cur_Hp;
-    protected float max_Mp;
-    protected float cur_Mp;
-    protected float atkDmg;
-    protected float atkSpd;
-    protected float atkRange;
-    protected bool isAttack = false;
-    protected bool isAtkDone = false;
+    public float max_Hp;
+    public float cur_Hp;
+    public float max_Mp;
+    public float cur_Mp;
+    public float atkDmg;
+    public float atkSpd;
+    public float atkRange;
+    public bool isAttack = false;
+    public bool isAtkDone = false;
+    public bool able_Skill = false;
 
     NavMeshAgent agent;
+
+    
+
+    // 플레이어, 적 오브젝트의 어떤 행동을 하는지 설정
+    public enum State
+    {
+        Idle,
+        Move,
+        Attack,
+        Skill,
+        Death
+    }
+
+    public State _curstate;
+    protected StateManager _stateManager;
 
     private void Awake()
     {
@@ -23,6 +39,137 @@ public class BaseEntity : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
+
+
+    protected virtual void Start()
+    {
+        _curstate = State.Idle;
+        _stateManager = new StateManager(new IdleState(this));
+
+        max_Hp = 10f;
+        cur_Hp = max_Hp;
+        max_Mp = 5f;
+        cur_Mp = max_Mp;
+        atkDmg = 1f;
+        atkRange = 1f;
+        atkSpd = 1f;
+        able_Skill = false;
+    }
+
+    // 배틀 시작 시 오토 배틀 로직
+    protected virtual void Update()
+    {
+        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
+        {
+            switch (_curstate)
+            {
+                case State.Idle:
+                    if (FindTarget() != null)
+                    {
+                        if (IsAttack(atkRange))
+                        {
+                            ChangeState(State.Attack);
+                        }
+                        else
+                        {
+                            ChangeState(State.Move);
+                        }
+                    }
+                    break;
+
+                case State.Move:
+                    if (FindTarget() != null)
+                    {
+                        if (IsAttack(atkRange))
+                        {
+                            ChangeState(State.Attack);
+                        }
+                    }
+                    else
+                    {
+                        ChangeState(State.Idle);
+                    }
+                    break;
+
+                case State.Attack:
+                    if (FindTarget() != null)
+                    {
+                        if (!IsAttack(atkRange))
+                        {
+                            ChangeState(State.Move);
+                        }
+
+                        if (isAtkDone)
+                        {
+                            Debug.Log("공격 완료 - Idle로 상태 변경 (새로운 타겟 지정)");
+                            isAtkDone = false;
+                            ChangeState(State.Idle);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("타겟 없음");
+                        isAtkDone = false;
+                        ChangeState(State.Idle);
+                    }
+                    break;
+                case State.Death:
+                    Destroy(gameObject);
+                    break;
+            }
+
+            _stateManager.UpdateState();
+
+            // 현재 체력이 0이 되면 Death 상태로 변하고 상태창도 죽은 것으로 표시
+            if (cur_Hp <= 0)
+            {
+                _curstate = State.Death;
+            }
+
+            if (able_Skill)
+            {
+                if (cur_Mp == max_Mp && cur_Mp != 0)
+                {
+                    _curstate = State.Skill;
+                }
+            }
+            
+
+        }
+
+        /*if (gameObject != null)
+        {
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(-0.75f, 0.75f, 1f);
+            }
+            if (transform.localScale.x > 0)
+            {
+                transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+            }
+        }*/
+    }
+
+    // 상태 변환 메서드
+    protected void ChangeState(State newState)
+    {
+        _curstate = newState;
+
+        switch (_curstate)
+        {
+            case State.Idle:
+                _stateManager.ChangeState(new IdleState(this));
+                break;
+            case State.Move:
+                _stateManager.ChangeState(new MoveState(this));
+                break;
+            case State.Attack:
+                _stateManager.ChangeState(new AttackState(this));
+                break;
+        }
+    }
+
+
 
 
     // 가까이에 있는 적을 타겟하는 메소드
@@ -114,25 +261,32 @@ public class BaseEntity : MonoBehaviour
 
     public IEnumerator Attack()
     {
-        BaseEntity target = FindTarget()?.GetComponent<BaseEntity>();
-        int i = 0;
-
-        if (target != null && isAttack)
+        if (_curstate == State.Attack)
         {
-            while (true)
+            BaseEntity target = FindTarget()?.GetComponent<BaseEntity>();
+
+            if (target != null && isAttack)
             {
-                yield return new WaitForSeconds(atkSpd);
-
-                if (target == null || target.cur_Hp <= 0)
+                while (true)
                 {
-                    // 공격 중지
-                    isAtkDone = true;
-                    break;
-                }
+                    yield return new WaitForSeconds(atkSpd);
 
-                Debug.Log(i += 1);
-                Debug.Log("공격함");
-                Debug.Log("대상 체력이 줄어듦" + target.gameObject.name + " " + (target.cur_Hp -= atkDmg));
+                    if (target == null || target.cur_Hp <= 0)
+                    {
+                        // 공격 중지
+                        isAtkDone = true;
+                        break;
+                    }
+                    Debug.Log("공격함");
+                    if (able_Skill)
+                    {
+                        cur_Mp++;
+                    }
+
+                    float getDmgHp = target.cur_Hp - atkDmg;
+                    target.cur_Hp = getDmgHp;
+                    Debug.Log(target.cur_Hp + " " + target.name);
+                }
             }
         }
     }

@@ -7,7 +7,7 @@ public class Highlight : MonoBehaviour
     public float activationDistance = 0.5f; // 활성화 거리
     [SerializeField] private List<GameObject> highlights = new List<GameObject>();
 
-    private void OnEnable()
+    private void Start()
     {
         GameObject[] highlight = GameObject.FindGameObjectsWithTag("Highlight");
 

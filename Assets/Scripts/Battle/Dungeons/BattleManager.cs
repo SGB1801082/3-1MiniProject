@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class BattleManager : MonoBehaviour
 {
     private static BattleManager instance = null;
-
+    public List<GameObject> deloy_Player_List = new List<GameObject>();
 
     public static BattleManager Instance
     {
@@ -114,24 +114,34 @@ public class BattleManager : MonoBehaviour
 
     public void BattleStart()
     {
-        ChangePhase(BattlePhase.Battle);
-
-        if (_curphase == BattlePhase.Battle)
+        if (deloy_Player_List.Count == 0)
         {
-            BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 활성화 된 플레이어나 몬스터를 찾아서 리스트에 넣음
+            Debug.Log("하나 이상의 플레이어를 배치하세요");
+            return;
+            
+        }
+        else
+        {
+            Debug.Log("배틀 시작");
+            ChangePhase(BattlePhase.Battle);
 
-            foreach (BaseEntity obj in entity)
+            if (_curphase == BattlePhase.Battle)
             {
-                NavMeshAgent nav = obj.GetComponent<NavMeshAgent>();
-                EntityDrag drag = obj.GetComponent<EntityDrag>();
+                BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 활성화 된 플레이어나 몬스터를 찾아서 리스트에 넣음
 
-                if (nav != null)
+                foreach (BaseEntity obj in entity)
                 {
-                    nav.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
-                }
-                if (drag != null)
-                {
-                    drag.enabled = false;
+                    NavMeshAgent nav = obj.GetComponent<NavMeshAgent>();
+                    EntityDrag drag = obj.GetComponent<EntityDrag>();
+
+                    if (nav != null)
+                    {
+                        nav.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+                    }
+                    if (drag != null)
+                    {
+                        drag.enabled = false;
+                    }
                 }
             }
         }

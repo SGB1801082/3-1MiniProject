@@ -6,15 +6,14 @@ public class UIManager : MonoBehaviour
 {
     public GameObject player_Statbar;
     public GameObject item_Bar;
-    public GameObject party_list;
-    public GameObject deploy_area;
+    public GameObject party_List;
+    public GameObject deploy_Area;
     public GameObject battleStart;
-    public GameObject unit_deloy_area;
-
+    public GameObject unit_Deloy_Area;
 
     private void FixedUpdate()
     {
-        if (player_Statbar != null && item_Bar != null && party_list != null)
+        if (player_Statbar != null && item_Bar != null && party_List != null)
         {
             if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
             {
@@ -29,18 +28,18 @@ public class UIManager : MonoBehaviour
 
             if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy)
             {
-                party_list.SetActive(true);
-                deploy_area.SetActive(true);
+                party_List.SetActive(true);
+                deploy_Area.SetActive(true);
                 battleStart.SetActive(true);
-                unit_deloy_area.SetActive(true);
+                unit_Deloy_Area.SetActive(true);
             }
 
             else
             {
-                party_list.SetActive(false);
-                deploy_area.SetActive(false);
+                party_List.SetActive(false);
+                deploy_Area.SetActive(false);
                 battleStart.SetActive(false);
-                unit_deloy_area.SetActive(false);
+                unit_Deloy_Area.SetActive(false);
             }
         }
     }

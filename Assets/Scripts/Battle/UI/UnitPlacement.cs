@@ -20,8 +20,10 @@ public class UnitPlacement : MonoBehaviour
                     if (CanPlace(position))
                     {
                         Vector3 worldPos = deployTilemap.GetCellCenterWorld(position);
-                        Instantiate(unitPrefab, worldPos, Quaternion.identity);
+                        GameObject obj = Instantiate(unitPrefab, worldPos, Quaternion.identity);
+                        BattleManager.Instance.deloy_Player_List.Add(obj);
                         gameObject.SetActive(false);
+                        
                         return; // 한 번에 하나의 유닛만 배치하도록 리턴합니다.
                     }
                 }

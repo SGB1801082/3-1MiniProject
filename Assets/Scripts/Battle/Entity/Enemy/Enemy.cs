@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -100,10 +100,10 @@ public class Enemy : BaseEntity
 
             _stateManager.UpdateState();
 
-            /*if (cur_Hp <= 0)
+            *//*if (cur_Hp <= 0)
             {
                 _curstate = State.Death;
-            }*/
+            }*//*
 
         }
     }
@@ -126,3 +126,4 @@ public class Enemy : BaseEntity
         }
     }
 }
+*/
