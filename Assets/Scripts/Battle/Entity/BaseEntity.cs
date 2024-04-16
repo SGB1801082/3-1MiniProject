@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class BaseEntity : MonoBehaviour
 {
@@ -17,8 +18,10 @@ public class BaseEntity : MonoBehaviour
     public bool able_Skill = false;
 
     NavMeshAgent agent;
+    SpriteRenderer sprite;
+    public Animator ani;
 
-    
+
 
     // 플레이어, 적 오브젝트의 어떤 행동을 하는지 설정
     public enum State
@@ -35,6 +38,8 @@ public class BaseEntity : MonoBehaviour
 
     private void Awake()
     {
+        sprite = GetComponent<SpriteRenderer>();
+        ani = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -46,11 +51,11 @@ public class BaseEntity : MonoBehaviour
         _curstate = State.Idle;
         _stateManager = new StateManager(new IdleState(this));
 
-        max_Hp = 10f;
+        max_Hp = 20f;
         cur_Hp = max_Hp;
-        max_Mp = 5f;
+        max_Mp = 0f;
         cur_Mp = max_Mp;
-        atkDmg = 1f;
+        atkDmg = 5f;
         atkRange = 1f;
         atkSpd = 1f;
         able_Skill = false;
@@ -137,17 +142,19 @@ public class BaseEntity : MonoBehaviour
 
         }
 
-        /*if (gameObject != null)
+        if (gameObject != null)
         {
-            if (transform.localScale.x < 0)
+            Vector3 Direction = agent.velocity.normalized;
+            if (Direction.x < 0)
             {
-                transform.localScale = new Vector3(-0.75f, 0.75f, 1f);
+                sprite.flipX = true;
+
             }
-            if (transform.localScale.x > 0)
+            else if (Direction.x > 0)
             {
-                transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+                sprite.flipX = false;
             }
-        }*/
+        }
     }
 
     // 상태 변환 메서드
@@ -270,13 +277,13 @@ public class BaseEntity : MonoBehaviour
                 while (true)
                 {
                     yield return new WaitForSeconds(atkSpd);
-
                     if (target == null || target.cur_Hp <= 0)
                     {
                         // 공격 중지
                         isAtkDone = true;
                         break;
                     }
+                    ani.SetTrigger("isAtk");
                     Debug.Log("공격함");
                     if (able_Skill)
                     {

@@ -12,6 +12,8 @@ public class MoveState : BaseState
     {
         if (entity != null && entity.FindTarget() != null)
         {
+            Debug.Log("Move Enter ½ÇÇàµÊ");
+            entity.ani.SetBool("isMove", true);
             entity.MoveToTarget();
         }
     }
@@ -28,7 +30,9 @@ public class MoveState : BaseState
     {
         if (entity != null && entity.FindTarget() != null)
         {
+            entity.ani.SetBool("isMove", false);
             entity.StopCoroutine(entity.UpdateTarget());
+            
         }
     }
 }
