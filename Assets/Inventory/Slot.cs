@@ -27,7 +27,6 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             if (item != null)
             {
-                Call_GUI_Slot();
                 if (item.itemImage != null)
                 {
                     GameUiMgr.single.tooltip.SetActive(true);
@@ -40,55 +39,29 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         else
         {
             GameUiMgr.single.tooltip.SetActive(false);
-            GameUiMgr.single.nowSlot = null;
         }
         
 
     }
-
-    public void Call_GUI_Slot()
-    {
-        if (this.item.itemType != Item.ItemType.Consumables)
-        {
-            GameUiMgr.single.nowSlot = this;
-        }
-
-    }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         GameUiMgr.single.tooltip.SetActive(false);
-        GameUiMgr.single.nowSlot = null;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         if (item != null)
         {
-            if (item.itemType == Item.ItemType.Consumables)
-            {
-                bool isUse = item.Use();
-                if (isUse)
-                {
-                    Inventory.single.RemoveItem(slotnum);
-                    GameUiMgr.single.tooltip.SetActive(false);
-                    GameUiMgr.single.nowSlot = null;
-                }
-            }
 
-            /*switch (item.itemType)
+            switch (item.itemType)
             {
                 case Item.ItemType.Equipment_Arrmor:
-                    GameUiMgr.single.tooltip.SetActive(false);
                     break;
                 case Item.ItemType.Equipment_Boots:
-                    GameUiMgr.single.tooltip.SetActive(false);
                     break;
                 case Item.ItemType.Equipment_Helmet:
-                    GameUiMgr.single.tooltip.SetActive(false);
                     break;
                 case Item.ItemType.Equipment_Weapon:
-                    GameUiMgr.single.tooltip.SetActive(false);
                     break;
                 case Item.ItemType.Consumables:
                     bool isUse = item.Use();
@@ -101,9 +74,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 case Item.ItemType.Ect:
                     break;
                 default:
-                    GameUiMgr.single.tooltip.SetActive(false);
                     break;
-            }*/
+            } 
         }
 
         /*if (item.itemType == Item.ItemType.Equipment_Arrmor)

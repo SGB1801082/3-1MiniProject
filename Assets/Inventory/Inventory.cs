@@ -12,8 +12,6 @@ public class Inventory : MonoBehaviour
 
     public List<Item> items = new List<Item>();
 
-    public List<Slot> equips = new List<Slot>();
-
     private int slotCnt;
     public int SlotCnt
     {
@@ -55,19 +53,6 @@ public class Inventory : MonoBehaviour
                 onChangeItem.Invoke();
             
             return true;
-        }
-        return false;
-    }
-
-    public bool AddEquip(Item _item)
-    {
-        for (int i = 0; i < equips.Count; i++)
-        {
-            if (_item.itemType == equips[i].item.itemType)
-            {
-                equips[i].item = _item;
-                return true;
-            }
         }
         return false;
     }

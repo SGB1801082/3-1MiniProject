@@ -5,12 +5,11 @@ using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class GameUiMgr : MonoBehaviour
 {
     public static GameUiMgr single;
     private GameObject scanObject;//상호작용중인 오브젝트의 정보를 받아오 변수, PlayerAction에서 스캔할 오브젝트정보를 받아오기때문에 얘는 인스펙터에서 안 보여도된다.
@@ -74,17 +73,13 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public TextMeshProUGUI questDesc;
 
     [Header("Inventory")]
-    private Inventory inventory;
-
     [SerializeField] private GameObject inventory_panel;
     [HideInInspector] public bool activeInventory = false;
     //03-31 variable Inventoty - try.4LocalDataStore
     public Slot[] slots;
     public Transform slotHolder;
 
-    public Image imgDragIcon;
-    public Slot nowSlot;
-    public Slot afterSlot;
+    private Inventory inventory;
 
     [Header("ToolTip")]
     public GameObject tooltip;
@@ -98,9 +93,9 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private float canvaseWidth;
     private RectTransform tooltipRect;
 
+
     //Vector3 lodingPosition;// player Position
 
-    #region StatePlayer
     [Header("player State")]
     public float player_Max_HP;
     public float player_Cur_HP;
@@ -117,7 +112,7 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private float player_Base_Atk_Dmg;
     private float player_Max_EXP;
     private float player_Cur_EXP;
-    #endregion
+
     private void Awake()
     {
         single = this;
@@ -126,7 +121,7 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         Debug.Log("AddItem");
 
-        Item newItem = ItemResources.instance.itemRS[UnityEngine.Random.Range(1,6)]; // 새로운 아이템 생성
+        Item newItem = ItemResources.instance.itemRS[1]; // 새로운 아이템 생성
         inventory.AddItem(newItem); // 인벤토리에 아이템 추가,
         RedrawSlotUI();
     }
@@ -186,19 +181,21 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         AddSlot();//인벤토리 칸 세팅할때 나는 설정 안 만져서 그런지 이걸로 인벤토리 한번 활성화 시켜주지않으면 이상하게 동작하는거 확인.
 
-        LoadCheck();//게임 이어하기 인지 확인
-
-
+        if (GameMgr.single.LoadChecker() == true)
+        {
+            GameLoad();
+            Debug.Log("Load Success");
+            Debug.Log(GameMgr.playerData.GetPlayerName());
+        }
+    
         questDesc.text = questMgr.CheckQuest();
 
         SetPlayerDatas();
 
         SliderChange();
 
-        //04-17 Add Equip
-        imgDragIcon.gameObject.SetActive(false);
         //Tooltip
-        
+        canvaseWidth = canvas_Tooltip.GetComponent<CanvasScaler>().referenceResolution.x * 0.5f;
     }
 
     //03-31 Method Inventory - try.4
@@ -282,11 +279,6 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         /*Debug.Log("x:" + player.transform.position.x);시발시발시발
         Debug.Log("y:" + player.transform.position.y);*/
-
-        if (nowSlot!= null)
-        {
-            Debug.Log(nowSlot.item.itemName+", "+ nowSlot.item.itemType);
-        }
     }
     #region MinimapMethod
     private void ChangeRanderTextur()
@@ -531,19 +523,6 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         //GetNowPositon();
 
     }
-    public void LoadCheck()
-    {
-        if (GameMgr.single.LoadChecker() == true)
-        {
-            GameLoad();
-            Debug.Log("Load Success");
-            Debug.Log(GameMgr.playerData.GetPlayerName());
-        }
-        else
-        {
-            Debug.Log("LoadChek is false");
-        }
-    }
     #region PlayerPosition
     public void SetNowPosition(float x, float y)
     {
@@ -597,10 +576,8 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     }
     private void MoveTooltip()
     {
-        // 04-15 ToolTip
         tooltip.transform.position = Input.mousePosition;
-        canvaseWidth = canvas_Tooltip.GetComponent<CanvasScaler>().referenceResolution.x * 0.5f;
-        
+        // 04-15 ToolTip
         tooltipRect = tooltip.GetComponent<RectTransform>();
 
         if (tooltipRect.anchoredPosition.x + tooltipRect.sizeDelta.x > canvaseWidth)
@@ -617,18 +594,5 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Application.Quit();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)// Start Drag
-    {
 
-    }
-
-    public void OnDrag(PointerEventData eventData)// Now Drag
-    {
-
-    }
-
-    public void OnEndDrag(PointerEventData eventData)// End Drag
-    {
-
-    }
 }
