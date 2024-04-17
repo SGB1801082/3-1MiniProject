@@ -88,6 +88,7 @@ public class GameUiMgr : MonoBehaviour
     public TextMeshProUGUI textDesc;
     //public TextMeshProUGUI textPower;
     public Image imgIcon;
+    public Canvas canvas_Tooltip;
 
     private float canvaseWidth;
     private RectTransform tooltipRect;
@@ -193,6 +194,8 @@ public class GameUiMgr : MonoBehaviour
 
         SliderChange();
 
+        //Tooltip
+        canvaseWidth = canvas_Tooltip.GetComponent<CanvasScaler>().referenceResolution.x * 0.5f;
     }
 
     //03-31 Method Inventory - try.4
@@ -575,7 +578,6 @@ public class GameUiMgr : MonoBehaviour
     {
         tooltip.transform.position = Input.mousePosition;
         // 04-15 ToolTip
-        canvaseWidth = GetComponentInParent<CanvasScaler>().referenceResolution.x * 0.5f;
         tooltipRect = tooltip.GetComponent<RectTransform>();
 
         if (tooltipRect.anchoredPosition.x + tooltipRect.sizeDelta.x > canvaseWidth)
