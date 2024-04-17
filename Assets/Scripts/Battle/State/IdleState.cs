@@ -10,8 +10,6 @@ public class IdleState : BaseState
     {
         if (entity != null && entity.FindTarget() != null)
         {
-            entity.StopMove();
-            entity.ani.SetBool("isMove", false);
             entity.StartCoroutine(entity.UpdateTarget());
         }
     }
