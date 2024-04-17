@@ -75,7 +75,7 @@ public class QuestMgr : MonoBehaviour
                 }
                 break;
             case 20:
-                questItem = ItemResources.instance.itemRS[2];
+                questItem = ItemResources.instance.itemRS[0];
                 if (questActionIndex == 0)
                 {
                     aryQuestObj[0].SetActive(true);
