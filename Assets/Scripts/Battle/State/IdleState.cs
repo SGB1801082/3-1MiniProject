@@ -10,7 +10,6 @@ public class IdleState : BaseState
     {
         if (entity != null && entity.FindTarget() != null)
         {
-            entity.ani.SetBool("isIdle", true);
             entity.StartCoroutine(entity.UpdateTarget());
         }
     }
@@ -21,6 +20,5 @@ public class IdleState : BaseState
 
     public override void OnStateExit()
     {
-        entity.ani.SetBool("isIdle", false);
     }
 }

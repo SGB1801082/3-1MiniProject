@@ -11,7 +11,7 @@ public class AttackState : BaseState
         if (entity != null && entity.FindTarget() != null)
         {
             entity.StopMove();
-            entity.StartCoroutine(entity.Attack());
+            entity.StartCoroutine(entity.SetAttack());
         }
         
     }
@@ -24,7 +24,7 @@ public class AttackState : BaseState
     {
         if (entity != null && entity.FindTarget() != null)
         {
-            entity.StopCoroutine(entity.Attack());
+            entity.StopCoroutine(entity.SetAttack());
         }
     }
 }

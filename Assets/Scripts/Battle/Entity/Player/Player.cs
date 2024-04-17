@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Player : BaseEntity
 {
-    private PlayerStat stat;
+    private EntityStat stat;
 
     protected override void Start()
     {
@@ -15,16 +15,16 @@ public class Player : BaseEntity
         Debug.Log("Player 생성");
 
         // 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
-        stat = new PlayerStat(20, 5, 1, 1f, 1);
+        stat = new EntityStat(20, 5, 1, 1, 1, false);
 
         max_Hp = stat.max_Hp;
         cur_Hp = max_Hp;
         max_Mp = stat.max_Mp;
         cur_Mp = 0;
         atkDmg = stat.atkDmg;
-        atkSpd = stat.atkSpd;
+        SetAttackSpeed(stat.atkSpd);
         atkRange = stat.atkRange;
-        able_Skill = true;
+        able_Skill = stat.isSkill;
     }
 
     protected override void Update()

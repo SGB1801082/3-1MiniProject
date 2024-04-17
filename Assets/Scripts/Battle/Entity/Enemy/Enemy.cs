@@ -1,129 +1,59 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : BaseEntity
 {
-    // 적 오브젝트 행동 클래스 ( 추후 BaseEntity를 상속받는 적들을 구분해서 클래스를 만들 예정 )
-    public enum State
+    private EntityStat stat;
+
+    protected override void Start()
     {
-        Idle,
-        Move,
-        Attack,
-        Skill,
-        Death
-    }
+        base.Start();
+        Debug.Log("Enemy ( " + name + " ) 생성");
 
-    public State _curstate;
-    public StateManager _stateManager;
+        // 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리, 스킬유무 순으로 초기화
+        stat = new EntityStat(30, 0, 2f, 1f, 1f, false);
 
-
-    private void Start()
-    {
-        Debug.Log("Enemy의 Start 실행됨");
-
-        _curstate = State.Idle;
-        Debug.Log("Enemy의 Idle 상태");
-        _stateManager = new StateManager(new IdleState(this));
-
-
-        max_Hp = 10f;
+        max_Hp = stat.max_Hp;
         cur_Hp = max_Hp;
-        max_Mp = 5f;
-        cur_Mp = max_Mp;
-        atkDmg = 1f;
-        atkRange = 1f;
-        atkSpd = 1f;
-
+        max_Mp = stat.max_Mp;
+        cur_Mp = 0;
+        atkDmg = stat.atkDmg;
+        SetAttackSpeed(stat.atkSpd);
+        atkRange = stat.atkRange;
+        able_Skill = stat.isSkill;
     }
 
-    private void Update()
+    protected override void Update()
     {
-        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
+        base.Update();
+        if (_curstate == State.Skill)
         {
-            switch (_curstate)
-            {
-                case State.Idle:
-                    if (FindTarget() != null)
-                    {
-                        if (IsAttack(atkRange))
-                        {
-                            ChangeState(State.Attack);
-                        }
-                        else
-                        {
-                            ChangeState(State.Move);
-                        }
-                    }
-                    break;
-
-                case State.Move:
-                    if (FindTarget() != null)
-                    {
-                        if (IsAttack(atkRange))
-                        {
-                            ChangeState(State.Attack);
-                        }
-                    }
-                    else
-                    {
-                        ChangeState(State.Idle);
-                    }
-                    break;
-
-                case State.Attack:
-                    if (FindTarget() != null)
-                    {
-                        if (!IsAttack(atkRange))
-                        {
-                            ChangeState(State.Move);
-                        }
-
-                        if (isAtkDone)
-                        {
-                            Debug.Log("공격 완료 - Idle로 상태 변경 (새로운 타겟 지정)");
-                            isAtkDone = false;
-                            ChangeState(State.Idle);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("새로운 타겟 없음");
-                        isAtkDone = false;
-                        ChangeState(State.Idle);
-                    }
-                    break;
-                case State.Death:
-                    Destroy(gameObject);
-                    break;
-            }
-
-            _stateManager.UpdateState();
-
-            *//*if (cur_Hp <= 0)
-            {
-                _curstate = State.Death;
-            }*//*
-
+            Skill();
         }
     }
 
-    private void ChangeState(State newState)
-    {
-        _curstate = newState;
 
-        switch (_curstate)
+    public void Skill()
+    {
+        if (_curstate == State.Skill)
         {
-            case State.Idle:
-                _stateManager.ChangeState(new IdleState(this));
-                break;
-            case State.Move:
-                _stateManager.ChangeState(new MoveState(this));
-                break;
-            case State.Attack:
-                _stateManager.ChangeState(new AttackState(this));
-                break;
+
+            StopAllCoroutines();
+            if (isAttack)
+            {
+
+                BaseEntity target = FindTarget().GetComponent<BaseEntity>();
+                Debug.Log("타겟의 적에게 2배의 데미지로 한번 공격" + " " + (atkDmg * 2) + "데미지");
+                target.cur_Hp -= atkDmg * 2;
+                Debug.Log(target.cur_Hp + " " + target.name);
+            }
+            else
+            {
+                return;
+            }
+            cur_Mp = 0;
+            ChangeState(State.Idle);
         }
     }
 }
-*/
