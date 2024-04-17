@@ -226,17 +226,11 @@ public class BaseEntity : MonoBehaviour
         {
             while (true)
             {
-                if (FindTarget() == null)
-                {
-                    Debug.Log("타겟을 찾을 수 없습니다.");
-                    StopMove();
-                    break;
-                }
-
-                yield return new WaitForSeconds(0.5f); // 0.5초 대기
+                yield return new WaitForSeconds(0.5f); // 1초 대기
                 FindTarget();
             }
-        }   
+        }
+        
     }
 
     // Idle 상태이거나 Attack 상태일때 최대한 피할수 있게 우선순위 높히는 메서드 ( NavMeshPlus 에셋 관련 )
@@ -259,7 +253,6 @@ public class BaseEntity : MonoBehaviour
         }
         else
         {
-            Debug.Log("테스트");
             return;
         }
         
@@ -268,7 +261,7 @@ public class BaseEntity : MonoBehaviour
     // 공격 사거리에 들어오면 이동 멈추고 공격 준비
     public void StopMove()
     {
-        if (_curstate != State.Move)
+        if (isAttack)
         {
             agent.isStopped = true;
             SetMovementPriority(false);
