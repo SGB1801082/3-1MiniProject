@@ -47,7 +47,7 @@ public class Inventory : MonoBehaviour
         {
             _item.itemIndex = items.Count;
             items.Add(_item);
-            //Debug.Log(_item.itemIndex);
+            Debug.Log(_item.itemIndex);
 
             if (onChangeItem != null)
                 onChangeItem.Invoke();

@@ -5,11 +5,12 @@ using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameUiMgr : MonoBehaviour
+public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public static GameUiMgr single;
     private GameObject scanObject;//상호작용중인 오브젝트의 정보를 받아오 변수, PlayerAction에서 스캔할 오브젝트정보를 받아오기때문에 얘는 인스펙터에서 안 보여도된다.
@@ -73,13 +74,17 @@ public class GameUiMgr : MonoBehaviour
     public TextMeshProUGUI questDesc;
 
     [Header("Inventory")]
+    private Inventory inventory;
     [SerializeField] private GameObject inventory_panel;
     [HideInInspector] public bool activeInventory = false;
     //03-31 variable Inventoty - try.4LocalDataStore
     public Slot[] slots;
     public Transform slotHolder;
+    //04-21 Inventory Slot Drag items
+    public Image dragIcon;
+    public Slot nowSlot;
+    public Slot[] targetSlots;
 
-    private Inventory inventory;
 
     [Header("ToolTip")]
     public GameObject tooltip;
@@ -121,7 +126,7 @@ public class GameUiMgr : MonoBehaviour
     {
         Debug.Log("AddItem");
 
-        Item newItem = ItemResources.instance.itemRS[1]; // 새로운 아이템 생성
+        Item newItem = ItemResources.instance.itemRS[UnityEngine.Random.Range(1,6)]; // 새로운 아이템 생성
         inventory.AddItem(newItem); // 인벤토리에 아이템 추가,
         RedrawSlotUI();
     }
@@ -226,7 +231,7 @@ public class GameUiMgr : MonoBehaviour
         {
             slots[i].item = inventory.items[i];
             slots[i].item.itemIndex = i;
-            Debug.Log(slots[i].item.itemIndex);
+            //Debug.Log(slots[i].item.itemIndex);
 
             slots[i].UpdateSloutUI();
         }
@@ -594,5 +599,28 @@ public class GameUiMgr : MonoBehaviour
         Application.Quit();
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        Debug.Log("BeginDrag 작동");
+        if (nowSlot != null)
+        {
+            Debug.Log("Begin: "+nowSlot.item.itemType);
+        }
+    }
 
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (nowSlot != null)
+        {
+            Debug.Log("OnDrag: "+nowSlot.item.itemType);
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (nowSlot != null)
+        {
+            Debug.Log("EndDrag: " + nowSlot.item.itemType);
+        }
+    }
 }

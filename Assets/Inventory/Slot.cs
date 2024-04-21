@@ -10,6 +10,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public Item item;
     public Image itemIcon;
 
+    private bool slotInChek;
+
     public void UpdateSloutUI()
     {
         itemIcon.sprite = item.itemImage;
@@ -20,13 +22,25 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         item = null;
         itemIcon.gameObject.SetActive(false);
     }
+    public void CallGUISlot()
+    {
+        if (item.itemType != Item.ItemType.Consumables && item.itemType != Item.ItemType.Ect)
+        {
+            //Debug.Log(item.itemType);// 정상작동함
 
-    public void OnPointerEnter(PointerEventData eventData)
+            GameUiMgr.single.nowSlot = this;
+            GameUiMgr.single.dragIcon = GameUiMgr.single.nowSlot.itemIcon;
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)//Move In ItemSlot
     {
         if (GameUiMgr.single.activeInventory == true)
         {
             if (item != null)
             {
+                slotInChek = true;
+                CallGUISlot();
                 if (item.itemImage != null)
                 {
                     GameUiMgr.single.tooltip.SetActive(true);
@@ -35,27 +49,32 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 else
                     GameUiMgr.single.tooltip.SetActive(false);
             }
+            else
+            {
+                slotInChek = false;
+            }
         }
         else
         {
+            GameUiMgr.single.nowSlot = null;
             GameUiMgr.single.tooltip.SetActive(false);
         }
         
 
     }
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerExit(PointerEventData eventData)//Move Out ItemSlot
     {
         GameUiMgr.single.tooltip.SetActive(false);
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData eventData)//Click ItemSlot
     {
         if (item != null)
         {
 
             switch (item.itemType)
             {
-                case Item.ItemType.Equipment_Arrmor:
+                /*case Item.ItemType.Equipment_Arrmor:
                     break;
                 case Item.ItemType.Equipment_Boots:
                     break;
@@ -63,17 +82,21 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                     break;
                 case Item.ItemType.Equipment_Weapon:
                     break;
-                case Item.ItemType.Consumables:
-                    bool isUse = item.Use();
-                    if (isUse)
-                    {
-                        Inventory.single.RemoveItem(slotnum);
-                        GameUiMgr.single.tooltip.SetActive(false);
-                    }
-                    break;
                 case Item.ItemType.Ect:
+                    break;*/
+                case Item.ItemType.Consumables:
+                    if (slotInChek)
+                    {
+                        bool isUse = item.Use();
+                        if (isUse)
+                        {
+                            Inventory.single.RemoveItem(slotnum);
+                            GameUiMgr.single.tooltip.SetActive(false);
+                        }
+                    } 
                     break;
                 default:
+                    GameUiMgr.single.tooltip.SetActive(false);
                     break;
             } 
         }
