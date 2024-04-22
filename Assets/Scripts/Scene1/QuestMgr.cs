@@ -11,10 +11,19 @@ public class QuestMgr : MonoBehaviour
     [Header("Quest Object List")]
     public GameObject[] aryQuestObj;
 
+    [Header("Quest Icons")]
+    public GameObject[] questIcons;
+
     private void Awake()
     {
         dict_questList = new Dictionary<int, QuestData>();
         GenerateQuestData();
+
+        foreach (var icon in questIcons)
+        {
+            icon.gameObject.SetActive(false);
+        }
+        questIcons[0].SetActive(true);
     }
     private void GenerateQuestData() 
     { 
@@ -69,6 +78,16 @@ public class QuestMgr : MonoBehaviour
         switch (questId)
         {
             case 10:
+                if (questActionIndex == 0)
+                {
+                    //questIcons[0].SetActive(true);
+                }
+
+                if (questActionIndex == 1)
+                {
+                    questIcons[0].SetActive(false);
+                }
+
                 if (questActionIndex == 2)
                 {
                     aryQuestObj[0].SetActive(true);

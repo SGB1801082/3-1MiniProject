@@ -24,6 +24,8 @@ public class Item
     public string itemDesc;
 
     public int itemIndex;
+    //04-22
+    public bool isDraggable;
 
     public bool Use()
     {
