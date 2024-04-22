@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
     private static BattleManager instance = null;
     public List<GameObject> deloy_Player_List = new List<GameObject>();
+    public List<GameObject> deloy_Enemy_List = new List<GameObject>();
+    public GameObject popup_Bg;
+    public GameObject vic_Popup;
+    public GameObject def_Popup;
 
     public static BattleManager Instance
     {
@@ -54,10 +60,22 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        if (_mapId != 0 || _mapId != 2)
+        /*if (_mapId != 0 || _mapId != 2)
         {
             ChangePhase(BattlePhase.Deploy); // 방 체크해서 전투방이면 실행
+        }*/
+
+        ChangePhase(BattlePhase.Deploy);
+        GameObject[] enemy_Obj = GameObject.FindGameObjectsWithTag("Enemy");
+
+        if (enemy_Obj != null)
+        {
+            foreach (GameObject obj in enemy_Obj) 
+            {
+                deloy_Enemy_List.Add(obj);
+            }
         }
+        
     }
 
     public void BattleReady()
@@ -87,6 +105,12 @@ public class BattleManager : MonoBehaviour
         if (_curphase == BattlePhase.Deploy)
         {
             BattleReady();
+        }
+
+        if (_curphase == BattlePhase.Battle && deloy_Player_List.Count == 0 || deloy_Enemy_List.Count == 0)
+        {
+            ChangePhase(BattlePhase.End);
+            EndBattle();
         }
     }
 
@@ -147,6 +171,26 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    private void EndBattle()
+    {
+        if (_curphase == BattlePhase.End)
+        {
+            popup_Bg.SetActive(true);
+
+            if (deloy_Player_List.Count == 0)
+            {
+                def_Popup.SetActive(true);
+                vic_Popup.SetActive(false);
+            }
+            else if (deloy_Enemy_List.Count == 0)
+            {
+                def_Popup.SetActive(false);
+                vic_Popup.SetActive(true);
+            }
+        }
+         
+    }
+
 
     private void CheckMap(int map)
     {
@@ -170,5 +214,11 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+
+    public void ReturnToTown()
+    {
+        Debug.Log("마을로 이동");
+        SceneManager.LoadScene("Scene1");
+    }
 
 }

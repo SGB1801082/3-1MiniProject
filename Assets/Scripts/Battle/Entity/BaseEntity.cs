@@ -226,6 +226,14 @@ public class BaseEntity : MonoBehaviour
         {
             while (true)
             {
+                if (FindTarget() == null)
+                {
+                    Debug.Log("타겟이 없으므로 멈춤");
+                    StopMove();
+                    break;
+                }
+
+
                 yield return new WaitForSeconds(0.5f); // 1초 대기
                 FindTarget();
             }
@@ -261,7 +269,7 @@ public class BaseEntity : MonoBehaviour
     // 공격 사거리에 들어오면 이동 멈추고 공격 준비
     public void StopMove()
     {
-        if (isAttack)
+        if (_curstate != State.Move)
         {
             agent.isStopped = true;
             SetMovementPriority(false);
@@ -344,6 +352,20 @@ public class BaseEntity : MonoBehaviour
     {
         isDie = false;
         ani.SetTrigger("isDie");
+        if (gameObject.CompareTag("Player"))
+        {
+            if (BattleManager.Instance.deloy_Player_List.Contains(gameObject))
+            {
+                BattleManager.Instance.deloy_Player_List.Remove(gameObject);
+            }
+        }
+        else if (gameObject.CompareTag("Enemy"))
+        {
+            if (BattleManager.Instance.deloy_Enemy_List.Contains(gameObject))
+            {
+                BattleManager.Instance.deloy_Enemy_List.Remove(gameObject);
+            }
+        }
         yield return new WaitForSeconds(1.5f);
         Destroy(gameObject);
         isDieInProgress = false;
