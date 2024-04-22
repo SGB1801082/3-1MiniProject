@@ -636,11 +636,11 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     }
 
 
-    public void GetMoseItem(Slot _slot)
+    /*public void GetMoseItem(Slot _slot)
     {
         this.nowSlot = _slot;
         this.dragIcon = _slot.itemIcon;
-    }
+    }*/
     /*public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("Drag Start");
@@ -670,10 +670,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("AddEquip Name: " + nowSlot.item.itemName);
         Debug.Log("AddEquip Type: " + nowSlot.item.itemType);
 
-        WearEquipment();
 
-        addEquipPanel.gameObject.SetActive(false);
-        nowSlot = null;
+
+        WearEquipment();
     }
     public void OnNoButtonClick()
     {
@@ -702,13 +701,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void WearEquipment()
     {
+        int index = 0;
         // 현재 선택된 슬롯의 아이템을 복제하여 대상 슬롯에 추가
         for (int i = 0; i < targetSlots.Length; i++)
         {
             if (targetSlots[i].item.itemType == nowSlot.item.itemType)
             {
                 Debug.Log("Success Equip Add: " + nowSlot.item.itemName);
-
+                index = nowSlot.slotnum;
                 // 아이템 복제
                 Item clonedItem = nowSlot.item;
 
@@ -721,16 +721,15 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
                 // 아이템 설정
                 targetSlots[i].item = clonedItem;
-
-                // 슬롯 번호 설정
-                targetSlots[i].slotnum = nowSlot.slotnum;
-                inventory.RemoveItem(targetSlots[i].slotnum);
-            }
-            else
-            {
-                continue;
             }
         }
+        // 사용한 아이템 제거 
+        inventory.RemoveItem(slots[index].slotnum);
+        RedrawSlotUI();
+
+        nowSlot = null;
+
+        addEquipPanel.gameObject.SetActive(false);
     }
     public bool AllEquipChek()
     {

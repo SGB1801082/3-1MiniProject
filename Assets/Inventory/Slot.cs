@@ -60,7 +60,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             if (item != null)
             {
-                GameUiMgr.single.dragIndex = item.itemIndex;
+                //GameUiMgr.single.dragIndex = item.itemIndex;
                 if (item.itemImage != null)
                 {
                     GameUiMgr.single.tooltip.SetActive(true);
@@ -109,6 +109,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 default:
                     GameUiMgr.single.nowSlot = this;
                     GameUiMgr.single.addEquipPanel.gameObject.SetActive(true);
+
 
                     //클릭하면 팝업창 출력되고. 팝업창에서 확인 클릭하면 실행되어야함
 
