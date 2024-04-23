@@ -6,6 +6,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class BaseEntity : MonoBehaviour
 {
+    public int entity_id;
     public float max_Hp;
     public float cur_Hp;
     public float max_Mp;

@@ -10,6 +10,7 @@ TagManager:
   - Highlight
   - Item
   - Wall
+  - Wait
   layers:
   - Default
   - TransparentFX

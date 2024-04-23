@@ -6,42 +6,17 @@ using UnityEngine.UI;
 
 public class StatManager : MonoBehaviour
 {
-    [SerializeField] private BaseEntity player;
-    [SerializeField] private Slider hp;
-    [SerializeField] private Slider mp;
-    [SerializeField] private Image player_Icon;
-    [SerializeField] private GameObject entry_Check;
-    [SerializeField] private GameObject dead_Check;
+    public BaseEntity player;
+    public Slider hp;
+    public Slider mp;
+    public Image player_Icon;
+    public GameObject entry_Check;
+    public GameObject dead_Check;
 
-    private void OnEnable()
+    public void InitStat(BaseEntity player, Sprite icon)
     {
-        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
-        {
-            switch (name)
-            {
-                case "P1":
-                    player = BattleManager.Instance.deloy_Player_List[0].GetComponent<BaseEntity>();
-                    break;
-                case "P2":
-                    if (BattleManager.Instance.deloy_Player_List.Count >= 2)
-                        player = BattleManager.Instance.deloy_Player_List[1].GetComponent<BaseEntity>();
-                    else
-                        return;
-                    break;
-                case "P3":
-                    if (BattleManager.Instance.deloy_Player_List.Count >= 3)
-                        player = BattleManager.Instance.deloy_Player_List[2].GetComponent<BaseEntity>();
-                    else
-                        return;
-                    break;
-                case "P4":
-                    if (BattleManager.Instance.deloy_Player_List.Count >= 4)
-                        player = BattleManager.Instance.deloy_Player_List[3].GetComponent<BaseEntity>();
-                    else
-                        return;
-                    break;
-            }
-        }
+        this.player = player;
+        this.player_Icon.sprite = icon;
     }
 
     private void Update()
