@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
+public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler/*, IBeginDragHandler, IDragHandler, IEndDragHandler*/
 {
     public int slotnum;
     public Item item;
     public Image itemIcon;
 
-    private bool slotInChek;
+    //private bool isDraging;
 
     public void UpdateSloutUI()
     {
@@ -26,21 +26,41 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         if (item.itemType != Item.ItemType.Consumables && item.itemType != Item.ItemType.Ect)
         {
-            //Debug.Log(item.itemType);// 정상작동함
-
+            Debug.Log("Slot.cs - CallGUISlot(): "+item.itemType);// 정상작동함
+/*
             GameUiMgr.single.nowSlot = this;
-            GameUiMgr.single.dragIcon = GameUiMgr.single.nowSlot.itemIcon;
+            GameUiMgr.single.dragIcon = GameUiMgr.single.nowSlot.itemIcon;*/
+            //GameUiMgr.single.GetMoseItem(this);
+            
         }
     }
+    /*public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (item != null && item.isDraggable == true)
+        {
+            GameUiMgr.single.OnBeginDrag(eventData);
+            GameUiMgr.single.dragIndex = item.itemIndex;
+            isDraging = true;
+        }
+    }
+    public void OnDrag(PointerEventData eventData)
+    {
+        GameUiMgr.single.OnDrag(eventData);
+    }
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        GameUiMgr.single.OnEndDrag(eventData);
+        isDraging = false;
+    }*/
 
+    //ToolTip & Item Use
     public void OnPointerEnter(PointerEventData eventData)//Move In ItemSlot
     {
-        if (GameUiMgr.single.activeInventory == true)
+        if (GameUiMgr.single.activeInventory == true /*&& isDraging == false*/)
         {
             if (item != null)
             {
-                slotInChek = true;
-                CallGUISlot();
+                //GameUiMgr.single.dragIndex = item.itemIndex;
                 if (item.itemImage != null)
                 {
                     GameUiMgr.single.tooltip.SetActive(true);
@@ -49,14 +69,9 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 else
                     GameUiMgr.single.tooltip.SetActive(false);
             }
-            else
-            {
-                slotInChek = false;
-            }
         }
         else
         {
-            GameUiMgr.single.nowSlot = null;
             GameUiMgr.single.tooltip.SetActive(false);
         }
         
@@ -69,9 +84,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerUp(PointerEventData eventData)//Click ItemSlot
     {
-        if (item != null)
+        if (item != null )
         {
-
             switch (item.itemType)
             {
                 /*case Item.ItemType.Equipment_Arrmor:
@@ -81,24 +95,29 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 case Item.ItemType.Equipment_Helmet:
                     break;
                 case Item.ItemType.Equipment_Weapon:
-                    break;
-                case Item.ItemType.Ect:
                     break;*/
+                case Item.ItemType.Ect:
+                    break;
                 case Item.ItemType.Consumables:
-                    if (slotInChek)
+                    bool isUse = item.Use();
+                    if (isUse)
                     {
-                        bool isUse = item.Use();
-                        if (isUse)
-                        {
-                            Inventory.single.RemoveItem(slotnum);
-                            GameUiMgr.single.tooltip.SetActive(false);
-                        }
-                    } 
+                        Inventory.single.RemoveItem(slotnum);
+                        GameUiMgr.single.tooltip.SetActive(false);
+                    }
                     break;
                 default:
+                    GameUiMgr.single.nowSlot = this;
+                    GameUiMgr.single.addEquipPanel.gameObject.SetActive(true);
+
+
+                    //클릭하면 팝업창 출력되고. 팝업창에서 확인 클릭하면 실행되어야함
+
+                    //isDraging = true;
                     GameUiMgr.single.tooltip.SetActive(false);
                     break;
-            } 
+            }
+
         }
 
         /*if (item.itemType == Item.ItemType.Equipment_Arrmor)

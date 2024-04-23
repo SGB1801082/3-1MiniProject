@@ -10,7 +10,7 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndDragHandler*/
 {
     public static GameUiMgr single;
     private GameObject scanObject;//상호작용중인 오브젝트의 정보를 받아오 변수, PlayerAction에서 스캔할 오브젝트정보를 받아오기때문에 얘는 인스펙터에서 안 보여도된다.
@@ -73,6 +73,7 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public QuestMgr questMgr;//퀘스트 번호를 가져올 퀘스트 매니저 변수 생성
     public TextMeshProUGUI questDesc;
 
+    //Invnetory
     [Header("Inventory")]
     private Inventory inventory;
     [SerializeField] private GameObject inventory_panel;
@@ -84,6 +85,12 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Image dragIcon;
     public Slot nowSlot;
     public Slot[] targetSlots;
+    public int dragIndex;
+    //04-22
+    public Image addEquipPanel;
+    public Button btn_YesEquipAdd;
+    public Button btn_NoEquipAdd;
+    public bool equipmnet;
 
 
     [Header("ToolTip")]
@@ -185,6 +192,35 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         inventory.onChangeItem += RedrawSlotUI;
 
         AddSlot();//인벤토리 칸 세팅할때 나는 설정 안 만져서 그런지 이걸로 인벤토리 한번 활성화 시켜주지않으면 이상하게 동작하는거 확인.
+
+        for (int i = 0; i < targetSlots.Length; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Helmet;
+                    break;
+                case 1:
+                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Arrmor;
+                    break;
+                case 2:
+                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Weapon;
+                    break;
+                case 3:
+                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Boots;
+                    break;
+                default:
+                    break;
+            }
+        }
+        //04-22
+        addEquipPanel.gameObject.SetActive(false);
+        // Yes 버튼에 클릭 이벤트 리스너 추가
+        btn_YesEquipAdd.onClick.AddListener(OnYesButtonClick);
+
+        // No 버튼에 클릭 이벤트 리스너 추가
+        btn_NoEquipAdd.onClick.AddListener(OnNoButtonClick);
+
 
         if (GameMgr.single.LoadChecker() == true)
         {
@@ -599,28 +635,119 @@ public class GameUiMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Application.Quit();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+
+    /*public void GetMoseItem(Slot _slot)
     {
-        Debug.Log("BeginDrag 작동");
-        if (nowSlot != null)
-        {
-            Debug.Log("Begin: "+nowSlot.item.itemType);
-        }
+        this.nowSlot = _slot;
+        this.dragIcon = _slot.itemIcon;
+    }*/
+    /*public void OnBeginDrag(PointerEventData eventData)
+    {
+        Debug.Log("Drag Start");
+        nowSlot = slots[dragIndex];// 슬롯 등록
+
+        dragIcon.transform.position = eventData.position;
+        dragIcon = nowSlot.itemIcon;
+
+        dragIcon.gameObject.SetActive(true);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (nowSlot != null)
-        {
-            Debug.Log("OnDrag: "+nowSlot.item.itemType);
-        }
+        Debug.Log("Drag Now ing...");
+        dragIcon.transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (nowSlot != null)
-        {
-            Debug.Log("EndDrag: " + nowSlot.item.itemType);
-        }
+        Debug.Log("Drag End");
+        dragIcon.gameObject.SetActive(false);
+    }*/
+
+    public void OnYesButtonClick()
+    {
+        equipmnet = true;
+        Debug.Log("AddEquip Name: " + nowSlot.item.itemName);
+        Debug.Log("AddEquip Type: " + nowSlot.item.itemType);
+
+
+
+        WearEquipment();
     }
+    public void OnNoButtonClick()
+    {
+        equipmnet = false;
+        addEquipPanel.gameObject.SetActive(false);
+    }
+
+    /*public void WearEquipMent()
+    {
+        for (int i = 0; i < targetSlots.Length; i++)
+        {
+            if (targetSlots[i].item.itemType == nowSlot.item.itemType)
+            {
+                Debug.Log("Sucess Equip Add: "+ nowSlot.item.itemName);
+                
+                targetSlots[i].slotnum = nowSlot.slotnum;
+                targetSlots[i].item = nowSlot.item;
+                targetSlots[i].itemIcon = nowSlot.itemIcon;
+            }
+            else
+            {
+                continue;
+            }
+        }
+    }*/
+
+    public void WearEquipment()
+    {
+        int index = 0;
+        // 현재 선택된 슬롯의 아이템을 복제하여 대상 슬롯에 추가
+        for (int i = 0; i < targetSlots.Length; i++)
+        {
+            if (targetSlots[i].item.itemType == nowSlot.item.itemType)
+            {
+                Debug.Log("Success Equip Add: " + nowSlot.item.itemName);
+                index = nowSlot.slotnum;
+                // 아이템 복제
+                Item clonedItem = nowSlot.item;
+
+                // 아이템 인덱스 설정
+                clonedItem.itemIndex = nowSlot.slotnum;
+
+                // 아이콘 설정
+                targetSlots[i].itemIcon.sprite = nowSlot.itemIcon.sprite;
+                targetSlots[i].itemIcon.gameObject.SetActive(true);
+
+                // 아이템 설정
+                targetSlots[i].item = clonedItem;
+            }
+        }
+        // 사용한 아이템 제거 
+        inventory.RemoveItem(slots[index].slotnum);
+        RedrawSlotUI();
+
+        nowSlot = null;
+
+        addEquipPanel.gameObject.SetActive(false);
+    }
+    public bool AllEquipChek()
+    {
+        int sum = 0;
+        for (int i = 0; i < targetSlots.Length; i++)
+        {
+            if (targetSlots != null)
+            {
+                sum++;
+            }
+        }
+
+        if (sum == (targetSlots.Length - 1))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 }

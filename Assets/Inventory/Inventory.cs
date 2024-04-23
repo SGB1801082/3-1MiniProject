@@ -37,7 +37,7 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        slotCnt = 15;
+        slotCnt = 35;
     }
 
     //method
