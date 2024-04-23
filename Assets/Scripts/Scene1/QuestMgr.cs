@@ -35,9 +35,10 @@ public class QuestMgr : MonoBehaviour
         dict_questList.Add(0, new QuestData("모험의 시작", new int[] { 1000 }));
         // Add메서드로 questID, questData를 데이터사전(= dict_questList)에 저장. 구조체 매개변수 생성자의 int배열에는 첫 마을 방문 퀘스트에 연관된 npcID를 입력
         dict_questList.Add(10, new QuestData("모험가 길드 직원에게 말을 걸어보자", new int[] { 1000, 2000 }));
-        dict_questList.Add(20, new QuestData("장비를 착용하고 다시 말을 걸어보자", new int[] { 1000, 2000 }));
+        dict_questList.Add(20, new QuestData("장비를 착용하고 다시 말을 걸어보자", new int[] { 1000 }));
 
-        dict_questList.Add(30, new QuestData("포탈을 통해 모의 던전을 클리어 하고 돌아오자", new int[] { 1000 }));
+        dict_questList.Add(30, new QuestData("모의전투에서 승리하자", new int[] { 1000, 8000 }));
+
         dict_questList.Add(40, new QuestData("체력이 줄었다. 받은 물약을 먹자.", new int[] { 1000 }));
         dict_questList.Add(50, new QuestData("모험가 등록 완료", new int[] { 1000 }));
 
@@ -89,17 +90,22 @@ public class QuestMgr : MonoBehaviour
             case 10:
                 if (questActionIndex == 0)
                 {
-                    Debug.Log("QA index is 10");
                     //TutorialEquip();
                 }
                 if (questActionIndex == 1)
                 {
+                    questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[1];
+
                     receptionist[0].SetActive(false);
                     receptionist[1].SetActive(true);
                 }
                 if (questActionIndex == 2)
                 {
-                    Debug.Log("Qid 12");
+                    questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[0];
+
+                    receptionist[0].SetActive(true);
+                    receptionist[1].SetActive(false);
+
                     TutorialEquip();
                 }
                 break;
@@ -109,17 +115,13 @@ public class QuestMgr : MonoBehaviour
                 Debug.Log(eqck.ToString() );
                 if (questActionIndex == 0)
                 {
-                    Debug.Log("Qid 20");
+                    Debug.Log("Case 20");
+                    //questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[1];
                 }
 
                 if (questActionIndex == 1)
                 {
-                    TutorialEquip();
-                    /*if (eqck == true)
-                    {
-                        receptionist[0].SetActive(true);
-                        receptionist[1].SetActive(false);
-                    }*/
+                    Debug.Log("Case 21");
                 }
                 else if (questActionIndex == 2)
                 {

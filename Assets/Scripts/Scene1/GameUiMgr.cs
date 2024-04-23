@@ -454,7 +454,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         ObjectData objectData = scanObject.GetComponent<ObjectData>();// Ray가 스캔했을때  LayerMask가 Obejct인 오브젝트가 부착중인 ObecjtData를  Ray가 오브젝트를 스캔 했을 때만 추출해서 TossTalkData메서드의 매개변수로 사용함.
         TossTalkData(objectData.id, objectData.isNpc);
 
-        Debug.Log(objectData.id.ToString());
+        //Debug.Log(objectData.id.ToString());// 04-23 Debug
 
         imgTalkPnel.gameObject.SetActive(isActionTalk);// isActionTalk의 true/false 상태를 따라가기때문에 이렇게 작성해주면 코드 깔끔해짐 
     }
@@ -480,7 +480,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //End Talk
         if (talkData == null)
         {
-            Debug.Log("NulltalkData // ToosTalkData: " + scanObj_ID);
+            //Debug.Log("NulltalkData // ToosTalkData: " + scanObj_ID); // 04 -23 Debug
             /*if (AllEquipChek())
             {
                 questMgr.CheckQuest(scanObj_ID);
@@ -509,7 +509,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //Continue Talk
         if (scanObj_isNpc)
         {
-            Debug.Log("ContinueTalk // ToosTalkData: " + scanObj_ID);
+            //Debug.Log("ContinueTalk // ToosTalkData: " + scanObj_ID);// 04-23 Debug
             typeTextEffect.SetMsg(talkData.Split(':')[0]);// .Split()  ':' 구분자 : 를 통하여 문자열을 배열로 나눠주는 함수
 
             //show Portrait
@@ -518,7 +518,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
         else
         {
-            Debug.Log("else ContinueTalk // ToosTalkData: " + scanObj_ID);
+            //Debug.Log("else ContinueTalk // ToosTalkData: " + scanObj_ID); // 04 -23 Debug
             typeTextEffect.SetMsg(talkData);
             imgPortrait.color = new Color(1, 1, 1, 0);// npc가 아니면 초상화이미지 비활성화
         }

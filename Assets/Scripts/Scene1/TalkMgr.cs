@@ -33,25 +33,18 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
             "저희가 준비한 모의전투에 승리하면 \n 모험가 길드에 가입할 수 있습니다. :1",
             "모의 전투에 필요한 기본 장비를 지급 해드릴테니 \n 다시 대화를 걸어주세요 :1",
         });
-        dictTalkData.Add(10 + 2000, new string[] {
-            "혹시 10-2000이십니까?",
-        });
         dictTalkData.Add(11 + 2000, new string[] { 
             "여기 기본 장비 4종을 지급해드렸으니 착용하고 다시 와주세요. :0", 
             "(장비를 착용하고 다시 말을 걸자.) :0" // 여기까지는 정상구현 완료.
         });
-        dictTalkData.Add(12 + 2000, new string[] {
-            "혹시 12십니까?",
-        });
 
-
-        dictTalkData.Add(20 + 1000, new string[] { "인벤토리는는 키보드의 I키 혹은 하단의 가방 아이콘을 통해 열 수 있습니다.:0" });
-        dictTalkData.Add(20 + 2000, new string[] { "인벤토리는는 키보드의 I키 혹은 하단의 가방 아이콘을 통해 열 수 있습니다.:0" });
-
-        dictTalkData.Add(21 + 2000, new string[] { "앗, 찾아줘서 고마워 :2" });
+        dictTalkData.Add(20 + 1000, new string[] { "장비를 전부 착용하셨군요!  :0" });
+        dictTalkData.Add(21 + 1000, new string[] { "다음은 모의 전투 진행방법을 알려드릴테니 다시 대화를 걸어주세요. :2" });
+        //dictTalkData.Add(20 + 2000, new string[] { "인벤토리는는 키보드의 I키 혹은 하단의 가방 아이콘을 통해 열 수 있습니다.:0" });
 
         dictTalkData.Add(30 + 1000, new string[] {
-            "여기 기본 장비 4종을 지급해드렸으니 착용하고 다시 와주세요. :0",
+            "좌측에 있는 포탈로 입장하면 모의 전투를 진행할 수 있습니다. :0",
+            "(포탈로 이동해서 모의전투를 하고 돌아오자.) :0"
         });
         //dictTalkData.Add(20 + 2000, new string[] { "찾으면 꼭 가져다줘 :1"});
         //dictTalkData.Add(20 + 9000, new string[] { "책을 발견했다." });
