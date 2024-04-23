@@ -13,34 +13,30 @@ public class UIManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (player_Statbar != null && item_Bar != null && party_List != null)
+        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
         {
-            if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
-            {
-                player_Statbar.SetActive(true);
-                item_Bar.SetActive(true);
-            }
-            else
-            {
-                player_Statbar.SetActive(false);
-                item_Bar.SetActive(false);
-            }
+            player_Statbar.SetActive(true);
+            item_Bar.SetActive(true);
+        }
+        else
+        {
+            player_Statbar.SetActive(false);
+            item_Bar.SetActive(false);
+        }
 
-            if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy)
-            {
-                party_List.SetActive(true);
-                deploy_Area.SetActive(true);
-                battleStart.SetActive(true);
-                unit_Deloy_Area.SetActive(true);
-            }
-
-            else
-            {
-                party_List.SetActive(false);
-                deploy_Area.SetActive(false);
-                battleStart.SetActive(false);
-                unit_Deloy_Area.SetActive(false);
-            }
+        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy)
+        {
+            party_List.SetActive(true);
+            deploy_Area.SetActive(true);
+            battleStart.SetActive(true);
+            unit_Deloy_Area.SetActive(true);
+        }
+        else
+        {
+            party_List.SetActive(false);
+            deploy_Area.SetActive(false);
+            battleStart.SetActive(false);
+            unit_Deloy_Area.SetActive(false);
         }
     }
 }

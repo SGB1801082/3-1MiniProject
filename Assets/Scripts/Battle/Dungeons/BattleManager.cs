@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class BattleManager : MonoBehaviour
 {
     private static BattleManager instance = null;
+    public ObjectManager pool;
     public List<GameObject> deloy_Player_List = new List<GameObject>();
     public List<GameObject> deloy_Enemy_List = new List<GameObject>();
     public GameObject popup_Bg;
@@ -82,7 +83,7 @@ public class BattleManager : MonoBehaviour
     {
         // 파티원을 초기 위치에 배치하는 메서드나 코드 작성
 
-        BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 몬스터를 넣음
+        BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 몬스터와 플레이어를 찾음
 
         foreach (BaseEntity obj in entity)
         {
