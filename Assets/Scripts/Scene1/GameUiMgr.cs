@@ -73,10 +73,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public QuestMgr questMgr;//퀘스트 번호를 가져올 퀘스트 매니저 변수 생성
     public TextMeshProUGUI questDesc;
 
-    //Invnetory
-    [Header("Inventory")]
-    private Inventory inventory;
+    [Header("Invnetory")]
     [SerializeField] private GameObject inventory_panel;
+    private Inventory inventory;
     [HideInInspector] public bool activeInventory = false;
     //03-31 variable Inventoty - try.4LocalDataStore
     public Slot[] slots;
@@ -220,7 +219,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         // No 버튼에 클릭 이벤트 리스너 추가
         btn_NoEquipAdd.onClick.AddListener(OnNoButtonClick);
-
 
         if (GameMgr.single.LoadChecker() == true)
         {
@@ -456,6 +454,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         ObjectData objectData = scanObject.GetComponent<ObjectData>();// Ray가 스캔했을때  LayerMask가 Obejct인 오브젝트가 부착중인 ObecjtData를  Ray가 오브젝트를 스캔 했을 때만 추출해서 TossTalkData메서드의 매개변수로 사용함.
         TossTalkData(objectData.id, objectData.isNpc);
 
+        Debug.Log(objectData.id.ToString());
+
         imgTalkPnel.gameObject.SetActive(isActionTalk);// isActionTalk의 true/false 상태를 따라가기때문에 이렇게 작성해주면 코드 깔끔해짐 
     }
 
@@ -480,6 +480,13 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //End Talk
         if (talkData == null)
         {
+            Debug.Log("NulltalkData // ToosTalkData: " + scanObj_ID);
+            /*if (AllEquipChek())
+            {
+                questMgr.CheckQuest(scanObj_ID);
+                return;
+            }*/
+
             isActionTalk = false;
             talkIndex = 0;
             questDesc.text = questMgr.CheckQuest(scanObj_ID);
@@ -489,6 +496,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
                 GameSave();
             }
+            
+            /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
+            {
+                questMgr.receptionist[0].SetActive(false);
+                questMgr.receptionist[1].SetActive(true);
+            }*/
 
             return;
         }
@@ -496,6 +509,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //Continue Talk
         if (scanObj_isNpc)
         {
+            Debug.Log("ContinueTalk // ToosTalkData: " + scanObj_ID);
             typeTextEffect.SetMsg(talkData.Split(':')[0]);// .Split()  ':' 구분자 : 를 통하여 문자열을 배열로 나눠주는 함수
 
             //show Portrait
@@ -504,6 +518,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
         else
         {
+            Debug.Log("else ContinueTalk // ToosTalkData: " + scanObj_ID);
             typeTextEffect.SetMsg(talkData);
             imgPortrait.color = new Color(1, 1, 1, 0);// npc가 아니면 초상화이미지 비활성화
         }
@@ -670,9 +685,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("AddEquip Name: " + nowSlot.item.itemName);
         Debug.Log("AddEquip Type: " + nowSlot.item.itemType);
 
-
-
         WearEquipment();
+        AllEquipChek();
     }
     public void OnNoButtonClick()
     {
@@ -736,13 +750,13 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         int sum = 0;
         for (int i = 0; i < targetSlots.Length; i++)
         {
-            if (targetSlots != null)
+            if (targetSlots[i].item != null)
             {
                 sum++;
             }
         }
 
-        if (sum == (targetSlots.Length - 1))
+        if (sum == (targetSlots.Length))
         {
             return true;
         }
