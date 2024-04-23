@@ -12,11 +12,13 @@ public class EntityDrag : MonoBehaviour
     private Vector3 initPos;
     private bool isDragging = false;
     public Tilemap deloy;
+    Tilemap wall;
 
     private void Start()
     {
         cam = Camera.main;
         deloy = GameObject.FindGameObjectWithTag("Deloy").GetComponent<Tilemap>();
+        wall = GameObject.FindGameObjectWithTag("Wall").GetComponent<Tilemap>();
     }
 
     private void OnMouseDown()
@@ -82,7 +84,7 @@ public class EntityDrag : MonoBehaviour
                 }
 
 
-                if (!deloy.HasTile(cellPosition))
+                if (!deloy.HasTile(cellPosition) || wall.HasTile(cellPosition))
                 {
                     transform.position = initPos;
                 }
@@ -94,6 +96,5 @@ public class EntityDrag : MonoBehaviour
                 isDragging = false;
             }
         }
-        
     }
 }

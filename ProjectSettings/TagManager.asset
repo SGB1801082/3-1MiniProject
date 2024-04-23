@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Highlight
   - Item
+  - Wall
   layers:
   - Default
   - TransparentFX
