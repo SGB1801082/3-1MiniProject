@@ -17,6 +17,8 @@ public class BaseEntity : MonoBehaviour
     public bool isAtkDone = false;
     public bool isDie = false;
     private bool isDieInProgress = false;
+    public bool isMelee = false;
+    public bool isRange = false;
     public bool able_Skill = false;
 
     private float atk_CoolTime;
@@ -319,7 +321,16 @@ public class BaseEntity : MonoBehaviour
                     if (cur_atk_CoolTime >= atk_CoolTime)
                     {
                         cur_atk_CoolTime = 0;
-                        Attack(target);
+
+                        if (isMelee && !isRange)
+                        {
+                            MeleeAttack(target);
+                        }
+                        else
+                        {
+                            RangeAttack(target);
+                        }
+                        
                     }
 
                     cur_atk_CoolTime += Time.deltaTime;
@@ -333,7 +344,7 @@ public class BaseEntity : MonoBehaviour
         }
     }
 
-    private void Attack(BaseEntity target)
+    private void MeleeAttack(BaseEntity target)
     {
         ani.SetTrigger("isAtk");
         Debug.Log("공격함 ( " + name + " -> " + target.name + " )");
@@ -346,6 +357,11 @@ public class BaseEntity : MonoBehaviour
         float getDmgHp = target.cur_Hp - atkDmg;
         target.cur_Hp = getDmgHp;
         Debug.Log(target.cur_Hp + " " + target.name);
+    }
+
+    private void RangeAttack(BaseEntity target) 
+    {
+        // 투사체 발사 구현
     }
 
     private IEnumerator Die()

@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class BattleManager : MonoBehaviour
 {
     private static BattleManager instance = null;
+    public ObjectManager pool;
     public List<GameObject> deloy_Player_List = new List<GameObject>();
     public List<GameObject> deloy_Enemy_List = new List<GameObject>();
     public GameObject popup_Bg;

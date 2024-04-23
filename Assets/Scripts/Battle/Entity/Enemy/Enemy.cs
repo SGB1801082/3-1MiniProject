@@ -22,6 +22,8 @@ public class Enemy : BaseEntity
         SetAttackSpeed(stat.atkSpd);
         atkRange = stat.atkRange;
         able_Skill = stat.isSkill;
+
+        isMelee = true;
     }
 
     protected override void Update()

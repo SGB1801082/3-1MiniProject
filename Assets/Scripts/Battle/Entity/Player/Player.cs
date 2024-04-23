@@ -16,7 +16,7 @@ public class Player : BaseEntity
 
         // 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
         stat = new EntityStat
-            (GameMgr.playerData.max_Player_Hp, GameMgr.playerData.max_Player_Mp, GameMgr.playerData.base_atk_Dmg, 
+            (GameMgr.playerData.max_Player_Hp, GameMgr.playerData.max_Player_Mp, GameMgr.playerData.base_atk_Dmg,
             GameMgr.playerData.atk_Speed, GameMgr.playerData.atk_Range, GameMgr.playerData.skill_Able);
 
         max_Hp = stat.max_Hp;
@@ -27,6 +27,7 @@ public class Player : BaseEntity
         SetAttackSpeed(stat.atkSpd);
         atkRange = stat.atkRange;
         able_Skill = stat.isSkill;
+        isMelee = true;
     }
 
     protected override void Update()
