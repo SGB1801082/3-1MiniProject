@@ -36,11 +36,11 @@ public class QuestMgr : MonoBehaviour
         // Add메서드로 questID, questData를 데이터사전(= dict_questList)에 저장. 구조체 매개변수 생성자의 int배열에는 첫 마을 방문 퀘스트에 연관된 npcID를 입력
         dict_questList.Add(10, new QuestData("모험가 길드 직원에게 말을 걸어보자", new int[] { 1000, 2000 }));
         dict_questList.Add(20, new QuestData("장비를 착용하고 다시 말을 걸어보자", new int[] { 1000 }));
+        dict_questList.Add(30, new QuestData("모의전투에서 승리하자", new int[] { 1000, 2000 }));
 
-        dict_questList.Add(30, new QuestData("모의전투에서 승리하자", new int[] { 1000, 8000 }));
-
-        dict_questList.Add(40, new QuestData("체력이 줄었다. 받은 물약을 먹자.", new int[] { 1000 }));
+        dict_questList.Add(40, new QuestData("체력이 줄었다. 받은 물약을 먹자.", new int[] { 1000, 2000 }));
         dict_questList.Add(50, new QuestData("모험가 등록 완료", new int[] { 1000 }));
+        dict_questList.Add(60, new QuestData("모험가 등록 완료", new int[] { 1000 }));
 
         //dict_questList.Add(30, new QuestData("마을의 전설 듣기 퀘스트 클리어!", new int[] { 10000, 4000 }));
     }
@@ -84,7 +84,7 @@ public class QuestMgr : MonoBehaviour
 
     public void ControlQuestObejct()
     {
-        //Item questItem;
+        Item Potion;
         switch (questId)
         {
             case 10:
@@ -123,17 +123,71 @@ public class QuestMgr : MonoBehaviour
                 {
                     Debug.Log("Case 21");
                 }
-                else if (questActionIndex == 2)
+                
+                if (questActionIndex == 2)
                 {
                     Debug.Log("Case 22");
                     //Inventory.single.RemoveItem(questItem.itemIndex);
                     //GameUiMgr.single.RedrawSlotUI();
                 }
+                
+                if (questActionIndex == 3)
+                {
+                    Debug.Log("Case23");
+                }
                 break;
-            case 30:
+            case 30:// 모의전투
+                 
                 if (questActionIndex == 0)
                 {
                     Debug.Log("Case 30");
+                }
+                if (questActionIndex == 1)
+                {
+                    Debug.Log("Case 31");
+                    receptionist[0].SetActive(false);
+                    receptionist[1].SetActive(true);
+                }
+                if (questActionIndex == 2)
+                {
+                    Debug.Log("Case 32");
+
+                    receptionist[0].SetActive(true);
+                    receptionist[1].SetActive(false);
+
+                    Potion = ItemResources.instance.itemRS[7];
+                    Inventory.single.AddItem(Potion);
+                    GameUiMgr.single.RedrawSlotUI();
+
+                    
+                }
+                break;
+            case 40:// 포션섭취
+                if (questActionIndex == 0) 
+                {
+                    Debug.Log("Case 40");
+                }
+                if (questActionIndex == 1)
+                {
+                    Debug.Log("case 41");
+                    receptionist[0].SetActive(false);
+                    receptionist[1].SetActive(true);
+                }
+                if (questActionIndex == 2)
+                {
+                    Debug.Log("case 42");
+                    receptionist[0].SetActive(true);
+                    receptionist[1].SetActive(false);
+                }
+                break;
+            case 50:
+                if (questActionIndex == 0)
+                {
+                    Debug.Log("case 50");
+                }
+                if (questActionIndex == 1)
+                {
+                    Debug.Log("case 51");
                 }
                 break;
         }

@@ -12,7 +12,7 @@ public class Enemy : BaseEntity
         Debug.Log("Enemy ( " + name + " ) 생성");
 
         // 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리, 스킬유무 순으로 초기화
-        stat = new EntityStat(30, 0, 2f, 1f, 1f, false);
+        stat = new EntityStat(12, 0, 1f, 0.8f, 1.1f, false);
 
         max_Hp = stat.max_Hp;
         cur_Hp = max_Hp;
@@ -22,6 +22,8 @@ public class Enemy : BaseEntity
         SetAttackSpeed(stat.atkSpd);
         atkRange = stat.atkRange;
         able_Skill = stat.isSkill;
+
+        isMelee = true;
     }
 
     protected override void Update()

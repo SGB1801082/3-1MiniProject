@@ -17,6 +17,8 @@ public class BaseEntity : MonoBehaviour
     public bool isAtkDone = false;
     public bool isDie = false;
     private bool isDieInProgress = false;
+    public bool isMelee = false;
+    public bool isRange = false;
     public bool able_Skill = false;
 
     private float atk_CoolTime;
@@ -226,6 +228,14 @@ public class BaseEntity : MonoBehaviour
         {
             while (true)
             {
+                if (FindTarget() == null)
+                {
+                    Debug.Log("타겟이 없으므로 멈춤");
+                    StopMove();
+                    break;
+                }
+
+
                 yield return new WaitForSeconds(0.5f); // 1초 대기
                 FindTarget();
             }
@@ -261,7 +271,7 @@ public class BaseEntity : MonoBehaviour
     // 공격 사거리에 들어오면 이동 멈추고 공격 준비
     public void StopMove()
     {
-        if (isAttack)
+        if (_curstate != State.Move)
         {
             agent.isStopped = true;
             SetMovementPriority(false);
@@ -311,7 +321,16 @@ public class BaseEntity : MonoBehaviour
                     if (cur_atk_CoolTime >= atk_CoolTime)
                     {
                         cur_atk_CoolTime = 0;
-                        Attack(target);
+
+                        if (isMelee && !isRange)
+                        {
+                            MeleeAttack(target);
+                        }
+                        else
+                        {
+                            RangeAttack(target);
+                        }
+                        
                     }
 
                     cur_atk_CoolTime += Time.deltaTime;
@@ -325,7 +344,7 @@ public class BaseEntity : MonoBehaviour
         }
     }
 
-    private void Attack(BaseEntity target)
+    private void MeleeAttack(BaseEntity target)
     {
         ani.SetTrigger("isAtk");
         Debug.Log("공격함 ( " + name + " -> " + target.name + " )");
@@ -340,10 +359,29 @@ public class BaseEntity : MonoBehaviour
         Debug.Log(target.cur_Hp + " " + target.name);
     }
 
+    private void RangeAttack(BaseEntity target) 
+    {
+        // 투사체 발사 구현
+    }
+
     private IEnumerator Die()
     {
         isDie = false;
         ani.SetTrigger("isDie");
+        if (gameObject.CompareTag("Player"))
+        {
+            if (BattleManager.Instance.deloy_Player_List.Contains(gameObject))
+            {
+                BattleManager.Instance.deloy_Player_List.Remove(gameObject);
+            }
+        }
+        else if (gameObject.CompareTag("Enemy"))
+        {
+            if (BattleManager.Instance.deloy_Enemy_List.Contains(gameObject))
+            {
+                BattleManager.Instance.deloy_Enemy_List.Remove(gameObject);
+            }
+        }
         yield return new WaitForSeconds(1.5f);
         Destroy(gameObject);
         isDieInProgress = false;

@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
     private static BattleManager instance = null;
+    public ObjectManager pool;
     public List<GameObject> deloy_Player_List = new List<GameObject>();
+    public List<GameObject> deloy_Enemy_List = new List<GameObject>();
+    public GameObject popup_Bg;
+    public GameObject vic_Popup;
+    public GameObject def_Popup;
 
     public static BattleManager Instance
     {
@@ -54,17 +61,29 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        if (_mapId != 0 || _mapId != 2)
+        /*if (_mapId != 0 || _mapId != 2)
         {
             ChangePhase(BattlePhase.Deploy); // 방 체크해서 전투방이면 실행
+        }*/
+
+        ChangePhase(BattlePhase.Deploy);
+        GameObject[] enemy_Obj = GameObject.FindGameObjectsWithTag("Enemy");
+
+        if (enemy_Obj != null)
+        {
+            foreach (GameObject obj in enemy_Obj) 
+            {
+                deloy_Enemy_List.Add(obj);
+            }
         }
+        
     }
 
     public void BattleReady()
     {
         // 파티원을 초기 위치에 배치하는 메서드나 코드 작성
 
-        BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 몬스터를 넣음
+        BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 몬스터와 플레이어를 찾음
 
         foreach (BaseEntity obj in entity)
         {
@@ -87,6 +106,12 @@ public class BattleManager : MonoBehaviour
         if (_curphase == BattlePhase.Deploy)
         {
             BattleReady();
+        }
+
+        if (_curphase == BattlePhase.Battle && deloy_Player_List.Count == 0 || deloy_Enemy_List.Count == 0)
+        {
+            ChangePhase(BattlePhase.End);
+            EndBattle();
         }
     }
 
@@ -147,6 +172,26 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    private void EndBattle()
+    {
+        if (_curphase == BattlePhase.End)
+        {
+            popup_Bg.SetActive(true);
+
+            if (deloy_Player_List.Count == 0)
+            {
+                def_Popup.SetActive(true);
+                vic_Popup.SetActive(false);
+            }
+            else if (deloy_Enemy_List.Count == 0)
+            {
+                def_Popup.SetActive(false);
+                vic_Popup.SetActive(true);
+            }
+        }
+         
+    }
+
 
     private void CheckMap(int map)
     {
@@ -171,4 +216,26 @@ public class BattleManager : MonoBehaviour
     }
 
 
+    public void ReturnToTown()
+    {
+        Debug.Log("마을로 이동");
+        //BattleSave();
+        //GameMgr.single.IsGameLoad(true);
+        SceneManager.LoadScene("Scene0");
+    }
+
+    public void BattleSave()
+    {
+        SaveData gameSaveData = new(GameMgr.playerData.GetPlayerName(), GameUiMgr.single.playerLevel,
+            GameUiMgr.single.playerGold,
+            GameUiMgr.single.questMgr.questId,
+            GameUiMgr.single.questMgr.questActionIndex,
+            
+            GameUiMgr.single.player_Max_HP, GameUiMgr.single.player_Cur_HP,
+
+            GameUiMgr.single.player_Max_SN, GameUiMgr.single.player_Cur_SN,
+            GameUiMgr.single.player_Max_MP, GameUiMgr.single.player_Cur_MP,
+            GameUiMgr.single.player_Atk_Speed, GameUiMgr.single.player_Atk_Range, GameUiMgr.single.player_Base_Atk_Dmg, GameUiMgr.single.player_Max_EXP, GameUiMgr.single.player_Cur_EXP);
+        SaveSystem.Save(gameSaveData, "saveData");
+    }
 }
