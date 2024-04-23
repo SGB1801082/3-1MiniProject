@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
@@ -48,6 +49,10 @@ public class EntityDrag : MonoBehaviour
         {
             if (isDragging)
             {
+                NavMeshAgent nav = GetComponent<NavMeshAgent>();
+
+                nav.enabled = false;
+
                 var curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
                 var curPosition = cam.ScreenToWorldPoint(curScreenSpace) + drag;
                 transform.position = curPosition;
@@ -68,6 +73,10 @@ public class EntityDrag : MonoBehaviour
                 // 가장 가까운 셀의 중심 좌표를 구합니다.
                 Vector3Int cellPosition = deloy.WorldToCell(curPosition);
                 Vector3 snappedPosition = deloy.GetCellCenterWorld(cellPosition);
+
+                NavMeshAgent nav = GetComponent<NavMeshAgent>();
+
+                nav.enabled = true;
 
 
                 GameObject[] players = GameObject.FindGameObjectsWithTag("Player");

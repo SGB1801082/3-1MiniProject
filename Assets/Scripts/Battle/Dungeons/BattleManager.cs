@@ -82,7 +82,7 @@ public class BattleManager : MonoBehaviour
     {
         // 파티원을 초기 위치에 배치하는 메서드나 코드 작성
 
-        BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 몬스터를 넣음
+        BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 몬스터와 플레이어를 찾음
 
         foreach (BaseEntity obj in entity)
         {

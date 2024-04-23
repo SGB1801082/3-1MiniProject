@@ -8,6 +8,7 @@ public class DeloyInit : MonoBehaviour
     private Tilemap tilemap; // 타일맵
     public GameObject spritePrefab; // 배치할 스프라이트 프리팹
     public GameObject deloy_obj; // 클론이 생성 될 빈 개체
+    public GameObject view_Obj; // 배치될 공간을 비추는 스프라이트 프리팹
     public List<GameObject> highlight = new List<GameObject>();
     Tilemap wall;
 
