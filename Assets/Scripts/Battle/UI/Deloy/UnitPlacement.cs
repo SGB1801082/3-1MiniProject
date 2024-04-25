@@ -2,13 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class UnitPlacement : MonoBehaviour
 {
     public Tilemap deployTilemap;
     public GameObject unitPrefab;
+    public Image unit_Icon;
 
-        public void DeployUnit()
+    private void Start()
+    {
+        UnitPlacement[] unit = FindObjectsOfType<UnitPlacement>();
+        deployTilemap = GameObject.FindGameObjectWithTag("Wait").GetComponent<Tilemap>();
+    }
+
+    public void InitList(GameObject unit, Sprite icon)
+    {
+        this.unitPrefab = unit;
+        this.unit_Icon.sprite = icon;
+    }
+
+
+
+    public void DeployUnit()
         {
             BoundsInt bounds = deployTilemap.cellBounds;
             TileBase[] allTiles = deployTilemap.GetTilesBlock(bounds);

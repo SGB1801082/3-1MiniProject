@@ -14,11 +14,12 @@ public class Player : BaseEntity
         base.Start();
         Debug.Log("Player 생성");
 
-        // 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
+        // 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
         stat = new EntityStat
-            (GameMgr.playerData.max_Player_Hp, GameMgr.playerData.max_Player_Mp, GameMgr.playerData.base_atk_Dmg,
+            (0, GameMgr.playerData.max_Player_Hp, GameMgr.playerData.max_Player_Mp, GameMgr.playerData.base_atk_Dmg,
             GameMgr.playerData.atk_Speed, GameMgr.playerData.atk_Range, GameMgr.playerData.skill_Able);
 
+        entity_id = stat.id;
         max_Hp = stat.max_Hp;
         cur_Hp = GameMgr.playerData.cur_Player_Hp;
         max_Mp = stat.max_Mp;
