@@ -688,7 +688,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         WearEquipment();
         if (AllEquipChek())
         {
-            questMgr.questActionIndex = 2;
+            questMgr.questActionIndex = 1;
         }
     }
     public void OnNoButtonClick()
