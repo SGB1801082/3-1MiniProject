@@ -6,7 +6,7 @@ public class PartyStatInit : MonoBehaviour
 {
     public GameObject party_Stat_Prefab;
 
-    private void OnEnable()
+    private void Start()
     {
         for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
         {
