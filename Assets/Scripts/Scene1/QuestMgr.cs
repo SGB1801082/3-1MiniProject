@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestMgr : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class QuestMgr : MonoBehaviour
 
     [Header("Quest Icons")]
     public GameObject[] questIcons;
+    public Sprite[] spQuestIcons;
+
+    [Header("NPC list")]
+    public GameObject[] receptionist;// 모험가길드에서 튜토리얼을진행할 접수원을 분할하여 퀘스트기능을 구현하는데 용이하도록함
 
     private void Awake()
     {
@@ -29,9 +34,15 @@ public class QuestMgr : MonoBehaviour
     { 
         dict_questList.Add(0, new QuestData("모험의 시작", new int[] { 1000 }));
         // Add메서드로 questID, questData를 데이터사전(= dict_questList)에 저장. 구조체 매개변수 생성자의 int배열에는 첫 마을 방문 퀘스트에 연관된 npcID를 입력
-        dict_questList.Add(10, new QuestData("마을의 전설 듣기", new int[] { 1000, 2000 }));
-        dict_questList.Add(20, new QuestData("루도의 책 찾아주기", new int[] { 9000, 2000 }));
-        dict_questList.Add(30, new QuestData("마을의 전설 듣기 퀘스트 클리어!", new int[] { 10000, 4000 }));
+        dict_questList.Add(10, new QuestData("모험가 길드 직원에게 말을 걸어보자", new int[] { 1000, 2000 }));
+        dict_questList.Add(20, new QuestData("장비를 착용하고 다시 말을 걸어보자", new int[] { 1000, 2000 }));
+
+        dict_questList.Add(30, new QuestData("모의전투에서 승리하자", new int[] { 1000, 2000 }));
+
+        dict_questList.Add(40, new QuestData("체력이 줄었다. 받은 물약을 먹자.", new int[] { 1000 }));
+        dict_questList.Add(50, new QuestData("모험가 등록 완료", new int[] { 1000 }));
+
+        //dict_questList.Add(30, new QuestData("마을의 전설 듣기 퀘스트 클리어!", new int[] { 10000, 4000 }));
     }
 
     public int GetQuestTalkIndex(int id_Npc) // Npc의 Id를 매개변수로 받아서 퀘스트번호를 반환하는 메서드
@@ -56,7 +67,6 @@ public class QuestMgr : MonoBehaviour
         {
             NextQuest();
         }
-
         //Quest Name return
         return dict_questList[questId].questName;
     }
@@ -74,44 +84,50 @@ public class QuestMgr : MonoBehaviour
 
     public void ControlQuestObejct()
     {
-        Item questItem;
+        //Item questItem;
         switch (questId)
         {
             case 10:
                 if (questActionIndex == 0)
                 {
-                    //questIcons[0].SetActive(true);
+                    //TutorialEquip();
+                }
+                if (questActionIndex == 1)
+                {
+                    questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[1];
+
+                    receptionist[0].SetActive(false);
+                    receptionist[1].SetActive(true);
+                }
+                if (questActionIndex == 2)
+                {
+                    questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[0];
+
+                    receptionist[0].SetActive(true);
+                    receptionist[1].SetActive(false);
+
+                    TutorialEquip();
+                }
+                break;
+            case 20:
+                //questItem = ItemResources.instance.itemRS[0];
+
+                if (questActionIndex == 0)
+                {
+                    Debug.Log("Case 20");
+                    //questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[1];
                 }
 
                 if (questActionIndex == 1)
                 {
-                    questIcons[0].SetActive(false);
-                }
-
-                if (questActionIndex == 2)
-                {
-                    aryQuestObj[0].SetActive(true);
-                }
-                break;
-            case 20:
-                questItem = ItemResources.instance.itemRS[0];
-                if (questActionIndex == 0)
-                {
-                    aryQuestObj[0].SetActive(true);
-
-                }
-                else if (questActionIndex == 1)
-                {
-                    aryQuestObj[0].SetActive(false);
-                    Inventory.single.AddItem(questItem);
-                    GameUiMgr.single.RedrawSlotUI();
-
+                    Debug.Log("Case 21");
+                    GameUiMgr.single.AllEquipChek();
                 }
                 else if (questActionIndex == 2)
                 {
                     Debug.Log("Case 22");
-                    Inventory.single.RemoveItem(questItem.itemIndex);
-                    GameUiMgr.single.RedrawSlotUI();
+                    receptionist[0].SetActive(true);
+                    receptionist[1].SetActive(false);
                 }
                 break;
             case 30:
@@ -119,7 +135,39 @@ public class QuestMgr : MonoBehaviour
                 {
                     Debug.Log("Case 30");
                 }
+                if(questActionIndex == 1)
+                {
+                    Debug.Log("Case31");
+                }
+                else if (questActionIndex == 2)
+                {
+                    Debug.Log("Case32");
+                    receptionist[0].SetActive(true);
+                    receptionist[1].SetActive(false);
+                }
                 break;
         }
     }
+
+    public void TutorialEquip()
+    {
+        Item questItem;
+
+        questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[1];
+
+        questItem = ItemResources.instance.itemRS[2];
+        Inventory.single.AddItem(questItem);
+
+        questItem = ItemResources.instance.itemRS[3];
+        Inventory.single.AddItem(questItem);
+
+        questItem = ItemResources.instance.itemRS[4];
+        Inventory.single.AddItem(questItem);
+
+        questItem = ItemResources.instance.itemRS[5];
+        Inventory.single.AddItem(questItem);
+
+        GameUiMgr.single.RedrawSlotUI();
+    }
+
 }

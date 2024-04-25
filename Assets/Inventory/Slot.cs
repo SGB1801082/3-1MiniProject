@@ -9,6 +9,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public int slotnum;
     public Item item;
     public Image itemIcon;
+    public bool eqipChek = false;
 
     //private bool isDraging;
 
