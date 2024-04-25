@@ -124,6 +124,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     private float player_Max_EXP;
     private float player_Cur_EXP;
 
+    //04-25 Tutorial Quest ActionIndex
+    private bool wearEquipment = false;
+
+
     private void Awake()
     {
         single = this;
@@ -688,7 +692,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         WearEquipment();
         if (AllEquipChek())
         {
-            questMgr.questActionIndex = 2;
+            questMgr.questActionIndex = 1;
         }
     }
     public void OnNoButtonClick()
@@ -763,7 +767,13 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             Debug.Log("장비 장착 완료");
             Receptionist_1();
-            return true;
+            //tutorial Quest - wearEquipment
+            if (wearEquipment != true)
+            {
+                wearEquipment = true;
+                return true;
+            }
+            return false;
         }
         return false;
     }
