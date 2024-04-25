@@ -686,7 +686,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("AddEquip Type: " + nowSlot.item.itemType);
 
         WearEquipment();
-        AllEquipChek();
+        if (AllEquipChek())
+        {
+            questMgr.questActionIndex = 2;
+        }
     }
     public void OnNoButtonClick()
     {
@@ -732,7 +735,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 // 아이콘 설정
                 targetSlots[i].itemIcon.sprite = nowSlot.itemIcon.sprite;
                 targetSlots[i].itemIcon.gameObject.SetActive(true);
-
+                targetSlots[i].eqipChek = true;
                 // 아이템 설정
                 targetSlots[i].item = clonedItem;
             }
@@ -750,7 +753,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         int sum = 0;
         for (int i = 0; i < targetSlots.Length; i++)
         {
-            if (targetSlots[i].item != null)
+            if (targetSlots[i].eqipChek == true)
             {
                 sum++;
             }
@@ -758,10 +761,23 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         if (sum == (targetSlots.Length))
         {
+            Debug.Log("장비 장착 완료");
+            Receptionist_1();
             return true;
         }
-
         return false;
     }
+
+    public void TutorialDungeonClear()
+    {
+        Debug.Log("튜토리얼 던전 클리어");
+        Receptionist_1();
+    }
+    private void Receptionist_1()
+    {
+        questMgr.receptionist[0].SetActive(false);
+        questMgr.receptionist[1].SetActive(true);
+    }
+
 
 }

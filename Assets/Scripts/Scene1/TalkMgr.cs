@@ -38,14 +38,29 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
             "(장비를 착용하고 다시 말을 걸자.) :0" // 여기까지는 정상구현 완료.
         });
 
-        dictTalkData.Add(20 + 1000, new string[] { "장비를 전부 착용하셨군요!  :0" });
-        dictTalkData.Add(21 + 1000, new string[] { "다음은 모의 전투 진행방법을 알려드릴테니 다시 대화를 걸어주세요. :2" });
-        //dictTalkData.Add(20 + 2000, new string[] { "인벤토리는는 키보드의 I키 혹은 하단의 가방 아이콘을 통해 열 수 있습니다.:0" });
 
+        // QestRange-20, NPC-1000
+        dictTalkData.Add(20 + 1000, new string[] { "인벤토리는는 키보드의 I키 혹은 하단의 가방 아이콘을 통해 열 수 있습니다. :0", "장비는 우클릭을 통하여 착용 할 수 있습니다. :0" });
+        // QestRange-20, NPC-2000
+        dictTalkData.Add(21 + 2000, new string[] { "장비를 전부 착용하셨군요! :2", 
+            "다음은 모의 전투 진행방법을 알려드릴테니 다시 대화를 걸어주세요. :2" 
+        });
+        
+
+        // QestRange-30, NPC-1000
         dictTalkData.Add(30 + 1000, new string[] {
             "좌측에 있는 포탈로 입장하면 모의 전투를 진행할 수 있습니다. :0",
             "(포탈로 이동해서 모의전투를 하고 돌아오자.) :0"
         });
+        dictTalkData.Add(31 + 1000, new string[] {
+            "견습 모험가님의 건투를 빕니다. :2"
+        });
+        // QestRange-30, NPC-2000
+        dictTalkData.Add(31 + 2000, new string[] {
+            "던전을 클리어하고 오셨군요! :0",
+            "우선 체력회복을 위해 물약을 드릴테니 다시 대화를 걸어주세요. :2"
+        });
+
         //dictTalkData.Add(20 + 2000, new string[] { "찾으면 꼭 가져다줘 :1"});
         //dictTalkData.Add(20 + 9000, new string[] { "책을 발견했다." });
 
