@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
@@ -13,13 +12,11 @@ public class EntityDrag : MonoBehaviour
     private Vector3 initPos;
     private bool isDragging = false;
     public Tilemap deloy;
-    Tilemap wall;
 
     private void Start()
     {
         cam = Camera.main;
         deloy = GameObject.FindGameObjectWithTag("Deloy").GetComponent<Tilemap>();
-        wall = GameObject.FindGameObjectWithTag("Wall").GetComponent<Tilemap>();
     }
 
     private void OnMouseDown()
@@ -49,10 +46,6 @@ public class EntityDrag : MonoBehaviour
         {
             if (isDragging)
             {
-                NavMeshAgent nav = GetComponent<NavMeshAgent>();
-
-                nav.enabled = false;
-
                 var curScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
                 var curPosition = cam.ScreenToWorldPoint(curScreenSpace) + drag;
                 transform.position = curPosition;
@@ -74,10 +67,6 @@ public class EntityDrag : MonoBehaviour
                 Vector3Int cellPosition = deloy.WorldToCell(curPosition);
                 Vector3 snappedPosition = deloy.GetCellCenterWorld(cellPosition);
 
-                NavMeshAgent nav = GetComponent<NavMeshAgent>();
-
-                nav.enabled = true;
-
 
                 GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
                 foreach (GameObject player in players)
@@ -93,7 +82,7 @@ public class EntityDrag : MonoBehaviour
                 }
 
 
-                if (!deloy.HasTile(cellPosition) || wall.HasTile(cellPosition))
+                if (!deloy.HasTile(cellPosition))
                 {
                     transform.position = initPos;
                 }
@@ -105,5 +94,6 @@ public class EntityDrag : MonoBehaviour
                 isDragging = false;
             }
         }
+        
     }
 }

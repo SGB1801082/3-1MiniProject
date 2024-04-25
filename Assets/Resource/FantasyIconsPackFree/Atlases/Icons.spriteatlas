@@ -131,7 +131,6 @@ SpriteAtlas:
     - 6f17b16f02b2246499ac554b97a16d4a: 21300000
     - c03fbd6f990a8a54680cdd21777738e1: 21300000
     - 74b95f8fcc76fcc4cb42a25e8d3cdbe0: 21300000
-    - beb6719f1f7b710488b7eb93f60eec55: 21300000
     - 62a99ebf2f5cfe04da1d208b9e7817a9: 21300000
     - 0f1303cfff6593747a97f9c964728649: 21300000
     - 5df4b9cfda870304c9e2decfcc0b094f: 21300000
@@ -218,7 +217,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6f17b16f02b2246499ac554b97a16d4a, type: 3}
   - {fileID: 21300000, guid: c03fbd6f990a8a54680cdd21777738e1, type: 3}
   - {fileID: 21300000, guid: 74b95f8fcc76fcc4cb42a25e8d3cdbe0, type: 3}
-  - {fileID: 21300000, guid: beb6719f1f7b710488b7eb93f60eec55, type: 3}
   - {fileID: 21300000, guid: 62a99ebf2f5cfe04da1d208b9e7817a9, type: 3}
   - {fileID: 21300000, guid: 0f1303cfff6593747a97f9c964728649, type: 3}
   - {fileID: 21300000, guid: 5df4b9cfda870304c9e2decfcc0b094f, type: 3}
@@ -304,7 +302,6 @@ SpriteAtlas:
   - ChickenLeg
   - OldPoleaxe
   - LongHammer
-  - VikingShortBow_Battle
   - MountainSword [Paint]
   - MagicBronzeRing
   - HandBomb

@@ -32,9 +32,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public TextMeshProUGUI tmp_PlayerLevle;
     public TextMeshProUGUI tmp_PlayerGold;
 
-    [SerializeField] private Slider s_HP;
-    [SerializeField] private Slider s_SN;
-    [SerializeField] private Slider s_EXP;
+    public Slider s_HP;
+    public Slider s_SN;
+    public Slider s_EXP;
 
     [Header("Button")]
     public GameObject mainButton;// 클릭할 메인 버튼
@@ -112,18 +112,17 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public float player_Cur_HP;
     public float player_Max_SN;
     public float player_Cur_SN;
-    public float player_Max_MP;
-    public float player_Cur_MP;
+    private float player_Max_MP;
+    private float player_Cur_MP;
 
     public int playerGold;
     public int playerLevel;
 
-    public float player_Atk_Speed;
-    public float player_Atk_Range;
-    public float player_Base_Atk_Dmg;
-    public float player_Max_EXP;
-    public float player_Cur_EXP;
-
+    private float player_Atk_Speed;
+    private float player_Atk_Range;
+    private float player_Base_Atk_Dmg;
+    private float player_Max_EXP;
+    private float player_Cur_EXP;
 
     private void Awake()
     {
@@ -226,9 +225,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             GameLoad();
             Debug.Log("Load Success");
             Debug.Log(GameMgr.playerData.GetPlayerName());
-            GameMgr.single.IsGameLoad(false);
         }
-
     
         questDesc.text = questMgr.CheckQuest();
 
@@ -496,8 +493,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
             if (scanObj_ID == 8000)
             {
-                GameSave();
                 SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
+                GameSave();
             }
             
             /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
@@ -536,16 +533,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             menuSet.SetActive(false);
         }
 
-        SaveData gameSaveData = new(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP);
-        SaveSystem.Save(gameSaveData, "saveData");
+        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP );
+        SaveSystem.Save(gameSaveData, "save");
 
-        Debug.Log("save qID"+questMgr.questId);
-        Debug.Log("save qAcIndex"+questMgr.questActionIndex);
         //  Player DayCount, Player Inventory, Player Desc (Stat, Name, Job, Gold ... ect)
     }
     public void GameLoad()
     {
-        SaveData loadData = SaveSystem.Load("saveData");
+        SaveData loadData = SaveSystem.Load("save");
 
         //Load Player Data => save_001.x, save_001.y, save_001.questId, save_001.QuestActionIndex 
 
@@ -580,8 +575,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         questMgr.questId = loadData.questId;
         questMgr.questActionIndex = loadData.questActionIndex;
-        Debug.Log("load qID" + questMgr.questId);
-        Debug.Log("load qAcIndex" + questMgr.questActionIndex);
         questMgr.ControlQuestObejct();
         //GetNowPositon();
 

@@ -17,8 +17,8 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
     private void GenerateTalkData()// 오브젝트들의 상호작용 대사를 만들어서 스크립트 실행할때 호출되게 함
     {
         //Talk Data - NPC A: 1000, NPC B: 2000, BOX: 100, 
-        dictTalkData.Add(1000, new string[] { GameMgr.playerData.NAME + "모험가님! 어서오세요. :0" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
-        //dictTalkData.Add(2000, new string[] { "[플레이어이름]! :0","던전마을로 가는거야? :1", "몸조심해! :2" });
+        dictTalkData.Add(1000, new string[] { "안녕! :0", "이 곳에 처음 왔구나?:1", "개쩌는 김치피자탕수육을 만들어 주렴:2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
+        dictTalkData.Add(2000, new string[] { "[플레이어이름]! :0","던전마을로 가는거야? :1", "몸조심해! :2" });
         //dictTalkData.Add(1000, new string[] { "안녕!" + GameMgr.playerData.NAME + ":0", "이 곳에 처음 왔구나?:1", "개쩌는 김치피자탕수육을 만들어주렴:2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
         //dictTalkData.Add(2000, new string[] { GameMgr.playerData.NAME+"! :0","던전마을로 가는거야? :1", "몸조심해! :2" });
         dictTalkData.Add(5000, new string[] { "상자" });
@@ -29,7 +29,7 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
         //Quest talk
         //dictTalkData.Add(01 + 1000, new string[] { "안녕! :0", "이 곳에 처음 왔구나?:1", "나는 루나라고해!:2" });
         dictTalkData.Add(10 + 1000, new string[] {
-            GameMgr.playerData.NAME +"님 안녕하세요. 모험가 길드에 가입하려고 오셨군요. :0",
+            "[플레이어]님 안녕하세요. 모험가 길드에 가입하려고 오셨군요. :0",
             "저희가 준비한 모의전투에 승리하면 \n 모험가 길드에 가입할 수 있습니다. :1",
             "모의 전투에 필요한 기본 장비를 지급 해드릴테니 \n 다시 대화를 걸어주세요 :1",
         });
@@ -46,12 +46,6 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
             "좌측에 있는 포탈로 입장하면 모의 전투를 진행할 수 있습니다. :0",
             "(포탈로 이동해서 모의전투를 하고 돌아오자.) :0"
         });
-        dictTalkData.Add(30 + 2000, new string[] { "승리하고 돌아오셨군요? :1", "우선 체력회복을 위해 물약을 드릴테니 다시 대화를 걸어주세요. :2" });
-
-        dictTalkData.Add(40 + 1000, new string[] { "체력 회복을 위한 물약을 지급해 드렸으니 사용하고 다시 와주세요 :0", "(i로 인벤토리를 열고 물약을 클릭해서 사용하자.) :0" });
-        dictTalkData.Add(40 + 2000, new string[] { GameMgr.playerData.NAME + "님 저희 모험가 길드에 가입한 것을 축하드립니다. :2", "앞으로도"+ GameMgr.playerData.NAME +"님의 멋진 활약 기대하겠습니다. :2" });
-
-        //dictTalkData.Add(50 + 1000, new string[] { "좌측에 있는 포탈로 입장하면 모의 전투를 진행할 수 있습니다. :0", "(포탈로 이동해서 모의전투를 하고 돌아오자.) :0" });
         //dictTalkData.Add(20 + 2000, new string[] { "찾으면 꼭 가져다줘 :1"});
         //dictTalkData.Add(20 + 9000, new string[] { "책을 발견했다." });
 
