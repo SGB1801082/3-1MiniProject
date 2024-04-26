@@ -19,6 +19,9 @@ public class QuestMgr : MonoBehaviour
     [Header("NPC list")]
     public GameObject[] receptionist;// 모험가길드에서 튜토리얼을진행할 접수원을 분할하여 퀘스트기능을 구현하는데 용이하도록함
 
+    //04-26 Quest Potion Ev
+    private bool oneTimeEv = true;
+
     private void Awake()
     {
         dict_questList = new Dictionary<int, QuestData>();
@@ -39,8 +42,8 @@ public class QuestMgr : MonoBehaviour
 
         dict_questList.Add(30, new QuestData("모의전투에서 승리하자", new int[] { 1000, 2000 }));
 
-        dict_questList.Add(40, new QuestData("체력이 줄었다. 받은 물약을 먹자.", new int[] { 1000 }));
-        dict_questList.Add(50, new QuestData("모험가 등록 완료", new int[] { 1000 }));
+        dict_questList.Add(40, new QuestData("체력이 줄었다. 받은 물약을 먹자.", new int[] { 1000, 2000 }));
+        dict_questList.Add(50, new QuestData("모험가 등록 완료", new int[] { 1000, 2000 }));
 
         //dict_questList.Add(30, new QuestData("마을의 전설 듣기 퀘스트 클리어!", new int[] { 10000, 4000 }));
     }
@@ -147,17 +150,30 @@ public class QuestMgr : MonoBehaviour
                 }
                 break;
             case 40:// Using Potion Event
+                Item questItem2;
                 if (questActionIndex == 0)
                 {
                     Debug.Log("Case 40");
                 }
                 if (questActionIndex == 1)
                 {
+                    if (oneTimeEv == true)
+                    {
+                        questItem2 = ItemResources.instance.itemRS[6];
+                        Inventory.single.AddItem(questItem2);
+                        GameUiMgr.single.slots[questItem2.itemIndex].tutorialChek = true;
+
+                        Debug.Log(questItem2.itemName);
+                        oneTimeEv = false;
+                    }
                     Debug.Log("Case 41");
                 }
                 else if (questActionIndex == 2)
                 {
                     Debug.Log("Case 42");
+                    receptionist[0].SetActive(true);
+                    receptionist[1].SetActive(false);
+
                 }
                 break;
         }

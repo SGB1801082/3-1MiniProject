@@ -8025,7 +8025,7 @@ MonoBehaviour:
     itemIndex: 0
     isDraggable: 0
   itemIcon: {fileID: 280529102}
-  eqipChek: 0
+  tutorialChek: 0
 --- !u!1 &648392515
 GameObject:
   m_ObjectHideFlags: 0
@@ -11021,6 +11021,15 @@ MonoBehaviour:
     itemDesc: "\uD50C\uB808\uC774\uC5B4\uC758 \uACF5\uACA9\uC18D\uB3C4 +15%"
     itemIndex: 0
     isDraggable: 0
+  - itemType: 4
+    itemName: "\uC0C8\uB0B4\uAE30 \uD3EC\uC158"
+    itemImage: {fileID: 21300000, guid: 7b3876a2b72c44540a4bbd5aaba9e506, type: 3}
+    efts:
+    - {fileID: 11400000, guid: e9307dfcde0ad1d42bada54b93aaa2fb, type: 2}
+    itemTitle: "\uC0C8\uB0B4\uAE30 \uBAA8\uD5D8\uAC00\uB97C \uC704\uD55C \uC9C0\uAE09\uD488"
+    itemDesc: "\uCCB4\uB825\uC744 \uD68C\uBCF5 \uD560 \uC218 \uC788\uB2E4"
+    itemIndex: 0
+    isDraggable: 0
 --- !u!1 &998478159
 GameObject:
   m_ObjectHideFlags: 0
@@ -13739,7 +13748,7 @@ MonoBehaviour:
     itemIndex: 0
     isDraggable: 0
   itemIcon: {fileID: 1898318561}
-  eqipChek: 0
+  tutorialChek: 0
 --- !u!1 &1259848401
 GameObject:
   m_ObjectHideFlags: 0
@@ -36595,7 +36604,7 @@ Tilemap:
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -2969016694365801900, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 1.1699855
+      m_AnimationSpeed: 2.7858634
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -7, y: -3, z: 0}
@@ -36606,7 +36615,7 @@ Tilemap:
       - {fileID: 2752588384504392991, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -3803466081661082397, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 2752588384504392991, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 1.877001
+      m_AnimationSpeed: 1.2460549
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 3, y: -3, z: 0}
@@ -36617,7 +36626,7 @@ Tilemap:
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -2969016694365801900, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 1.969321
+      m_AnimationSpeed: 2.1029012
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: -3, z: 0}
@@ -36628,7 +36637,7 @@ Tilemap:
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -2969016694365801900, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 2.9063945
+      m_AnimationSpeed: 1.8362391
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -6, y: 3, z: 0}
@@ -36639,7 +36648,7 @@ Tilemap:
       - {fileID: 2752588384504392991, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -3803466081661082397, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 2752588384504392991, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 1.9796007
+      m_AnimationSpeed: 1.7461584
       m_AnimationTimeOffset: 0
       m_Flags: 0
   m_TileAssetArray:
@@ -36799,7 +36808,7 @@ MonoBehaviour:
     itemIndex: 0
     isDraggable: 0
   itemIcon: {fileID: 932988741}
-  eqipChek: 0
+  tutorialChek: 0
 --- !u!1 &2091145588
 GameObject:
   m_ObjectHideFlags: 0
@@ -40521,7 +40530,7 @@ MonoBehaviour:
     itemIndex: 0
     isDraggable: 0
   itemIcon: {fileID: 3651176489788559844}
-  eqipChek: 0
+  tutorialChek: 0
 --- !u!222 &5991427221194500984
 CanvasRenderer:
   m_ObjectHideFlags: 0

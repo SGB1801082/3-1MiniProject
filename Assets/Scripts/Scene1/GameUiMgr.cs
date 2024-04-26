@@ -739,7 +739,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 // 아이콘 설정
                 targetSlots[i].itemIcon.sprite = nowSlot.itemIcon.sprite;
                 targetSlots[i].itemIcon.gameObject.SetActive(true);
-                targetSlots[i].eqipChek = true;
+                targetSlots[i].tutorialChek = true;
                 // 아이템 설정
                 targetSlots[i].item = clonedItem;
             }
@@ -757,7 +757,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         int sum = 0;
         for (int i = 0; i < targetSlots.Length; i++)
         {
-            if (targetSlots[i].eqipChek == true)
+            if (targetSlots[i].tutorialChek == true)
             {
                 sum++;
             }

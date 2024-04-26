@@ -18,7 +18,7 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
     {
         //Talk Data - NPC A: 1000, NPC B: 2000, BOX: 100, 
         //dictTalkData.Add(1000, new string[] { "안녕! :0", "이 곳에 처음 왔구나?:1", "개쩌는 김치피자탕수육을 만들어 주렴:2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
-        dictTalkData.Add(1000, new string[] { "[Player]님!:0", "오셨군요:1" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
+        dictTalkData.Add(1000, new string[] { "[Player]님! :0", "오셨군요 :2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
         dictTalkData.Add(2000, new string[] { "[플레이어이름]! :0","던전마을로 가는거야? :1", "몸조심해! :2" });
         //dictTalkData.Add(1000, new string[] { "안녕!" + GameMgr.playerData.NAME + ":0", "이 곳에 처음 왔구나?:1", "개쩌는 김치피자탕수육을 만들어주렴:2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
         //dictTalkData.Add(2000, new string[] { GameMgr.playerData.NAME+"! :0","던전마을로 가는거야? :1", "몸조심해! :2" });
@@ -67,7 +67,7 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
             " (I키로 인벤토리를 열고 물약을 사용하자.) :0"
         });
         dictTalkData.Add(41 + 1000, new string[] {
-            " ( 인벤토리를 열고 물약을 먹은 뒤 이야기하자.) :0"
+            " (인벤토리를 열고 물약을 먹은 뒤 이야기하자.) :0"
         });
         // QestRange-40, NPC-2000
         dictTalkData.Add(41 + 2000, new string[] {
