@@ -87,7 +87,7 @@ public class QuestMgr : MonoBehaviour
         //Item questItem;
         switch (questId)
         {
-            case 10:
+            case 10:// Start Tutorial
                 if (questActionIndex == 0)
                 {
                     //TutorialEquip();
@@ -109,7 +109,7 @@ public class QuestMgr : MonoBehaviour
                     TutorialEquip();
                 }
                 break;
-            case 20:
+            case 20:// wear EquipMent Event
                 //questItem = ItemResources.instance.itemRS[0];
 
                 if (questActionIndex == 0)
@@ -130,7 +130,7 @@ public class QuestMgr : MonoBehaviour
                     receptionist[1].SetActive(false);
                 }
                 break;
-            case 30:
+            case 30:// Dungeon Event
                 if (questActionIndex == 0)
                 {
                     Debug.Log("Case 30");
@@ -144,6 +144,20 @@ public class QuestMgr : MonoBehaviour
                     Debug.Log("Case32");
                     receptionist[0].SetActive(true);
                     receptionist[1].SetActive(false);
+                }
+                break;
+            case 40:// Using Potion Event
+                if (questActionIndex == 0)
+                {
+                    Debug.Log("Case 40");
+                }
+                if (questActionIndex == 1)
+                {
+                    Debug.Log("Case 41");
+                }
+                else if (questActionIndex == 2)
+                {
+                    Debug.Log("Case 42");
                 }
                 break;
         }

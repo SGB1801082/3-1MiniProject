@@ -17,7 +17,8 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
     private void GenerateTalkData()// 오브젝트들의 상호작용 대사를 만들어서 스크립트 실행할때 호출되게 함
     {
         //Talk Data - NPC A: 1000, NPC B: 2000, BOX: 100, 
-        dictTalkData.Add(1000, new string[] { "안녕! :0", "이 곳에 처음 왔구나?:1", "개쩌는 김치피자탕수육을 만들어 주렴:2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
+        //dictTalkData.Add(1000, new string[] { "안녕! :0", "이 곳에 처음 왔구나?:1", "개쩌는 김치피자탕수육을 만들어 주렴:2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
+        dictTalkData.Add(1000, new string[] { "[Player]님!:0", "오셨군요:1" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
         dictTalkData.Add(2000, new string[] { "[플레이어이름]! :0","던전마을로 가는거야? :1", "몸조심해! :2" });
         //dictTalkData.Add(1000, new string[] { "안녕!" + GameMgr.playerData.NAME + ":0", "이 곳에 처음 왔구나?:1", "개쩌는 김치피자탕수육을 만들어주렴:2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
         //dictTalkData.Add(2000, new string[] { GameMgr.playerData.NAME+"! :0","던전마을로 가는거야? :1", "몸조심해! :2" });
@@ -40,18 +41,17 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
 
 
         // QestRange-20, NPC-1000
-        dictTalkData.Add(20 + 1000, new string[] { "인벤토리는는 키보드의 I키 혹은 하단의 가방 아이콘을 통해 열 수 있습니다. :0", "장비는 우클릭을 통하여 착용 할 수 있습니다. :0" });
+        dictTalkData.Add(20 + 1000, new string[] { "인벤토리는는 키보드의 I키 혹은 하단의 가방 아이콘을 통해 열 수 있습니다. :0", "장비는 클릭을 통하여 착용 할 수 있습니다. :0" });
         // QestRange-20, NPC-2000
         dictTalkData.Add(21 + 2000, new string[] { "장비를 전부 착용하셨군요! :2", 
             "다음은 모의 전투 진행방법을 알려드릴테니 다시 대화를 걸어주세요. :2" 
         });
-        
 
         // QestRange-30, NPC-1000
         dictTalkData.Add(30 + 1000, new string[] {
             "좌측에 있는 포탈로 입장하면 모의 전투를 진행할 수 있습니다. :0",
-            "(포탈로 이동해서 모의전투를 하고 돌아오자.) :0"
-        });
+            " (포탈로 이동해서 모의전투를 하고 돌아오자.) :0"
+        }); ;
         dictTalkData.Add(31 + 1000, new string[] {
             "견습 모험가님의 건투를 빕니다. :2"
         });
@@ -59,6 +59,20 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
         dictTalkData.Add(31 + 2000, new string[] {
             "던전을 클리어하고 오셨군요! :0",
             "우선 체력회복을 위해 물약을 드릴테니 다시 대화를 걸어주세요. :2"
+        });
+
+        // QestRange-40, NPC-1000
+        dictTalkData.Add(40 + 1000, new string[] {
+            " 체력 회복을 위한 물약을 지급해 드렸으니 사용하고 다시 와주세요 :0",
+            " (I키로 인벤토리를 열고 물약을 사용하자.) :0"
+        });
+        dictTalkData.Add(41 + 1000, new string[] {
+            " ( 인벤토리를 열고 물약을 먹은 뒤 이야기하자.) :0"
+        });
+        // QestRange-40, NPC-2000
+        dictTalkData.Add(41 + 2000, new string[] {
+            "[Player]님 저희 모험가 길드에 가입한 것을 축하드립니다. :1",
+            "앞으로도 [Player]님의 멋진 활약 기대하겠습니다. :2"
         });
 
         //dictTalkData.Add(20 + 2000, new string[] { "찾으면 꼭 가져다줘 :1"});
