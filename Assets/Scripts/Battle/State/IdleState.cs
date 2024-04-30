@@ -18,9 +18,15 @@ public class IdleState : BaseState
 
     public override void OnStateUpdate()
     {
+        
     }
 
     public override void OnStateExit()
     {
+        if (entity.isAttack)
+        {
+            entity.StopCoroutine(entity.UpdateTarget());
+            entity.target = entity.FindTarget().transform;
+        }
     }
 }

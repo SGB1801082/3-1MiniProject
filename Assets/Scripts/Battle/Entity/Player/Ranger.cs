@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Ranger : BaseEntity
 {
     private EntityStat stat;
+    Transform cur_target;
 
     protected override void Start()
     {
@@ -37,6 +38,7 @@ public class Ranger : BaseEntity
         {
             Skill();
         }
+        cur_target = target;
     }
 
 
@@ -62,4 +64,46 @@ public class Ranger : BaseEntity
             ChangeState(State.Idle);
         }
     }
+
+    public void Arrow()
+    {
+        if (_curstate == State.Attack) 
+        {
+            StartCoroutine(ArrowCoroutine(cur_target));
+        }
+    }
+
+    private IEnumerator ArrowCoroutine(Transform target)
+    {
+        GameObject arrow = BattleManager.Instance.pool.GetObject(0);
+        arrow.transform.position = transform.position;
+
+        
+
+
+        if (target != null)
+        {
+            Vector3 direction = (target.position - arrow.transform.position).normalized;
+
+            // 화살의 회전 설정
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            arrow.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            while (Vector3.Distance(arrow.transform.position, target.position) > 0.1f)
+            {
+                // 투사체 이동
+                arrow.transform.position = Vector3.MoveTowards(arrow.transform.position, target.position, (10f * atkSpd) * Time.deltaTime);
+               
+                yield return null; // 다음 프레임까지 대기
+            }
+            arrow.SetActive(false);
+            Debug.Log("화살 쏨");
+        }
+        else
+        {
+            arrow.SetActive(false);
+        }
+      
+    }
+
 }
