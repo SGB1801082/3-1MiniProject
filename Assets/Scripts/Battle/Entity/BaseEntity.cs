@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.EventSystems.EventTrigger;
@@ -19,12 +21,12 @@ public class BaseEntity : MonoBehaviour
     public bool isDie = false;
     private bool isDieInProgress = false;
     public bool isMelee = false;
-    public bool isRange = false;
     public bool able_Skill = false;
 
     private float atk_CoolTime;
     private float cur_atk_CoolTime;
 
+    public Transform target;
     NavMeshAgent agent;
     SpriteRenderer sprite;
     public Animator ani;
@@ -323,7 +325,7 @@ public class BaseEntity : MonoBehaviour
                     {
                         cur_atk_CoolTime = 0;
 
-                        if (isMelee && !isRange)
+                        if (isMelee)
                         {
                             MeleeAttack(target);
                         }
@@ -362,7 +364,6 @@ public class BaseEntity : MonoBehaviour
 
     private void RangeAttack(BaseEntity target) 
     {
-        // 투사체 발사 구현
     }
 
     private IEnumerator Die()
