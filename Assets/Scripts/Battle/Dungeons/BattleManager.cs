@@ -15,6 +15,7 @@ public class BattleManager : MonoBehaviour
     public GameObject popup_Bg;
     public GameObject vic_Popup;
     public GameObject def_Popup;
+    private bool battleEnded = false;
 
     public static BattleManager Instance
     {
@@ -109,9 +110,14 @@ public class BattleManager : MonoBehaviour
             BattleReady();
         }
 
-        if (_curphase == BattlePhase.Battle && deloy_Player_List.Count == 0 || deloy_Enemy_List.Count == 0)
+        if (_curphase == BattlePhase.Battle && (deloy_Player_List.Count == 0 || deloy_Enemy_List.Count == 0))
         {
+            Debug.Log("´Ù Á×À½");
             ChangePhase(BattlePhase.End);
+        }
+
+        if (_curphase == BattlePhase.End)
+        {
             EndBattle();
         }
     }
@@ -175,7 +181,7 @@ public class BattleManager : MonoBehaviour
 
     private void EndBattle()
     {
-        if (_curphase == BattlePhase.End)
+        if (_curphase == BattlePhase.End && !battleEnded)
         {
             popup_Bg.SetActive(true);
 
@@ -190,7 +196,9 @@ public class BattleManager : MonoBehaviour
                 vic_Popup.SetActive(true);
             }
         }
-         
+
+
+        battleEnded = true;
     }
 
 

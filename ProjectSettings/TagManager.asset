@@ -11,6 +11,7 @@ TagManager:
   - Item
   - Wall
   - Wait
+  - Battle
   layers:
   - Default
   - TransparentFX

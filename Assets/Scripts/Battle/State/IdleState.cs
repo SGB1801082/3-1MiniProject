@@ -26,7 +26,7 @@ public class IdleState : BaseState
         if (entity.isAttack)
         {
             entity.StopCoroutine(entity.UpdateTarget());
-            entity.target = entity.FindTarget().transform;
+            //entity.target = entity.FindTarget().transform;
         }
     }
 }

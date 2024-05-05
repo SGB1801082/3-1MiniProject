@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Ranger : BaseEntity
 {
     private EntityStat stat;
-    Transform cur_target;
+    //Transform cur_target;
 
     protected override void Start()
     {
@@ -38,7 +38,7 @@ public class Ranger : BaseEntity
         {
             Skill();
         }
-        cur_target = target;
+        //cur_target = target;
     }
 
 
@@ -65,7 +65,7 @@ public class Ranger : BaseEntity
         }
     }
 
-    public void Arrow()
+    /*public void Arrow()
     {
         if (_curstate == State.Attack) 
         {
@@ -104,6 +104,6 @@ public class Ranger : BaseEntity
             arrow.SetActive(false);
         }
       
-    }
+    }*/
 
 }

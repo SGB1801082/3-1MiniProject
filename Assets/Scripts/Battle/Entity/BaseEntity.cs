@@ -26,7 +26,7 @@ public class BaseEntity : MonoBehaviour
     private float atk_CoolTime;
     private float cur_atk_CoolTime;
 
-    public Transform target;
+    //public Transform target;
     NavMeshAgent agent;
     SpriteRenderer sprite;
     public Animator ani;
@@ -291,7 +291,7 @@ public class BaseEntity : MonoBehaviour
         Vector2 tVec = (Vector2)(target.localPosition - transform.position);
         float tDis = tVec.sqrMagnitude;
 
-        if (tDis <= atkRange * atkRange)
+        if (tDis <= range * range)
         {
             isAttack = true;
         }
