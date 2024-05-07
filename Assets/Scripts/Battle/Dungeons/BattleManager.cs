@@ -10,11 +10,13 @@ public class BattleManager : MonoBehaviour
     private static BattleManager instance = null;
     public ObjectManager pool;
     public List<GameObject> party_List = new List<GameObject>();
-    public List<GameObject> deloy_Player_List = new List<GameObject>();
-    public List<GameObject> deloy_Enemy_List = new List<GameObject>();
+    public List<GameObject> deploy_Player_List = new List<GameObject>();
+    public List<GameObject> deploy_Enemy_List = new List<GameObject>();
     public GameObject popup_Bg;
     public GameObject vic_Popup;
     public GameObject def_Popup;
+    public GameObject deploy_area;
+    public GameObject unit_deploy_area;
     private bool battleEnded = false;
 
     public static BattleManager Instance
@@ -49,10 +51,11 @@ public class BattleManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
-            Destroy(instance);
+            Destroy(this.gameObject);
         }
 
         ChangePhase(BattlePhase.Start); // 방 체크
@@ -75,7 +78,7 @@ public class BattleManager : MonoBehaviour
         {
             foreach (GameObject obj in enemy_Obj) 
             {
-                deloy_Enemy_List.Add(obj);
+                deploy_Enemy_List.Add(obj);
             }
         }
         
@@ -83,9 +86,13 @@ public class BattleManager : MonoBehaviour
 
     public void BattleReady()
     {
-        // 파티원을 초기 위치에 배치하는 메서드나 코드 작성
-
         BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 몬스터와 플레이어를 찾음
+        battleEnded = false;
+
+        deploy_area = GameObject.FindGameObjectWithTag("Deloy");
+        unit_deploy_area = GameObject.FindGameObjectWithTag("Wait");
+        deploy_area.SetActive(true);
+        unit_deploy_area.SetActive(true);
 
         foreach (BaseEntity obj in entity)
         {
@@ -110,7 +117,7 @@ public class BattleManager : MonoBehaviour
             BattleReady();
         }
 
-        if (_curphase == BattlePhase.Battle && (deloy_Player_List.Count == 0 || deloy_Enemy_List.Count == 0))
+        if (_curphase == BattlePhase.Battle && (deploy_Player_List.Count == 0 || deploy_Enemy_List.Count == 0))
         {
             Debug.Log("다 죽음");
             ChangePhase(BattlePhase.End);
@@ -146,7 +153,7 @@ public class BattleManager : MonoBehaviour
 
     public void BattleStart()
     {
-        if (deloy_Player_List.Count == 0)
+        if (deploy_Player_List.Count == 0)
         {
             Debug.Log("하나 이상의 플레이어를 배치하세요");
             return;
@@ -156,6 +163,11 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log("배틀 시작");
             ChangePhase(BattlePhase.Battle);
+
+            deploy_area = GameObject.FindGameObjectWithTag("Deloy");
+            unit_deploy_area = GameObject.FindGameObjectWithTag("Wait");
+            deploy_area.SetActive(false);
+            unit_deploy_area.SetActive(false);
 
             if (_curphase == BattlePhase.Battle)
             {
@@ -185,16 +197,27 @@ public class BattleManager : MonoBehaviour
         {
             popup_Bg.SetActive(true);
 
-            if (deloy_Player_List.Count == 0)
+            BaseEntity[] unit = FindObjectsOfType<BaseEntity>();
+            
+
+            foreach (BaseEntity obj in unit)
+            {
+                Destroy(obj.gameObject);
+            }
+
+            if (deploy_Player_List.Count == 0)
             {
                 def_Popup.SetActive(true);
                 vic_Popup.SetActive(false);
             }
-            else if (deloy_Enemy_List.Count == 0)
+            else if (deploy_Enemy_List.Count == 0)
             {
                 def_Popup.SetActive(false);
                 vic_Popup.SetActive(true);
             }
+
+            deploy_Player_List.Clear();
+            deploy_Enemy_List.Clear();
         }
 
 

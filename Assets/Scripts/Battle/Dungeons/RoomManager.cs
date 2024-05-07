@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomManager : MonoBehaviour
 {
     public Transform[] rooms;
+    int room_Count = 0;
     public GameObject popup;
 
     private Transform currentRoom;
@@ -12,7 +15,7 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         // 초기 방 설정
-        currentRoom = rooms[0];
+        currentRoom = rooms[room_Count];
 
         foreach (Transform obj in rooms) 
         {
@@ -29,10 +32,18 @@ public class RoomManager : MonoBehaviour
 
     }
 
-    public void ChangeRoom(int roomIndex)
+    public void ChangeRoom()
     {
         // 새로운 방으로 변경
-        currentRoom = rooms[roomIndex];
+        if ((rooms.Length - 1) == room_Count) 
+        {
+            SceneManager.LoadScene("Scene1");
+        }
+        else
+        {
+            currentRoom = rooms[++room_Count];
+        }
+
         BattleManager.Instance.ChangePhase(BattleManager.BattlePhase.Deploy);
         popup.SetActive(false);
 
@@ -48,11 +59,19 @@ public class RoomManager : MonoBehaviour
             }
         }
 
-        
 
-        Camera.main.transform.position = currentRoom.position;
 
-        // 방을 변경할 때마다 Deloy 페이즈로 돌아감
+        Vector3 newPosition = Camera.main.transform.position;
+        newPosition.x = currentRoom.position.x;
+        Camera.main.transform.position = newPosition;
+
+        BaseEntity[] enemy = FindObjectsOfType<BaseEntity>();
+
+        foreach (BaseEntity obj in enemy) 
+        {
+            BattleManager.Instance.deploy_Enemy_List.Add(obj.gameObject);
+        }
+
         
     }
 }

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
-using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine.UI;
 
 public class Ranger : BaseEntity
 {
     private EntityStat stat;
     //Transform cur_target;
+
 
     protected override void Start()
     {
@@ -17,7 +17,7 @@ public class Ranger : BaseEntity
 
         // 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
         stat = new EntityStat
-            (1, 15, 5, 2, 1, 8, false);
+            (1, 25, 5, 2, 1, 8, false);
 
         entity_id = stat.id;
         max_Hp = stat.max_Hp;

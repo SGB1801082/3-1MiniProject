@@ -17,8 +17,12 @@ public class PartyListButton : MonoBehaviour
     private void Start()
     {
         originalPosition = targetObject.transform.position;
-
         list = GameObject.Find("Party_Inner").GetComponentsInChildren<Transform>();
+    }
+
+    private void OnEnable()
+    {
+        isFirst = true;
     }
 
     private void Update()

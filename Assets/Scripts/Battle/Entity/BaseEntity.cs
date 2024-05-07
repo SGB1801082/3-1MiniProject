@@ -91,8 +91,9 @@ public class BaseEntity : MonoBehaviour
                 case State.Idle:
                     if (FindTarget() != null)
                     {
-                        if (IsAttack(atkRange))
+                        if (isAttack)
                         {
+                            Debug.Log("Idle 상태에서 Attack 상태로 변경 " + gameObject.name);
                             ChangeState(State.Attack);
                         }
                         else
@@ -105,7 +106,7 @@ public class BaseEntity : MonoBehaviour
                 case State.Move:
                     if (FindTarget() != null)
                     {
-                        if (IsAttack(atkRange))
+                        if (isAttack)
                         {
                             ChangeState(State.Attack);
                         }
@@ -119,17 +120,11 @@ public class BaseEntity : MonoBehaviour
                 case State.Attack:
                     if (FindTarget() != null)
                     {
-                        if (!IsAttack(atkRange))
-                        {
-                            ChangeState(State.Move);
-                        }
-
                         if (isAtkDone)
                         {
                             Debug.Log("공격 완료 - Idle로 상태 변경 (새로운 타겟 지정) ( 실행 오브젝트 : " + name + " )");
                             ChangeState(State.Idle);
-                            isAtkDone = false;
-                            
+                            isAtkDone = false;                           
                         }
                     }
                     else
@@ -150,6 +145,8 @@ public class BaseEntity : MonoBehaviour
             }
 
             _stateManager.UpdateState();
+
+            IsAttack(atkRange);
 
             // 현재 체력이 0이 되면 Death 상태로 변하고 상태창도 죽은 것으로 표시
             if (cur_Hp <= 0)
@@ -285,10 +282,9 @@ public class BaseEntity : MonoBehaviour
     // 공격 사거리에 오면 논리형으로 True or False 반환하는 메서드
     public bool IsAttack(float range)
     {
-       
         Transform target = FindTarget().transform;
 
-        Vector2 tVec = (Vector2)(target.localPosition - transform.position);
+        Vector2 tVec = (Vector2)(target.position - transform.position);
         float tDis = tVec.sqrMagnitude;
 
         if (tDis <= range * range)
@@ -372,16 +368,16 @@ public class BaseEntity : MonoBehaviour
         ani.SetTrigger("isDie");
         if (gameObject.CompareTag("Player"))
         {
-            if (BattleManager.Instance.deloy_Player_List.Contains(gameObject))
+            if (BattleManager.Instance.deploy_Player_List.Contains(gameObject))
             {
-                BattleManager.Instance.deloy_Player_List.Remove(gameObject);
+                BattleManager.Instance.deploy_Player_List.Remove(gameObject);
             }
         }
         else if (gameObject.CompareTag("Enemy"))
         {
-            if (BattleManager.Instance.deloy_Enemy_List.Contains(gameObject))
+            if (BattleManager.Instance.deploy_Enemy_List.Contains(gameObject))
             {
-                BattleManager.Instance.deloy_Enemy_List.Remove(gameObject);
+                BattleManager.Instance.deploy_Enemy_List.Remove(gameObject);
             }
         }
         yield return new WaitForSeconds(1.5f);
