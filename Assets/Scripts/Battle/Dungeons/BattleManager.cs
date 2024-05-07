@@ -9,6 +9,7 @@ public class BattleManager : MonoBehaviour
 {
     private static BattleManager instance = null;
     public ObjectManager pool;
+    public RoomManager room;
     public List<GameObject> party_List = new List<GameObject>();
     public List<GameObject> deploy_Player_List = new List<GameObject>();
     public List<GameObject> deploy_Enemy_List = new List<GameObject>();
@@ -37,14 +38,13 @@ public class BattleManager : MonoBehaviour
     {
         Start,
         Deploy,
+        Rest,
         Battle,
         End
     }
 
 
     public BattlePhase _curphase;
-
-    private int _mapId;
 
     private void Awake()
     {
@@ -59,6 +59,7 @@ public class BattleManager : MonoBehaviour
         }
 
         ChangePhase(BattlePhase.Start); // 방 체크
+        room = FindObjectOfType<RoomManager>();
     }
 
   
@@ -66,22 +67,26 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        /*if (_mapId != 0 || _mapId != 2)
+        if (room.currentRoom.Equals(room.rooms[0]))
         {
-            ChangePhase(BattlePhase.Deploy); // 방 체크해서 전투방이면 실행
-        }*/
+            ChangePhase(BattlePhase.Deploy);
+            GameObject[] enemy_Obj = GameObject.FindGameObjectsWithTag("Enemy");
 
-        ChangePhase(BattlePhase.Deploy);
-        GameObject[] enemy_Obj = GameObject.FindGameObjectsWithTag("Enemy");
-
-        if (enemy_Obj != null)
-        {
-            foreach (GameObject obj in enemy_Obj) 
+            if (enemy_Obj != null)
             {
-                deploy_Enemy_List.Add(obj);
+                foreach (GameObject obj in enemy_Obj)
+                {
+                    deploy_Enemy_List.Add(obj);
+                }
             }
         }
-        
+
+        else
+        {
+            // 스크립트 실행하도록
+            ChangePhase(BattlePhase.Rest);
+            Debug.Log("처음 던전에 들어오셨습니다.");
+        }
     }
 
     public void BattleReady()
@@ -195,23 +200,22 @@ public class BattleManager : MonoBehaviour
     {
         if (_curphase == BattlePhase.End && !battleEnded)
         {
-            popup_Bg.SetActive(true);
-
             BaseEntity[] unit = FindObjectsOfType<BaseEntity>();
             
-
             foreach (BaseEntity obj in unit)
             {
                 Destroy(obj.gameObject);
             }
 
-            if (deploy_Player_List.Count == 0)
+            if (deploy_Player_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
             {
+                popup_Bg.SetActive(true);
                 def_Popup.SetActive(true);
                 vic_Popup.SetActive(false);
             }
-            else if (deploy_Enemy_List.Count == 0)
+            else if (deploy_Enemy_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
             {
+                popup_Bg.SetActive(true);
                 def_Popup.SetActive(false);
                 vic_Popup.SetActive(true);
             }
@@ -222,29 +226,6 @@ public class BattleManager : MonoBehaviour
 
 
         battleEnded = true;
-    }
-
-
-    private void CheckMap(int map)
-    {
-        switch (map) // 방 코드
-        {
-            case 0: // 휴식방
-                _mapId = 0;
-                break;
-            case 1: // 전투방
-                _mapId = 1;
-                break;
-            case 2: // 보물상자 방
-                _mapId = 2;
-                break;
-            case 3: // 중간보스 방
-                _mapId = 3;
-                break;
-            case 4: // 보스 방
-                _mapId = 4;
-                break;
-        }
     }
 
 

@@ -91,7 +91,7 @@ public class BaseEntity : MonoBehaviour
                 case State.Idle:
                     if (FindTarget() != null)
                     {
-                        if (isAttack)
+                        if (IsAttack(atkRange))
                         {
                             Debug.Log("Idle 상태에서 Attack 상태로 변경 " + gameObject.name);
                             ChangeState(State.Attack);
@@ -106,7 +106,7 @@ public class BaseEntity : MonoBehaviour
                 case State.Move:
                     if (FindTarget() != null)
                     {
-                        if (isAttack)
+                        if (IsAttack(atkRange))
                         {
                             ChangeState(State.Attack);
                         }
@@ -146,7 +146,7 @@ public class BaseEntity : MonoBehaviour
 
             _stateManager.UpdateState();
 
-            IsAttack(atkRange);
+            
 
             // 현재 체력이 0이 되면 Death 상태로 변하고 상태창도 죽은 것으로 표시
             if (cur_Hp <= 0)

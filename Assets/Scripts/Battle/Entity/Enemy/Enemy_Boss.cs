@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : BaseEntity
+public class Enemy_Boss : BaseEntity
 {
     private EntityStat stat;
 
@@ -12,7 +12,7 @@ public class Enemy : BaseEntity
         Debug.Log("Enemy ( " + name + " ) 생성");
 
         // 고유 ID, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리, 스킬유무 순으로 초기화
-        stat = new EntityStat(50, 12, 0, 1f, 0.8f, 1.1f, false);
+        stat = new EntityStat(51, 45, 0, 10f, 0.5f, 1.1f, false);
 
         entity_id = stat.id;
         max_Hp = stat.max_Hp;
@@ -23,7 +23,6 @@ public class Enemy : BaseEntity
         SetAttackSpeed(stat.atkSpd);
         atkRange = stat.atkRange;
         able_Skill = stat.isSkill;
-
         isMelee = true;
     }
 

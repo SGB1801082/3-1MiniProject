@@ -7,15 +7,18 @@ public class PartyListInit : MonoBehaviour
     public GameObject party_Prefab;
     private List<GameObject> party = new List<GameObject>();
 
-    private void Start()
+/*    private void Start()
     {
-        SpawnPartyList();
-    }
+        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy)
+        {
+            SpawnPartyList();
+        }
+    }*/
 
     private void OnEnable()
     {
-        DestroyPartyList();
-        SpawnPartyList();
+         DestroyPartyList();
+         SpawnPartyList();
     }
 
 
@@ -36,7 +39,14 @@ public class PartyListInit : MonoBehaviour
     {
         foreach (GameObject obj in party)
         {
-            Destroy(obj); // 이전에 생성된 클론 제거
+            if (obj != null)
+            {
+                Destroy(obj); // 이전에 생성된 클론 제거
+            }
+            else
+            {
+                return;
+            }
         }
         party.Clear();
     }
