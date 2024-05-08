@@ -37,7 +37,7 @@ public class UnitPlacement : MonoBehaviour
                     {
                         Vector3 worldPos = deployTilemap.GetCellCenterWorld(position);
                         GameObject obj = Instantiate(unitPrefab, worldPos, Quaternion.identity);
-                        BattleManager.Instance.deloy_Player_List.Add(obj);
+                        BattleManager.Instance.deploy_Player_List.Add(obj);
                         gameObject.SetActive(false);
                         
                         return; // 한 번에 하나의 유닛만 배치하도록 리턴합니다.
