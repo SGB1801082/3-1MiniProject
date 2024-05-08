@@ -104,6 +104,7 @@ SpriteAtlas:
     - 8bcb07d9c2c4c484caf61c33f48e3dd8: 21300000
     - 51d0cbd98e5243c4eac6f1e283a558c2: 21300000
     - dc038b2ab22c65c4488779487c9dae97: 21300000
+    - e44c765a03bbafa44bdb1508522f9250: 1373611527
     - 0c6de69acca756c409be4810a8510ac5: 21300000
     - e8f4e1ea22c66c7478593a19e0add994: 21300000
     - d359cffafe45e0e4c82527e85234799b: 21300000
@@ -191,6 +192,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8bcb07d9c2c4c484caf61c33f48e3dd8, type: 3}
   - {fileID: 21300000, guid: 51d0cbd98e5243c4eac6f1e283a558c2, type: 3}
   - {fileID: 21300000, guid: dc038b2ab22c65c4488779487c9dae97, type: 3}
+  - {fileID: 1373611527, guid: e44c765a03bbafa44bdb1508522f9250, type: 3}
   - {fileID: 21300000, guid: 0c6de69acca756c409be4810a8510ac5, type: 3}
   - {fileID: 21300000, guid: e8f4e1ea22c66c7478593a19e0add994, type: 3}
   - {fileID: 21300000, guid: d359cffafe45e0e4c82527e85234799b, type: 3}
@@ -277,6 +279,7 @@ SpriteAtlas:
   - MagicSilverRing
   - MarauderBow
   - WoodenClub
+  - KakaoTalk_20240508_164559100_0
   - WoodenShield
   - HunterBow
   - ManticoreArmor

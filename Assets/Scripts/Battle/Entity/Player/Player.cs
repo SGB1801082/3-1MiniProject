@@ -55,7 +55,7 @@ public class Player : BaseEntity
             StopAllCoroutines();
             if (isAttack)
             {
-                
+           
                 BaseEntity target = FindTarget().GetComponent<BaseEntity>();
                 Debug.Log("타겟의 적에게 2배의 데미지로 한번 공격" + " " + (atkDmg * 2) + "데미지");
                 target.cur_Hp -= atkDmg * 2;
