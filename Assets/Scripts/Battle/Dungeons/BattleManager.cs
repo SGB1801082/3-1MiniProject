@@ -67,9 +67,22 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        if (room.currentRoom.Equals(room.rooms[0]))
+        foreach (Transform room in room.rooms)
         {
-            ChangePhase(BattlePhase.Deploy);
+            if (room.tag == "Battle")
+            {
+                ChangePhase(BattlePhase.Deploy);
+            }
+            else
+            {
+                // 스크립트 실행하도록
+                ChangePhase(BattlePhase.Rest);
+                Debug.Log("처음 던전에 들어오셨습니다.");
+            }
+        }
+
+        if (_curphase == BattlePhase.Deploy)
+        {
             GameObject[] enemy_Obj = GameObject.FindGameObjectsWithTag("Enemy");
 
             if (enemy_Obj != null)
@@ -80,13 +93,8 @@ public class BattleManager : MonoBehaviour
                 }
             }
         }
+        
 
-        else
-        {
-            // 스크립트 실행하도록
-            ChangePhase(BattlePhase.Rest);
-            Debug.Log("처음 던전에 들어오셨습니다.");
-        }
     }
 
     public void BattleReady()

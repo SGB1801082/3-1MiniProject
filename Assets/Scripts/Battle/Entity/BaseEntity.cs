@@ -329,9 +329,10 @@ public class BaseEntity : MonoBehaviour
                         {
                             RangeAttack(target);
                         }
+
+
                         
                     }
-
                     cur_atk_CoolTime += Time.deltaTime;
                     yield return null;
                 }
@@ -360,6 +361,25 @@ public class BaseEntity : MonoBehaviour
 
     private void RangeAttack(BaseEntity target) 
     {
+        Debug.Log("공격함 ( " + name + " -> " + target.name + " )");
+        ani.SetTrigger("isAtk");
+        GameObject arrow = BattleManager.Instance.pool.GetObject(0);
+        arrow.transform.position = transform.position;
+        Test test = arrow.GetComponent<Test>();
+        test.target = target;
+
+        if (test.hitcheck)
+        {
+            float getDmgHp = target.cur_Hp - atkDmg;
+            target.cur_Hp = getDmgHp;
+            Debug.Log(target.cur_Hp + " " + target.name);
+        }
+        else
+        {
+            Debug.Log("첫타 테스트");
+        }
+
+       
     }
 
     private IEnumerator Die()
