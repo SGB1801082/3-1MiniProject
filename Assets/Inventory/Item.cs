@@ -26,6 +26,8 @@ public class Item
     public int itemIndex;
     //04-22
     public bool isDraggable;
+    //05-08
+    public int itemCode;
 
     public bool Use()
     {

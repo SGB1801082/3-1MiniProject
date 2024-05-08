@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using TMPro;
@@ -271,6 +272,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             slots[i].item.itemIndex = i;
             //Debug.Log(slots[i].item.itemIndex);
 
+            if (slots[i].name == ItemResources.instance.itemRS[i].itemName)
+            {
+                slots[i].item.itemCode = ItemResources.instance.itemRS[i].itemCode;
+            }
             slots[i].UpdateSloutUI();
         }
     }
@@ -537,7 +542,16 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             menuSet.SetActive(false);
         }
 
-        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP );
+        List<Item> saveWearItem = new();
+        for (int i = 0; i < targetSlots.Length; i++)
+        {
+            if (targetSlots[i].wearChek == true)
+            {
+                saveWearItem.Add(targetSlots[i].item);
+            }
+        }
+
+        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP, inventory.items, saveWearItem);
         SaveSystem.Save(gameSaveData, "save");
 
         //  Player DayCount, Player Inventory, Player Desc (Stat, Name, Job, Gold ... ect)
@@ -576,6 +590,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         GameMgr.playerData.atk_Range = loadData.p_atk_range;
         GameMgr.playerData.base_atk_Dmg = loadData.p_base_atk_Dmg;
 
+        GameMgr.playerData.listInventory = loadData.listInven;
+        GameMgr.playerData.listEquipment = loadData.listEquip;
+
+        LoadEquipment(loadData.listEquip);
 
         questMgr.questId = loadData.questId;
         questMgr.questActionIndex = loadData.questActionIndex;
@@ -739,7 +757,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 // 아이콘 설정
                 targetSlots[i].itemIcon.sprite = nowSlot.itemIcon.sprite;
                 targetSlots[i].itemIcon.gameObject.SetActive(true);
-                targetSlots[i].tutorialChek = true;
+                targetSlots[i].wearChek = true;
                 // 아이템 설정
                 targetSlots[i].item = clonedItem;
             }
@@ -757,7 +775,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         int sum = 0;
         for (int i = 0; i < targetSlots.Length; i++)
         {
-            if (targetSlots[i].tutorialChek == true)
+            if (targetSlots[i].wearChek == true)
             {
                 sum++;
             }
@@ -789,5 +807,24 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         questMgr.receptionist[1].SetActive(true);
     }
 
+    public void LoadEquipment(List<Item> _items)
+    {
+        // 현재 선택된 슬롯의 아이템을 복제하여 대상 슬롯에 추가
+        for (int i = 0; i < targetSlots.Length; i++)
+        {
+            if (targetSlots[i].item.itemType == _items[i].itemType)
+            {
+                Debug.Log("Success Equip Add: " + _items[i].itemName);
 
+                // 아이콘 설정
+                targetSlots[i].itemIcon.sprite = _items[i].itemImage;
+                targetSlots[i].itemIcon.gameObject.SetActive(true);
+                targetSlots[i].wearChek = true;
+                // 아이템 설정
+                targetSlots[i].item = _items[i];
+            }
+        }
+        // 사용한 아이템 제거 
+        RedrawSlotUI();
+    }
 }

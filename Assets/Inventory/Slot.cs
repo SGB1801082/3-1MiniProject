@@ -9,7 +9,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public int slotnum;
     public Item item;
     public Image itemIcon;
-    public bool tutorialChek = false;
+    public bool wearChek = false;
 
     //private bool isDraging;
 
@@ -103,7 +103,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                     bool isUse = item.Use();
                     if (isUse)
                     {
-                        if (item.itemName.Equals("새내기 포션") &&tutorialChek == true)
+                        if (item.itemName.Equals("새내기 포션") && wearChek == true)
                         {
                             GameUiMgr.single.questMgr.receptionist[0].SetActive(false);
                             GameUiMgr.single.questMgr.receptionist[1].SetActive(true);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class QuestMgr : MonoBehaviour
 {
@@ -161,7 +162,7 @@ public class QuestMgr : MonoBehaviour
                     {
                         questItem2 = ItemResources.instance.itemRS[6];
                         Inventory.single.AddItem(questItem2);
-                        GameUiMgr.single.slots[questItem2.itemIndex].tutorialChek = true;
+                        GameUiMgr.single.slots[questItem2.itemIndex].wearChek = true;
 
                         Debug.Log(questItem2.itemName);
                         oneTimeEv = false;
