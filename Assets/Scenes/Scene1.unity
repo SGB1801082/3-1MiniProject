@@ -1721,7 +1721,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1406992990}
   m_FillRect: {fileID: 581898474}
   m_HandleRect: {fileID: 0}
@@ -4216,7 +4216,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 341438909}
   m_FillRect: {fileID: 1021324386}
   m_HandleRect: {fileID: 0}
@@ -8024,8 +8024,9 @@ MonoBehaviour:
     itemDesc: 
     itemIndex: 0
     isDraggable: 0
+    itemCode: 0
   itemIcon: {fileID: 280529102}
-  tutorialChek: 0
+  wearChek: 0
 --- !u!1 &648392515
 GameObject:
   m_ObjectHideFlags: 0
@@ -10980,6 +10981,7 @@ MonoBehaviour:
       \uCC45\uC774\uB2E4. \uB3CC\uB824\uC8FC\uC790."
     itemIndex: 0
     isDraggable: 0
+    itemCode: 0
   - itemType: 4
     itemName: "\uC911\uAE09 \uD3EC\uC158"
     itemImage: {fileID: 21300000, guid: 3a83c410b17731a4b940b03e547d1152, type: 3}
@@ -10989,6 +10991,7 @@ MonoBehaviour:
     itemDesc: "\uC0AC\uC6A9\uC2DC \uCCB4\uB825\uC744 +30% \uD68C\uBCF5\uD55C\uB2E4."
     itemIndex: 0
     isDraggable: 0
+    itemCode: 1
   - itemType: 0
     itemName: "\uB808\uB354\uC544\uBA38"
     itemImage: {fileID: 21300000, guid: e37ee0b1cbe20c5458102626b95a6b7c, type: 3}
@@ -10997,6 +11000,7 @@ MonoBehaviour:
     itemDesc: "\uD50C\uB808\uC774\uC5B4\uC758 \uBC29\uC5B4\uB825 +15"
     itemIndex: 0
     isDraggable: 0
+    itemCode: 2
   - itemType: 1
     itemName: "\uB808\uB354\uBD80\uCE20"
     itemImage: {fileID: 21300000, guid: 29a1226f7b5e20240942612e151c3c4c, type: 3}
@@ -11005,6 +11009,7 @@ MonoBehaviour:
     itemDesc: "\uD50C\uB808\uC774\uC5B4\uC758 \uACF5\uACA9\uC18D\uB3C4+5%"
     itemIndex: 0
     isDraggable: 0
+    itemCode: 3
   - itemType: 2
     itemName: "\uB808\uB354\uD5EC\uB984"
     itemImage: {fileID: 21300000, guid: 5ff9b869a12e70b4db7a137f84ed920b, type: 3}
@@ -11013,6 +11018,7 @@ MonoBehaviour:
     itemDesc: "\uD50C\uB808\uC774\uC5B4\uC758 \uBC29\uC5B4\uB825\uC744 +10 \uD574\uC900\uB2E4."
     itemIndex: 0
     isDraggable: 0
+    itemCode: 4
   - itemType: 3
     itemName: "\uC544\uC774\uC5B8\uC18C\uB4DC"
     itemImage: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
@@ -11021,6 +11027,7 @@ MonoBehaviour:
     itemDesc: "\uD50C\uB808\uC774\uC5B4\uC758 \uACF5\uACA9\uC18D\uB3C4 +15%"
     itemIndex: 0
     isDraggable: 0
+    itemCode: 5
   - itemType: 4
     itemName: "\uC0C8\uB0B4\uAE30 \uD3EC\uC158"
     itemImage: {fileID: 21300000, guid: 7b3876a2b72c44540a4bbd5aaba9e506, type: 3}
@@ -11030,6 +11037,7 @@ MonoBehaviour:
     itemDesc: "\uCCB4\uB825\uC744 \uD68C\uBCF5 \uD560 \uC218 \uC788\uB2E4"
     itemIndex: 0
     isDraggable: 0
+    itemCode: 6
 --- !u!1 &998478159
 GameObject:
   m_ObjectHideFlags: 0
@@ -11382,7 +11390,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1130505432}
   m_FillRect: {fileID: 1820395624}
   m_HandleRect: {fileID: 0}
@@ -13747,8 +13755,9 @@ MonoBehaviour:
     itemDesc: 
     itemIndex: 0
     isDraggable: 0
+    itemCode: 0
   itemIcon: {fileID: 1898318561}
-  tutorialChek: 0
+  wearChek: 0
 --- !u!1 &1259848401
 GameObject:
   m_ObjectHideFlags: 0
@@ -36604,7 +36613,7 @@ Tilemap:
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -2969016694365801900, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 2.7858634
+      m_AnimationSpeed: 2.4329603
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -7, y: -3, z: 0}
@@ -36615,7 +36624,7 @@ Tilemap:
       - {fileID: 2752588384504392991, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -3803466081661082397, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 2752588384504392991, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 1.2460549
+      m_AnimationSpeed: 1.4019725
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 3, y: -3, z: 0}
@@ -36626,7 +36635,7 @@ Tilemap:
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -2969016694365801900, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 2.1029012
+      m_AnimationSpeed: 1.5669802
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: -3, z: 0}
@@ -36637,7 +36646,7 @@ Tilemap:
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -2969016694365801900, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 1955328530927145255, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 1.8362391
+      m_AnimationSpeed: 1.8662789
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -6, y: 3, z: 0}
@@ -36648,7 +36657,7 @@ Tilemap:
       - {fileID: 2752588384504392991, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: -3803466081661082397, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
       - {fileID: 2752588384504392991, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
-      m_AnimationSpeed: 1.7461584
+      m_AnimationSpeed: 2.71591
       m_AnimationTimeOffset: 0
       m_Flags: 0
   m_TileAssetArray:
@@ -36807,8 +36816,9 @@ MonoBehaviour:
     itemDesc: 
     itemIndex: 0
     isDraggable: 0
+    itemCode: 0
   itemIcon: {fileID: 932988741}
-  tutorialChek: 0
+  wearChek: 0
 --- !u!1 &2091145588
 GameObject:
   m_ObjectHideFlags: 0
@@ -40529,8 +40539,9 @@ MonoBehaviour:
     itemDesc: 
     itemIndex: 0
     isDraggable: 0
+    itemCode: 0
   itemIcon: {fileID: 3651176489788559844}
-  tutorialChek: 0
+  wearChek: 0
 --- !u!222 &5991427221194500984
 CanvasRenderer:
   m_ObjectHideFlags: 0
