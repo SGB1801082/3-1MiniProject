@@ -38,19 +38,16 @@ public class StatManager : MonoBehaviour
     {
         foreach (GameObject obj in BattleManager.Instance.deploy_Player_List)
         {
-            Debug.Log("정보 넣기 " + obj);
-            if (player.entity_id == obj.GetComponent<BaseEntity>().entity_id)
+            BaseEntity entity = obj.GetComponent<BaseEntity>();
+            if (entity.entity_id == player.entity_id)
             {
-                player = obj.GetComponent<BaseEntity>();
+                player = entity;
+                Debug.Log("정보 넣기 " + obj);
                 isDeloy = true;
-            }
-            else
-            {
-                isDeloy = false;
+                break;
             }
         }
     }
-
 
     private void Update()
     {

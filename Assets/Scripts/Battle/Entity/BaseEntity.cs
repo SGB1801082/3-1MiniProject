@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.EventSystems.EventTrigger;
+using static UnityEngine.GraphicsBuffer;
 
 public class BaseEntity : MonoBehaviour
 {
@@ -363,23 +364,17 @@ public class BaseEntity : MonoBehaviour
     {
         Debug.Log("공격함 ( " + name + " -> " + target.name + " )");
         ani.SetTrigger("isAtk");
-        GameObject arrow = BattleManager.Instance.pool.GetObject(0);
-        arrow.transform.position = transform.position;
-        Test test = arrow.GetComponent<Test>();
-        test.target = target;
+        GameObject obj_Arrow = BattleManager.Instance.pool.GetObject(0);
+        obj_Arrow.transform.position = transform.GetChild(0).position;
+        Arrow arrow = obj_Arrow.GetComponent<Arrow>();
+        arrow.Shoot(this, target);
+    }
 
-        if (test.hitcheck)
-        {
-            float getDmgHp = target.cur_Hp - atkDmg;
-            target.cur_Hp = getDmgHp;
-            Debug.Log(target.cur_Hp + " " + target.name);
-        }
-        else
-        {
-            Debug.Log("첫타 테스트");
-        }
-
-       
+    public void ArrowHit(BaseEntity target)
+    {
+        float getDmgHp = target.cur_Hp - atkDmg;
+        target.cur_Hp = getDmgHp;
+        Debug.Log($"Hit to {target.name}! {target.cur_Hp}");
     }
 
     private IEnumerator Die()
