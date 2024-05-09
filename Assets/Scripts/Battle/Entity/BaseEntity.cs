@@ -28,7 +28,7 @@ public class BaseEntity : MonoBehaviour
     private float cur_atk_CoolTime;
 
     //public Transform target;
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     SpriteRenderer sprite;
     public Animator ani;
 
