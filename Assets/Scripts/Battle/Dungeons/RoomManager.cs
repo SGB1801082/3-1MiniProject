@@ -1,18 +1,21 @@
+using NavMeshPlus.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RoomManager : MonoBehaviour
 {
     public Transform[] rooms;
     public int room_Count = 0;
     public GameObject popup;
+    public NavMeshSurface nav;
 
     public Transform currentRoom;
 
-    void Start()
+    void Awake()
     {
         // 초기 방 설정
         currentRoom = rooms[room_Count];
@@ -59,7 +62,7 @@ public class RoomManager : MonoBehaviour
             }
         }
 
-
+       
 
         Vector3 newPosition = Camera.main.transform.position;
         newPosition.x = currentRoom.position.x;
@@ -72,6 +75,5 @@ public class RoomManager : MonoBehaviour
             BattleManager.Instance.deploy_Enemy_List.Add(obj.gameObject);
         }
 
-        
     }
 }

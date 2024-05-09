@@ -11,18 +11,10 @@ public class PartyListButton : MonoBehaviour
     private bool isOpen = false; // 열린 상태 여부
     private Coroutine toggleCoroutine;
     private bool isFirst = true;
-    bool allInactive = true;
-    private Transform[] list;
 
     private void Start()
     {
         originalPosition = targetObject.transform.position;
-        list = GameObject.Find("Party_Inner").GetComponentsInChildren<Transform>();
-    }
-
-    private void OnEnable()
-    {
-        isFirst = true;
     }
 
     private void Update()
