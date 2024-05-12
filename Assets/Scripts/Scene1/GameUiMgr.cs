@@ -542,7 +542,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             menuSet.SetActive(false);
         }
 
+        List<Item> saveInventoryItem = new();
         List<Item> saveWearItem = new();
+
+        foreach (Item item in inventory.items)
+        {
+            saveInventoryItem.Add(item);
+        }
+
         for (int i = 0; i < targetSlots.Length; i++)
         {
             if (targetSlots[i].wearChek == true)
@@ -551,7 +558,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }
         }
 
-        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP, inventory.items, saveWearItem);
+        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP, saveInventoryItem, saveWearItem);
         SaveSystem.Save(gameSaveData, "save");
 
         //  Player DayCount, Player Inventory, Player Desc (Stat, Name, Job, Gold ... ect)
@@ -593,6 +600,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         GameMgr.playerData.listInventory = loadData.listInven;
         GameMgr.playerData.listEquipment = loadData.listEquip;
 
+        LoadInventory(loadData.listInven);
         LoadEquipment(loadData.listEquip);
 
         questMgr.questId = loadData.questId;
@@ -806,9 +814,25 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         questMgr.receptionist[0].SetActive(false);
         questMgr.receptionist[1].SetActive(true);
     }
-
+    public void LoadInventory(List<Item> _items)
+    {
+        if (_items == null)
+            return;
+        for (int i = 0; i < _items.Count; i++)
+        {
+            inventory.items.Add(_items[i]);
+        }
+        RedrawSlotUI();
+    }
     public void LoadEquipment(List<Item> _items)
     {
+        if (_items == null || _items.Count == 0 || _items.Count != targetSlots.Length)
+        {
+            // 만약 _items 리스트가 null이거나 비어있거나 targetSlots과의 길이가 일치하지 않으면 로드를 진행하지 않고 종료합니다.
+            Debug.Log("exeption");
+            return;
+        }
+
         // 현재 선택된 슬롯의 아이템을 복제하여 대상 슬롯에 추가
         for (int i = 0; i < targetSlots.Length; i++)
         {
