@@ -128,6 +128,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     //04-25 Tutorial Quest ActionIndex
     private bool wearEquipment = false;
 
+    //05-12 PartyList
+    [Header("Party List")]
+    public GameObject panelPartyBoard;// 파티 게시판오브젝트
+    [SerializeField] private List<PartySlot> poolPartySlot = new(); // 파티게시판의 Body에 해당하는 고용가능한 파티원 리스트
+    [SerializeField] private List<PartyData> listPartyData = new();// 실제파티원들 정보가 저장되어야함
+    //private PartyData partyData;// 얘 쓸일있을지모르겠는데일단넣어둠 얘로 파티원데이터생성해서 집어넣을거같은데..
+    public GameObject partyPrefab; // 새로운 슬롯을 생성할 때 사용할 프리팹, 부모 transform은 transfrom.parent를 사용하는것으로 사용안함
+
 
     private void Awake()
     {
@@ -178,6 +186,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         objSubButtonFrame.SetActive(true);//서브버튼 목록 시작할때 켜줌
         HideSubButtons();//서브버튼 하위 목록 시작할때 꺼줌
         OffVideoOption_S1();//게임옵션 설정창 시작할때 꺼줌
+        panelPartyBoard.SetActive(false);//05-12 파티창 게임시작할때 꺼줌
 
         bigMinimapChek = true;
         smallMap.gameObject.SetActive(true);
@@ -327,6 +336,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         /*Debug.Log("x:" + player.transform.position.x);시발시발시발
         Debug.Log("y:" + player.transform.position.y);*/
+
+        //PartyPanel
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ActiveParty();
+        }
     }
     #region MinimapMethod
     private void ChangeRanderTextur()
@@ -851,4 +866,18 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         // 사용한 아이템 제거 
         RedrawSlotUI();
     }
+
+    //05-12 PartyPanel
+    public void ActiveParty()
+    {
+        if (panelPartyBoard.activeSelf == false)
+        {
+            panelPartyBoard.SetActive(true);
+        }
+        else
+        {
+            panelPartyBoard.SetActive(false);
+        }
+    }
+
 }
