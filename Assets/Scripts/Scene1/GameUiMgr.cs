@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static System.Net.WebRequestMethods;
 
 public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndDragHandler*/
 {
@@ -877,6 +878,21 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         else
         {
             panelPartyBoard.SetActive(false);
+        }
+    }
+
+    public void RefreshiPartyBord()
+    {
+        //활성화된 슬롯 비 활성화
+        foreach (var _slot in poolPartySlot)
+        {
+            _slot.gameObject.SetActive(false);
+        }
+
+        //비 활성화된 슬롯 요소에 파티리스트 슬롯을 생성 또는 재사용
+        foreach (var nowPartyBord in listPartyData)
+        {
+            //CreatePartySlot(nowPartyBord);
         }
     }
 

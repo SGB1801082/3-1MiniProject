@@ -18,6 +18,7 @@ public class PartySlot : MonoBehaviour
 
     public PartySlot(PartyData _data)// PartyData (_data, _Prefab) 으로할까.. 파티리소스Mgr만들어서 프리펩등록하고 아이콘 등록하는식으로...고민중
     {
+        //Lv, Name, HP, Atk
         this.partyData = _data;
         this.partyIcon.sprite = _data.spPartyIcon;
         this.text_Name.text = _data.strName;

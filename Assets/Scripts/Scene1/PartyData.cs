@@ -14,5 +14,5 @@ public class PartyData
     public Sprite spPartyIcon;
 
     //Party Stat .. hp, atk, ... 여기넣어야되나
-
+    public int partyHp;
 }
