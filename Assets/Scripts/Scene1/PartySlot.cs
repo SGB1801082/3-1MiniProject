@@ -29,6 +29,6 @@ public class PartySlot : MonoBehaviour
     {
         //if (true){ } 대충 여기다가 PlayerList수가 < 3 일때만 메서드들 실행되고 아니면 return ~   
         block.SetActive(true);
-        //TODO: 클릭되었으니 PlayerPartyList에 내 partyData를 넘겨 Add해 주고
+        //TODO: 클릭되었으니 PlayerPartyList에 내 partyData를 넘겨 Add해 주고, 새로그려야함
     }
 }

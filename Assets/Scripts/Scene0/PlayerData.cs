@@ -22,6 +22,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
     public float atk_Speed;
     public float atk_Range;
     public float base_atk_Dmg;
+    public bool skill_Able;
 
     public List<Item> listInventory;
     public List<Item> listEquipment;
@@ -30,19 +31,20 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
     public PlayerData(string name)
     {
         this.NAME = name;
-        max_Player_Hp = 10;
+        max_Player_Hp = 30f;
         cur_Player_Hp = max_Player_Hp;
-        max_Player_Mp = 5;
-        cur_Player_Mp = max_Player_Mp;
-        max_Player_Sn = 50;
+        max_Player_Mp = 5f;
+        cur_Player_Mp = 0f;
+        max_Player_Sn = 50f;
         cur_Player_Sn = max_Player_Sn;
         player_max_Exp = 10f;
         player_cur_Exp = 0f;
         player_Gold = 1500;
         atk_Speed = 1f;
-        atk_Range = 1f;
-        base_atk_Dmg = 1f;
+        atk_Range = 1.1f;
+        base_atk_Dmg = 3f;
         player_level = 1;
+        skill_Able = false;
 
         listInventory = new List<Item>();
         listEquipment = new List<Item>();

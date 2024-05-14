@@ -32,7 +32,7 @@ public class MoveState : BaseState
         {
             entity.ani.SetBool("isMove", false);
             entity.StopCoroutine(entity.UpdateTarget());
-            
+            //entity.target = entity.FindTarget().transform;
         }
     }
 }

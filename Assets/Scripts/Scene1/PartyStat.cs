@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class PartyStat : MonoBehaviour
 {
-
-    // Start is called before the first frame update
-    void Start()
+    public static PartyStat single;
+    private void Awake()
     {
-        
+        single = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

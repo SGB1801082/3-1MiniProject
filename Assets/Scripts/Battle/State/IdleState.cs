@@ -10,15 +10,23 @@ public class IdleState : BaseState
     {
         if (entity != null && entity.FindTarget() != null)
         {
+            entity.StopMove();
+            entity.ani.SetBool("isMove", false);
             entity.StartCoroutine(entity.UpdateTarget());
         }
     }
 
     public override void OnStateUpdate()
     {
+        
     }
 
     public override void OnStateExit()
     {
+        if (entity.isAttack)
+        {
+            entity.StopCoroutine(entity.UpdateTarget());
+            //entity.target = entity.FindTarget().transform;
+        }
     }
 }

@@ -2,13 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class UnitPlacement : MonoBehaviour
 {
     public Tilemap deployTilemap;
     public GameObject unitPrefab;
+    public Image unit_Icon;
 
-        public void DeployUnit()
+    private void Start()
+    {
+        UnitPlacement[] unit = FindObjectsOfType<UnitPlacement>();
+        deployTilemap = GameObject.FindGameObjectWithTag("Wait").GetComponent<Tilemap>();
+    }
+
+    public void InitList(GameObject unit, Sprite icon)
+    {
+        this.unitPrefab = unit;
+        this.unit_Icon.sprite = icon;
+    }
+
+
+
+    public void DeployUnit()
         {
             BoundsInt bounds = deployTilemap.cellBounds;
             TileBase[] allTiles = deployTilemap.GetTilesBlock(bounds);
@@ -21,7 +37,7 @@ public class UnitPlacement : MonoBehaviour
                     {
                         Vector3 worldPos = deployTilemap.GetCellCenterWorld(position);
                         GameObject obj = Instantiate(unitPrefab, worldPos, Quaternion.identity);
-                        BattleManager.Instance.deloy_Player_List.Add(obj);
+                        BattleManager.Instance.deploy_Player_List.Add(obj);
                         gameObject.SetActive(false);
                         
                         return; // 한 번에 하나의 유닛만 배치하도록 리턴합니다.

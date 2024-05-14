@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.EventSystems.EventTrigger;
+using static UnityEngine.GraphicsBuffer;
 
 public class BaseEntity : MonoBehaviour
 {
+    public int entity_id;
     public float max_Hp;
     public float cur_Hp;
     public float max_Mp;
@@ -17,12 +21,14 @@ public class BaseEntity : MonoBehaviour
     public bool isAtkDone = false;
     public bool isDie = false;
     private bool isDieInProgress = false;
+    public bool isMelee = false;
     public bool able_Skill = false;
 
     private float atk_CoolTime;
     private float cur_atk_CoolTime;
 
-    NavMeshAgent agent;
+    //public Transform target;
+    public NavMeshAgent agent;
     SpriteRenderer sprite;
     public Animator ani;
 
@@ -88,6 +94,7 @@ public class BaseEntity : MonoBehaviour
                     {
                         if (IsAttack(atkRange))
                         {
+                            Debug.Log("Idle 상태에서 Attack 상태로 변경 " + gameObject.name);
                             ChangeState(State.Attack);
                         }
                         else
@@ -114,17 +121,11 @@ public class BaseEntity : MonoBehaviour
                 case State.Attack:
                     if (FindTarget() != null)
                     {
-                        if (!IsAttack(atkRange))
-                        {
-                            ChangeState(State.Move);
-                        }
-
                         if (isAtkDone)
                         {
                             Debug.Log("공격 완료 - Idle로 상태 변경 (새로운 타겟 지정) ( 실행 오브젝트 : " + name + " )");
                             ChangeState(State.Idle);
-                            isAtkDone = false;
-                            
+                            isAtkDone = false;                           
                         }
                     }
                     else
@@ -145,6 +146,8 @@ public class BaseEntity : MonoBehaviour
             }
 
             _stateManager.UpdateState();
+
+            
 
             // 현재 체력이 0이 되면 Death 상태로 변하고 상태창도 죽은 것으로 표시
             if (cur_Hp <= 0)
@@ -226,6 +229,14 @@ public class BaseEntity : MonoBehaviour
         {
             while (true)
             {
+                if (FindTarget() == null)
+                {
+                    Debug.Log("타겟이 없으므로 멈춤");
+                    StopMove();
+                    break;
+                }
+
+
                 yield return new WaitForSeconds(0.5f); // 1초 대기
                 FindTarget();
             }
@@ -261,7 +272,7 @@ public class BaseEntity : MonoBehaviour
     // 공격 사거리에 들어오면 이동 멈추고 공격 준비
     public void StopMove()
     {
-        if (isAttack)
+        if (_curstate != State.Move)
         {
             agent.isStopped = true;
             SetMovementPriority(false);
@@ -272,13 +283,12 @@ public class BaseEntity : MonoBehaviour
     // 공격 사거리에 오면 논리형으로 True or False 반환하는 메서드
     public bool IsAttack(float range)
     {
-       
         Transform target = FindTarget().transform;
 
-        Vector2 tVec = (Vector2)(target.localPosition - transform.position);
+        Vector2 tVec = (Vector2)(target.position - transform.position);
         float tDis = tVec.sqrMagnitude;
 
-        if (tDis <= atkRange * atkRange)
+        if (tDis <= range * range)
         {
             isAttack = true;
         }
@@ -311,9 +321,19 @@ public class BaseEntity : MonoBehaviour
                     if (cur_atk_CoolTime >= atk_CoolTime)
                     {
                         cur_atk_CoolTime = 0;
-                        Attack(target);
-                    }
 
+                        if (isMelee)
+                        {
+                            MeleeAttack(target);
+                        }
+                        else
+                        {
+                            RangeAttack(target);
+                        }
+
+
+                        
+                    }
                     cur_atk_CoolTime += Time.deltaTime;
                     yield return null;
                 }
@@ -325,7 +345,7 @@ public class BaseEntity : MonoBehaviour
         }
     }
 
-    private void Attack(BaseEntity target)
+    private void MeleeAttack(BaseEntity target)
     {
         ani.SetTrigger("isAtk");
         Debug.Log("공격함 ( " + name + " -> " + target.name + " )");
@@ -340,10 +360,41 @@ public class BaseEntity : MonoBehaviour
         Debug.Log(target.cur_Hp + " " + target.name);
     }
 
+    private void RangeAttack(BaseEntity target) 
+    {
+        Debug.Log("공격함 ( " + name + " -> " + target.name + " )");
+        ani.SetTrigger("isAtk");
+        GameObject obj_Arrow = BattleManager.Instance.pool.GetObject(0);
+        obj_Arrow.transform.position = transform.GetChild(0).position;
+        Arrow arrow = obj_Arrow.GetComponent<Arrow>();
+        arrow.Shoot(this, target);
+    }
+
+    public void ArrowHit(BaseEntity target)
+    {
+        float getDmgHp = target.cur_Hp - atkDmg;
+        target.cur_Hp = getDmgHp;
+        Debug.Log($"Hit to {target.name}! {target.cur_Hp}");
+    }
+
     private IEnumerator Die()
     {
         isDie = false;
         ani.SetTrigger("isDie");
+        if (gameObject.CompareTag("Player"))
+        {
+            if (BattleManager.Instance.deploy_Player_List.Contains(gameObject))
+            {
+                BattleManager.Instance.deploy_Player_List.Remove(gameObject);
+            }
+        }
+        else if (gameObject.CompareTag("Enemy"))
+        {
+            if (BattleManager.Instance.deploy_Enemy_List.Contains(gameObject))
+            {
+                BattleManager.Instance.deploy_Enemy_List.Remove(gameObject);
+            }
+        }
         yield return new WaitForSeconds(1.5f);
         Destroy(gameObject);
         isDieInProgress = false;
