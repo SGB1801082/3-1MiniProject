@@ -19,7 +19,7 @@ public class Ranger : BaseEntity
         stat = new EntityStat
             (1, 25, 5, 2, 1, 8, false);
 
-        entity_id = stat.id;
+        entity_id = stat.id;// 실제 표시될 파티원 리스트순서라고 생각해도 되는듯?
         max_Hp = stat.max_Hp;
         cur_Hp = max_Hp;
         max_Mp = stat.max_Mp;

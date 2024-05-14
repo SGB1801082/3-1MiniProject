@@ -25,8 +25,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
     public bool skill_Able;
 
     public List<Item> listInventory;
-    public List<Item> listEquipment;
-
+    public List<Item> listEquipment; 
 
     public PlayerData(string name)
     {
