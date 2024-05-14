@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static System.Net.WebRequestMethods;
 
 public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndDragHandler*/
 {
@@ -128,6 +129,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     //04-25 Tutorial Quest ActionIndex
     private bool wearEquipment = false;
 
+    //05-12 PartyList
+    [Header("Party List")]
+    public GameObject panelPartyBoard;// 파티 게시판오브젝트
+    [SerializeField] private List<PartySlot> poolPartySlot = new(); // 파티게시판의 Body에 해당하는 고용가능한 파티원 리스트
+    [SerializeField] private List<PartyData> listPartyData = new();// 실제파티원들 정보가 저장되어야함
+    //private PartyData partyData;// 얘 쓸일있을지모르겠는데일단넣어둠 얘로 파티원데이터생성해서 집어넣을거같은데..
+    public GameObject partyPrefab; // 새로운 슬롯을 생성할 때 사용할 프리팹, 부모 transform은 transfrom.parent를 사용하는것으로 사용안함
+
 
     private void Awake()
     {
@@ -178,6 +187,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         objSubButtonFrame.SetActive(true);//서브버튼 목록 시작할때 켜줌
         HideSubButtons();//서브버튼 하위 목록 시작할때 꺼줌
         OffVideoOption_S1();//게임옵션 설정창 시작할때 꺼줌
+        panelPartyBoard.SetActive(false);//05-12 파티창 게임시작할때 꺼줌
 
         bigMinimapChek = true;
         smallMap.gameObject.SetActive(true);
@@ -327,6 +337,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         /*Debug.Log("x:" + player.transform.position.x);시발시발시발
         Debug.Log("y:" + player.transform.position.y);*/
+
+        //PartyPanel
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ActiveParty();
+        }
     }
     #region MinimapMethod
     private void ChangeRanderTextur()
@@ -542,7 +558,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             menuSet.SetActive(false);
         }
 
+        List<Item> saveInventoryItem = new();
         List<Item> saveWearItem = new();
+
+        foreach (Item item in inventory.items)
+        {
+            saveInventoryItem.Add(item);
+        }
+
         for (int i = 0; i < targetSlots.Length; i++)
         {
             if (targetSlots[i].wearChek == true)
@@ -551,7 +574,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }
         }
 
-        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP, inventory.items, saveWearItem);
+        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP, saveInventoryItem, saveWearItem);
         SaveSystem.Save(gameSaveData, "save");
 
         //  Player DayCount, Player Inventory, Player Desc (Stat, Name, Job, Gold ... ect)
@@ -593,6 +616,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         GameMgr.playerData.listInventory = loadData.listInven;
         GameMgr.playerData.listEquipment = loadData.listEquip;
 
+        LoadInventory(loadData.listInven);
         LoadEquipment(loadData.listEquip);
 
         questMgr.questId = loadData.questId;
@@ -806,9 +830,25 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         questMgr.receptionist[0].SetActive(false);
         questMgr.receptionist[1].SetActive(true);
     }
-
+    public void LoadInventory(List<Item> _items)
+    {
+        if (_items == null)
+            return;
+        for (int i = 0; i < _items.Count; i++)
+        {
+            inventory.items.Add(_items[i]);
+        }
+        RedrawSlotUI();
+    }
     public void LoadEquipment(List<Item> _items)
     {
+        if (_items == null || _items.Count == 0 || _items.Count != targetSlots.Length)
+        {
+            // 만약 _items 리스트가 null이거나 비어있거나 targetSlots과의 길이가 일치하지 않으면 로드를 진행하지 않고 종료합니다.
+            Debug.Log("exeption");
+            return;
+        }
+
         // 현재 선택된 슬롯의 아이템을 복제하여 대상 슬롯에 추가
         for (int i = 0; i < targetSlots.Length; i++)
         {
@@ -827,4 +867,33 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         // 사용한 아이템 제거 
         RedrawSlotUI();
     }
+
+    //05-12 PartyPanel
+    public void ActiveParty()
+    {
+        if (panelPartyBoard.activeSelf == false)
+        {
+            panelPartyBoard.SetActive(true);
+        }
+        else
+        {
+            panelPartyBoard.SetActive(false);
+        }
+    }
+
+    public void RefreshiPartyBord()
+    {
+        //활성화된 슬롯 비 활성화
+        foreach (var _slot in poolPartySlot)
+        {
+            _slot.gameObject.SetActive(false);
+        }
+
+        //비 활성화된 슬롯 요소에 파티리스트 슬롯을 생성 또는 재사용
+        foreach (var nowPartyBord in listPartyData)
+        {
+            //CreatePartySlot(nowPartyBord);
+        }
+    }
+
 }
