@@ -287,15 +287,31 @@ public class BaseEntity : MonoBehaviour
 
         Vector2 tVec = (Vector2)(target.position - transform.position);
         float tDis = tVec.sqrMagnitude;
+        float targetRadius = target.GetComponent<NavMeshAgent>().radius * 2;
 
-        if (tDis <= range * range)
+        if (isMelee)
         {
-            isAttack = true;
+            if (tDis <= (range * range) + targetRadius)
+            {
+                isAttack = true;
+            }
+            else
+            {
+                isAttack = false;
+            }
         }
         else
         {
-            isAttack = false;
+            if (tDis <= range * range)
+            {
+                isAttack = true;
+            }
+            else
+            {
+                isAttack = false;
+            }
         }
+        
 
         return isAttack;
     }
@@ -370,7 +386,7 @@ public class BaseEntity : MonoBehaviour
         arrow.Shoot(this, target);
     }
 
-    public void ArrowHit(BaseEntity target)
+    public void RangeHit(BaseEntity target)
     {
         float getDmgHp = target.cur_Hp - atkDmg;
         target.cur_Hp = getDmgHp;

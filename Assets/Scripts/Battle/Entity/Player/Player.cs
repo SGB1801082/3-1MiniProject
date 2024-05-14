@@ -29,6 +29,9 @@ public class Player : BaseEntity
         atkRange = stat.atkRange;
         able_Skill = stat.isSkill;
         isMelee = true;
+
+
+
     }
 
     protected override void Update()
