@@ -397,6 +397,7 @@ public class BaseEntity : MonoBehaviour
     {
         isDie = false;
         ani.SetTrigger("isDie");
+        agent.enabled = false;
         if (gameObject.CompareTag("Player"))
         {
             if (BattleManager.Instance.deploy_Player_List.Contains(gameObject))
