@@ -12,7 +12,7 @@ public class Enemy : BaseEntity
         Debug.Log("Enemy ( " + name + " ) 생성");
 
         // 고유 ID, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리, 스킬유무 순으로 초기화
-        stat = new EntityStat(50, 12, 0, 1f, 0.8f, 1.1f, false);
+        stat = new EntityStat(50, 12, 0, 1f, 0.8f, 1.0f, false);
 
         entity_id = stat.id;
         max_Hp = stat.max_Hp;
