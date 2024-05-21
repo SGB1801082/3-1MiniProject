@@ -1,16 +1,9 @@
-﻿using System;
+﻿//using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using TMPro;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static System.Net.WebRequestMethods;
 
 public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndDragHandler*/
 {
@@ -208,26 +201,11 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         AddSlot();//인벤토리 칸 세팅할때 나는 설정 안 만져서 그런지 이걸로 인벤토리 한번 활성화 시켜주지않으면 이상하게 동작하는거 확인.
 
-        for (int i = 0; i < targetSlots.Length; i++)
-        {
-            switch (i)
-            {
-                case 0:
-                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Helmet;
-                    break;
-                case 1:
-                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Arrmor;
-                    break;
-                case 2:
-                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Weapon;
-                    break;
-                case 3:
-                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Boots;
-                    break;
-                default:
-                    break;
-            }
-        }
+        EquipSlotSetting();// 씬 실행 시 각 장비 슬롯에 해당하는 아이템 타입을 직접 지정해줌
+
+        //05-21 
+        RefreshiPartyBord();
+
         //04-22
         addEquipPanel.gameObject.SetActive(false);
         // Yes 버튼에 클릭 이벤트 리스너 추가
@@ -763,6 +741,29 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
     }*/
 
+    public void EquipSlotSetting()
+    {
+        for (int i = 0; i < targetSlots.Length; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Helmet;
+                    break;
+                case 1:
+                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Arrmor;
+                    break;
+                case 2:
+                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Weapon;
+                    break;
+                case 3:
+                    targetSlots[i].item.itemType = Item.ItemType.Equipment_Boots;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     public void WearEquipment()
     {
         int index = 0;
@@ -888,16 +889,24 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         foreach (var _slot in poolPartySlot)
         {
             _slot.gameObject.SetActive(false);
+            Debug.Log("Active False");
         }
 
-        //비 활성화된 슬롯 요소에 파티리스트 슬롯을 생성 또는 재사용
+        // 파티 보드의 데이터가 존재한다면 해당 데이터를 슬롯에 추가해서 활성화
         foreach (var nowPartyBord in listPartyData)
         {
-            //CreatePartySlot(nowPartyBord);
+            CreatePartySlot(nowPartyBord);
         }
     }
     public void CreatePartySlot(PartyData _partyData)
     {
+        int activeCount = poolPartySlot.FindAll(s => s.gameObject.activeSelf).Count;
+        if (activeCount >= 16)
+        {
+            return;
+        }
+
+
         PartySlot partySlot = poolPartySlot.Find(s => !s.gameObject.activeSelf); // 비활성화된 오브젝트 있으면 반환하는 코드
         if (partySlot == null)
         {
@@ -906,7 +915,19 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             poolPartySlot.Add(partySlot);
         }
 
-        //partySlot.Init(_partyData);
+        partySlot.Init(_partyData);
         partySlot.gameObject.SetActive(true);//활성화
+    }
+
+    public void OnClickCreateParty()//테스트용 모집가능파티원리스트 생성 메서드
+    {
+        // 0부터 10 사이의 정수 난수 생성 (10은 포함되지 않음)
+        int ran = Random.Range(0, 10);
+        PartyData newParty = new(objListPlayable[0], ran);
+
+        Debug.Log("Btn 파티 영입가능인원 생성 ");
+
+        CreatePartySlot(newParty);
+        listPartyData.Add(newParty);
     }
 }
