@@ -29,6 +29,8 @@ public class Ranger : BaseEntity
         atkRange = stat.atkRange;
         able_Skill = stat.isSkill;
         isMelee = false; // 임시로 근접 유닛과 똑같은 방식으로 공격 추후에 투사체를 발사하는 방식으로 바꿀 예정
+
+        
     }
 
     protected override void Update()

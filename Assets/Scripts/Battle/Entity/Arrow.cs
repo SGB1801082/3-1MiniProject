@@ -40,7 +40,7 @@ public class Arrow : MonoBehaviour
             // TODO : 애니메이션 완성시 활성화 필요
             //enemy.ani.SetTrigger("isHit");
 
-            shooter.ArrowHit(hiter);
+            shooter.RangeHit(hiter);
 
             this.gameObject.SetActive(false);
         }
