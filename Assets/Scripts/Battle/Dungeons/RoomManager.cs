@@ -65,13 +65,7 @@ public class RoomManager : MonoBehaviour
         {
             if (currentRoom == obj)
             {
-                foreach (Transform child in obj)
-                {
-                    if (child.CompareTag("Enemy"))
-                    {
-                        child.gameObject.SetActive(true);
-                    }
-                }
+                obj.gameObject.SetActive(true);
             }
             else
             {
@@ -88,12 +82,22 @@ public class RoomManager : MonoBehaviour
         // 목표 위치에 정확히 맞춤
         Camera.main.transform.position = targetPosition;
 
+        foreach (Transform obj in rooms)
+        {
+            if (currentRoom == obj) 
+            {
+                foreach (Transform child in obj)
+                {
+                    if (child.CompareTag("Enemy"))
+                    {
+                        child.gameObject.SetActive(true);
+                    }
+                }
+            }
+        }
+
         // 상태 변경
         BattleManager.Instance.ChangePhase(BattleManager.BattlePhase.Deploy);
-
-        
-
-
 
         BaseEntity[] enemy = FindObjectsOfType<BaseEntity>();
 
@@ -101,6 +105,8 @@ public class RoomManager : MonoBehaviour
         {
             BattleManager.Instance.deploy_Enemy_List.Add(obj.gameObject);
         }
+
+        yield break;
 
     }
 

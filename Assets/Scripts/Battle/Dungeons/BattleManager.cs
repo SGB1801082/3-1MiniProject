@@ -67,15 +67,14 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (Transform room in room.rooms)
+        foreach (Transform room_obj in room.rooms)
         {
-            if (room.tag == "Battle")
+            if (room.currentRoom.tag == "Battle")
             {
                 ChangePhase(BattlePhase.Deploy);
             }
             else
             {
-                // 스크립트 실행하도록
                 ChangePhase(BattlePhase.Rest);
                 Debug.Log("처음 던전에 들어오셨습니다.");
             }

@@ -2862,6 +2862,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8966453434322541295}
+  - {fileID: 9088913427092632134}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4044213290948891008
@@ -3803,7 +3804,6 @@ Transform:
   - {fileID: 5062350940032969338}
   - {fileID: 6131752963133452451}
   - {fileID: 3814492081105804353}
-  - {fileID: 9088913427092632134}
   m_Father: {fileID: 2202501852693740778}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &86189022824713211
@@ -3870,7 +3870,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8966453434322541295}
+    m_TransformParent: {fileID: 2202501852693740778}
     m_Modifications:
     - target: {fileID: 6110102987110451852, guid: 9acc12db18ac13745a3652886906b50d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3890,7 +3890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7407979797812532511, guid: 9acc12db18ac13745a3652886906b50d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.35
+      value: 6.3499985
       objectReference: {fileID: 0}
     - target: {fileID: 7407979797812532511, guid: 9acc12db18ac13745a3652886906b50d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3906,15 +3906,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7407979797812532511, guid: 9acc12db18ac13745a3652886906b50d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7407979797812532511, guid: 9acc12db18ac13745a3652886906b50d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7407979797812532511, guid: 9acc12db18ac13745a3652886906b50d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7407979797812532511, guid: 9acc12db18ac13745a3652886906b50d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
