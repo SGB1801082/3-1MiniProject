@@ -1790,6 +1790,9 @@ MonoBehaviour:
   OptionMenu: {fileID: 3559595795805698754}
   addUserName: {fileID: 2345577017233653957}
   btnLoadGame: {fileID: 598743003}
+  imgListBG:
+  - {fileID: 21300000, guid: fba8e7ead903d0a49b5e73316ca4de8c, type: 3}
+  imgMenuBG: {fileID: 1164496268}
 --- !u!1 &1984968967
 GameObject:
   m_ObjectHideFlags: 0

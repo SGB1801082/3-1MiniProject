@@ -132,12 +132,13 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     //05-12 PartyList
     [Header("Party List")]
     public GameObject panelPartyBoard;// 파티 게시판오브젝트
-    [SerializeField] private List<PartySlot> poolPartySlot = new(); // 파티게시판의 Body에 해당하는 고용가능한 파티원 리스트
+    [SerializeField] private List<PartySlot> poolPartySlot = new(); // 파티게시판의 Body에 해당하는 고용가능한 파티원 리스트 이거수정해야할수도있음
     [SerializeField] private List<PartyData> listPartyData = new();// 실제파티원들 정보가 저장되어야함
     //private PartyData partyData;// 얘 쓸일있을지모르겠는데일단넣어둠 얘로 파티원데이터생성해서 집어넣을거같은데..
     public GameObject partyPrefab; // 새로운 슬롯을 생성할 때 사용할 프리팹, 부모 transform은 transfrom.parent를 사용하는것으로 사용안함
 
-
+    //05-14
+    public List<GameObject> objListPlayable;// 실제 플레이어블 캐릭터 데이터를 여기에 임시로 등록
     private void Awake()
     {
         single = this;
@@ -895,5 +896,17 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             //CreatePartySlot(nowPartyBord);
         }
     }
+    public void CreatePartySlot(PartyData _partyData)
+    {
+        PartySlot partySlot = poolPartySlot.Find(s => !s.gameObject.activeSelf); // 비활성화된 오브젝트 있으면 반환하는 코드
+        if (partySlot == null)
+        {
+            GameObject go = Instantiate(partyPrefab, poolPartySlot[0].transform.parent);
+            partySlot = go.GetComponent<PartySlot>();
+            poolPartySlot.Add(partySlot);
+        }
 
+        //partySlot.Init(_partyData);
+        partySlot.gameObject.SetActive(true);//활성화
+    }
 }

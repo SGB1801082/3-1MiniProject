@@ -25,8 +25,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
     public bool skill_Able;
 
     public List<Item> listInventory;
-    public List<Item> listEquipment;
-
+    public List<Item> listEquipment; 
 
     public PlayerData(string name)
     {
@@ -41,7 +40,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         player_cur_Exp = 0f;
         player_Gold = 1500;
         atk_Speed = 1f;
-        atk_Range = 1f;
+        atk_Range = 1.1f;
         base_atk_Dmg = 3f;
         player_level = 1;
         skill_Able = false;
