@@ -42,14 +42,15 @@ public class PartyData
         partyJobIndex = player.entity_id;
 
         //GenerateStat(partyJobIndex, _Lvel, player);
+        //이 아래의 정보는 추후 제거
         partyHp = player.max_Hp;
         partyMp = player.max_Mp;
         partyAtk = player.atkDmg;
         partyAtkSpd = player.atkSpd;
         partyAtkRange = player.atkRange;
         partyAbleSkill = player.able_Skill;
-
-        spPartyIcon = player.GetComponent<Sprite>();
+        cost = Random.Range(50 + _Lvel*10, 100+ _Lvel*50);
+        spPartyIcon = player.GetComponent<SpriteRenderer>().sprite;
     }
 
 
@@ -58,6 +59,7 @@ public class PartyData
         switch (_Code)
         {
             case 1:
+                Debug.Log("Type Ranger, Generate Code: "+_Code);
                 partyHp = entity.max_Hp + (0.01f* _Lvel);
                 partyMp = entity.max_Mp + (0.01f * _Lvel);
                 partyAtk = entity.atkDmg;
