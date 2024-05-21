@@ -1,19 +1,17 @@
-using NavMeshPlus.Components;
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
 
 public class RoomManager : MonoBehaviour
 {
     public Transform[] rooms;
     public int room_Count = 0;
     public GameObject popup;
-    public NavMeshSurface nav;
 
     public Transform currentRoom;
+    private Vector3 velocity = Vector3.zero;
 
     void Awake()
     {
@@ -25,6 +23,14 @@ public class RoomManager : MonoBehaviour
             if (currentRoom == obj)
             {
                 obj.gameObject.SetActive(true);
+                foreach (Transform child in obj)
+                {
+                    if (child.CompareTag("Enemy"))
+                    {
+                        child.gameObject.SetActive(true);
+                    }
+                }
+
             }
             else
             {
@@ -46,15 +52,26 @@ public class RoomManager : MonoBehaviour
         {
             currentRoom = rooms[++room_Count];
         }
-
-        BattleManager.Instance.ChangePhase(BattleManager.BattlePhase.Deploy);
         popup.SetActive(false);
+
+        StartCoroutine(MoveCamera());
+    }
+
+    private IEnumerator MoveCamera()
+    {
+        Vector3 targetPosition = new Vector3(currentRoom.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
 
         foreach (Transform obj in rooms)
         {
             if (currentRoom == obj)
             {
-                obj.gameObject.SetActive(true);
+                foreach (Transform child in obj)
+                {
+                    if (child.CompareTag("Enemy"))
+                    {
+                        child.gameObject.SetActive(true);
+                    }
+                }
             }
             else
             {
@@ -62,18 +79,30 @@ public class RoomManager : MonoBehaviour
             }
         }
 
-       
+        while (Vector3.Distance(Camera.main.transform.position, targetPosition) > 0.1f)
+        {
+            Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, targetPosition, ref velocity, 0.3f);
+            yield return null; // 다음 프레임까지 대기
+        }
 
-        Vector3 newPosition = Camera.main.transform.position;
-        newPosition.x = currentRoom.position.x;
-        Camera.main.transform.position = newPosition;
+        // 목표 위치에 정확히 맞춤
+        Camera.main.transform.position = targetPosition;
+
+        // 상태 변경
+        BattleManager.Instance.ChangePhase(BattleManager.BattlePhase.Deploy);
+
+        
+
+
 
         BaseEntity[] enemy = FindObjectsOfType<BaseEntity>();
 
-        foreach (BaseEntity obj in enemy) 
+        foreach (BaseEntity obj in enemy)
         {
             BattleManager.Instance.deploy_Enemy_List.Add(obj.gameObject);
         }
 
     }
+
+
 }
