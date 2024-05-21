@@ -21,6 +21,7 @@ public class StatManager : MonoBehaviour
     {
         this.player = player;
         this.player_Icon.sprite = icon;
+        isDeloy = false;
     }
 
     private void Start()
@@ -46,6 +47,10 @@ public class StatManager : MonoBehaviour
                 isDeloy = true;
                 break;
             }
+            else
+            {
+                isDeloy = false;
+            }
         }
     }
 
@@ -68,9 +73,14 @@ public class StatManager : MonoBehaviour
             mp.value = player.cur_Mp / player.max_Mp;
             dead_Check.SetActive(false);
         }
+        else if (!isDeloy && player != null && player.cur_Hp >= 0)
+        {
+            entry_Check.SetActive(true);
+        }
 
         if (player != null && player.cur_Hp <= 0 && player._curstate == BaseEntity.State.Death)
         {
+            entry_Check.SetActive(false);
             dead_Check.SetActive(true);
         }
     }
