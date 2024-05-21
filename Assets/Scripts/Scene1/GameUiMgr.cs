@@ -127,7 +127,11 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public GameObject panelPartyBoard;// 파티 게시판오브젝트
     [SerializeField] private List<PartySlot> poolPartySlot = new(); // 파티게시판의 Body에 해당하는 고용가능한 파티원 리스트 이거수정해야할수도있음
     [SerializeField] private List<PartyData> listPartyData = new();// 실제파티원들 정보가 저장되어야함
-    //private PartyData partyData;// 얘 쓸일있을지모르겠는데일단넣어둠 얘로 파티원데이터생성해서 집어넣을거같은데..
+    
+    //05-21 ClickedPartySlot -> Add Buttom PartySlot 
+    public List<PartyData> partyData;// 얘 쓸일있을지모르겠는데일단넣어둠 얘로 파티원데이터생성해서 집어넣을거같은데..
+    public List<PartySlot> poolMoveInSlot = new(); // 파티게시판의 Buttom에 해당하는 고용파티원 명단 리스트
+
     public GameObject partyPrefab; // 새로운 슬롯을 생성할 때 사용할 프리팹, 부모 transform은 transfrom.parent를 사용하는것으로 사용안함
 
     //05-14
@@ -892,10 +896,11 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             Debug.Log("Active False");
         }
 
-        // 파티 보드의 데이터가 존재한다면 해당 데이터를 슬롯에 추가해서 활성화
+        // 세이브된 기존의 파티 보드의 데이터가 존재한다면 해당 데이터를 슬롯에 추가해서 활성화
         foreach (var nowPartyBord in listPartyData)
         {
             CreatePartySlot(nowPartyBord);
+            //슬롯만들고 listPartyData는 비워줘야?
         }
     }
     public void CreatePartySlot(PartyData _partyData)
@@ -906,7 +911,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             return;
         }
 
-
         PartySlot partySlot = poolPartySlot.Find(s => !s.gameObject.activeSelf); // 비활성화된 오브젝트 있으면 반환하는 코드
         if (partySlot == null)
         {
@@ -916,6 +920,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
 
         partySlot.Init(_partyData);
+        partySlot.partySlotIndex = activeCount;
+        Debug.Log("생성 번호: "+activeCount);
         partySlot.gameObject.SetActive(true);//활성화
     }
 
@@ -929,5 +935,25 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         CreatePartySlot(newParty);
         listPartyData.Add(newParty);
+    }
+
+    public void ClickedPartySlot(PartyData _partyData)
+    {
+        int activeCount = poolMoveInSlot.FindAll(s => s.gameObject.activeSelf).Count;
+        if (activeCount >= 3)
+        {
+            return;
+        }
+
+        PartySlot partySlot = poolMoveInSlot.Find(s => !s.gameObject.activeSelf); // 비활성화된 오브젝트 있으면 반환하는 코드
+        if (partySlot == null)
+        {
+            GameObject go = Instantiate(partyPrefab, poolMoveInSlot[0].transform.parent);
+            partySlot = go.GetComponent<PartySlot>();
+            poolMoveInSlot.Add(partySlot);
+        }
+
+        partySlot.Init(_partyData);
+        partySlot.gameObject.SetActive(true);//활성화
     }
 }

@@ -49,7 +49,7 @@ public class PartyData
         partyAtkSpd = player.atkSpd;
         partyAtkRange = player.atkRange;
         partyAbleSkill = player.able_Skill;
-
+        cost = Random.Range(50 + _Lvel*10, 100+ _Lvel*50);
         spPartyIcon = player.GetComponent<SpriteRenderer>().sprite;
     }
 
