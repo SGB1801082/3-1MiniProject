@@ -1,4 +1,5 @@
 ﻿//using System;
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -123,19 +124,19 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     private bool wearEquipment = false;
 
     //05-12 PartyList
-    [Header("Party List")]
+    [Header("Party Bord")]
     public GameObject panelPartyBoard;// 파티 게시판오브젝트
     [SerializeField] private List<PartySlot> poolPartySlot = new(); // 파티게시판의 Body에 해당하는 고용가능한 파티원 리스트 이거수정해야할수도있음
     [SerializeField] private List<PartyData> listPartyData = new();// 실제파티원들 정보가 저장되어야함
     
     //05-21 ClickedPartySlot -> Add Buttom PartySlot 
-    public List<PartyData> partyData;// 얘 쓸일있을지모르겠는데일단넣어둠 얘로 파티원데이터생성해서 집어넣을거같은데..
+    public List<PartyData> partyData;// 얘로 파티원데이터생성해서 집어넣음 왜인지 아직 파악못했는데 Slot자체로하려니까 오류가남
     public List<PartySlot> poolMoveInSlot = new(); // 파티게시판의 Buttom에 해당하는 고용파티원 명단 리스트
 
     public GameObject partyPrefab; // 새로운 슬롯을 생성할 때 사용할 프리팹, 부모 transform은 transfrom.parent를 사용하는것으로 사용안함
-
+    public GameObject playerPrefab;//플레이어 프리펩넣을곳 이걸로 파티고용리스트 0번 요소에 상호작용 불가능한 플레이어이미지를 고정으로 넣어 줄 것.
     //05-14
-    public List<GameObject> objListPlayable;// 실제 플레이어블 캐릭터 데이터를 여기에 임시로 등록
+    public List<GameObject> objListPlayable;// 파티보드에서 출력될 실제 플레이어블 캐릭터 데이터를 여기에 임시로 등록
     private void Awake()
     {
         single = this;
@@ -893,14 +894,30 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         foreach (var _slot in poolPartySlot)
         {
             _slot.gameObject.SetActive(false);
-            Debug.Log("Active False");
+            _slot.text_Cost.gameObject.SetActive(true);
+            _slot.text_Name.gameObject.SetActive(false);
+            Debug.Log("PartyBordSlots Active: False");
         }
+        foreach (var _slot in poolMoveInSlot)
+        {
+            _slot.gameObject.SetActive(false);
+            _slot.text_Cost.gameObject.SetActive(false);
+            _slot.text_Name.gameObject.SetActive(true);
+            Debug.Log("MoveInSlots Active: False");
+        }
+        //지금 파티보드에서 보여야하는 플레이어의 데이터를 여기에다가 욱여넣고있는데 추후 수정해야함
+        poolMoveInSlot[0].gameObject.SetActive(true);
+        poolMoveInSlot[0].partyIcon.sprite = playerPrefab.GetComponent<SpriteRenderer>().sprite;
+        poolMoveInSlot[0].text_Name.text = "Player";
+        poolMoveInSlot[0].partySlotIndex = 999;
+        poolMoveInSlot[0].text_Lv.text = "Lv 43";
+        //listPartyData.Add(poolMoveInSlot[0].partyData); 시발
+        //poolMoveInSlot[0].GetComponent<Button>().interactable = false;
 
         // 세이브된 기존의 파티 보드의 데이터가 존재한다면 해당 데이터를 슬롯에 추가해서 활성화
         foreach (var nowPartyBord in listPartyData)
         {
             CreatePartySlot(nowPartyBord);
-            //슬롯만들고 listPartyData는 비워줘야?
         }
     }
     public void CreatePartySlot(PartyData _partyData)
@@ -921,6 +938,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         partySlot.Init(_partyData);
         partySlot.partySlotIndex = activeCount;
+        partySlot.partyData.index = activeCount;
         Debug.Log("생성 번호: "+activeCount);
         partySlot.gameObject.SetActive(true);//활성화
     }
@@ -928,21 +946,20 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public void OnClickCreateParty()//테스트용 모집가능파티원리스트 생성 메서드
     {
         // 0부터 10 사이의 정수 난수 생성 (10은 포함되지 않음)
-        int ran = Random.Range(0, 10);
-        PartyData newParty = new(objListPlayable[0], ran);
+        int ran = Random.Range(1, 10);
+        PartyData newParty = new(objListPlayable[Random.Range(0,2)], ran);
 
         Debug.Log("Btn 파티 영입가능인원 생성 ");
 
         CreatePartySlot(newParty);
-        listPartyData.Add(newParty);
     }
 
-    public void ClickedPartySlot(PartyData _partyData)
+    public bool ClickedPartySlot(PartyData _partyData)
     {
         int activeCount = poolMoveInSlot.FindAll(s => s.gameObject.activeSelf).Count;
-        if (activeCount >= 3)
+        if (activeCount >= 4)
         {
-            return;
+            return false;
         }
 
         PartySlot partySlot = poolMoveInSlot.Find(s => !s.gameObject.activeSelf); // 비활성화된 오브젝트 있으면 반환하는 코드
@@ -954,6 +971,40 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
 
         partySlot.Init(_partyData);
+        
+        partySlot.partySlotIndex = _partyData.index;
+        partySlot.moveInChek = true;
+        partySlot.btnMy.interactable = true;
+
         partySlot.gameObject.SetActive(true);//활성화
+        partySlot.text_Cost.gameObject.SetActive(false);
+        partySlot.text_Name.gameObject.SetActive(true);
+
+        //listPartyData.Add(_partyData); 시발 이거 왜 안 보임?
+
+        return true;
     }
+
+
+    public void RestorePartySlot(int _index)
+    {
+        foreach (var _slot in poolMoveInSlot)
+        {
+            if (_slot.partySlotIndex == _index)
+            {
+                _slot.gameObject.SetActive(false);
+
+                poolPartySlot[_index].block.SetActive(false);
+                poolPartySlot[_index].moveInChek = false;
+                poolPartySlot[_index].btnMy.interactable = true;
+
+                //listPartyData.Remove(poolPartySlot[_index].partyData); 시발
+
+                /*poolMoveInSlot[_index].gameObject.SetActive(false);//비활성화 
+                poolPartySlot[_index].block.SetActive(false);
+                poolPartySlot[_index].moveInChek = false;*/
+            }
+        }
+    }
+
 }

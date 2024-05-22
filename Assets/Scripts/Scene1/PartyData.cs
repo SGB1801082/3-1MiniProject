@@ -12,13 +12,14 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class PartyData
 {
     //Party Panel Act
-    public string strPartyName;
-    public string strName;
+    /*public string strPartyName;
+    public string strName;*/
 
     public string Type;
 
     public int cost = 128;
-    //public int index;
+    public int index;
+    public int level = 0;
 
     public Sprite spPartyIcon;
 
@@ -38,9 +39,9 @@ public class PartyData
     public PartyData(GameObject prefab, int _Lvel)
     {
         BaseEntity player = prefab.GetComponent<BaseEntity>();
-
+        level = _Lvel;
         partyJobIndex = player.entity_id;
-
+        Debug.Log(partyJobIndex);
         //GenerateStat(partyJobIndex, _Lvel, player);
         //이 아래의 정보는 추후 제거
         partyHp = player.max_Hp;
@@ -49,6 +50,7 @@ public class PartyData
         partyAtkSpd = player.atkSpd;
         partyAtkRange = player.atkRange;
         partyAbleSkill = player.able_Skill;
+        Type = "Ranger";
         cost = Random.Range(50 + _Lvel*10, 100+ _Lvel*50);
         spPartyIcon = player.GetComponent<SpriteRenderer>().sprite;
     }
@@ -65,6 +67,7 @@ public class PartyData
                 partyAtk = entity.atkDmg;
                 partyAtkSpd = entity.atkSpd;
                 partyAtkRange = entity.atkRange;
+                Type = "Ranger";
                 break;
             case 2:
                 break;
