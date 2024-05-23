@@ -12,7 +12,7 @@ public class DeloyInit : MonoBehaviour
     public List<GameObject> highlight = new List<GameObject>();
     Tilemap wall;
 
-    private void OnEnable()
+    private void Start()
     {
         tilemap = GetComponent<Tilemap>();
         wall = GameObject.FindGameObjectWithTag("Wall").GetComponent<Tilemap>();

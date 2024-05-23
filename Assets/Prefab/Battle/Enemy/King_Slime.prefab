@@ -205,8 +205,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: HP
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2963612a177ee7741ad5beea42ac3f98, type: 2}
-  m_sharedMaterial: {fileID: 4960460345786232105, guid: 2963612a177ee7741ad5beea42ac3f98, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3264687c00a958b4690ca6a8a32f9332, type: 2}
+  m_sharedMaterial: {fileID: -4613764661089659716, guid: 3264687c00a958b4690ca6a8a32f9332, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -522,7 +522,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6912212797854093243}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.65
   m_Speed: 1.3
   m_Acceleration: 10
   avoidancePriority: 50
