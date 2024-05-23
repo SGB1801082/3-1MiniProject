@@ -287,11 +287,15 @@ public class BaseEntity : MonoBehaviour
 
         Vector2 tVec = (Vector2)(target.position - transform.position);
         float tDis = tVec.sqrMagnitude;
-        float targetRadius = target.GetComponent<NavMeshAgent>().radius * 2;
+        float targetRadius = target.GetComponent<NavMeshAgent>().radius;
+
 
         if (isMelee)
         {
-            if (tDis <= (range * range) + targetRadius)
+            float meleeRange_Value = range + targetRadius;
+            float meleeRange = meleeRange_Value * meleeRange_Value;
+
+            if (tDis <= meleeRange)
             {
                 isAttack = true;
             }

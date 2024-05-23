@@ -9,8 +9,10 @@ public class RoomManager : MonoBehaviour
     public Transform[] rooms;
     public int room_Count = 0;
     public GameObject popup;
+    public bool isMoveDone = false;
 
     public Transform currentRoom;
+    public Transform previousRoom;
     private Vector3 velocity = Vector3.zero;
 
     void Awake()
@@ -23,6 +25,8 @@ public class RoomManager : MonoBehaviour
             if (currentRoom == obj)
             {
                 obj.gameObject.SetActive(true);
+                BattleManager.Instance.deploy_area = GameObject.FindGameObjectWithTag("Deloy");
+                BattleManager.Instance.unit_deploy_area = GameObject.FindGameObjectWithTag("Wait");
                 foreach (Transform child in obj)
                 {
                     if (child.CompareTag("Enemy"))
@@ -50,11 +54,12 @@ public class RoomManager : MonoBehaviour
         }
         else
         {
+            previousRoom = currentRoom;
             currentRoom = rooms[++room_Count];
+            isMoveDone = false;
+            StartCoroutine(MoveCamera());
         }
         popup.SetActive(false);
-
-        StartCoroutine(MoveCamera());
     }
 
     private IEnumerator MoveCamera()
@@ -71,6 +76,24 @@ public class RoomManager : MonoBehaviour
             {
                 obj.gameObject.SetActive(false);
             }
+
+            if (previousRoom == obj)
+            {
+                obj.gameObject.SetActive(true);
+            }
+
+        }
+        BattleManager.Instance.deploy_area = GameObject.FindGameObjectWithTag("Deloy");
+        BattleManager.Instance.unit_deploy_area = GameObject.FindGameObjectWithTag("Wait");
+
+        if (BattleManager.Instance.deploy_area != null && BattleManager.Instance.unit_deploy_area != null)
+        {
+            BattleManager.Instance.deploy_area.SetActive(false);
+            BattleManager.Instance.unit_deploy_area.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("버그 체크");
         }
 
         while (Vector3.Distance(Camera.main.transform.position, targetPosition) > 0.1f)
@@ -94,18 +117,19 @@ public class RoomManager : MonoBehaviour
                     }
                 }
             }
+
+            if (previousRoom == obj)
+            {
+                obj.gameObject.SetActive(false);
+            }
+
         }
 
+
+        isMoveDone = true;
         // 상태 변경
-        BattleManager.Instance.ChangePhase(BattleManager.BattlePhase.Deploy);
-
-        BaseEntity[] enemy = FindObjectsOfType<BaseEntity>();
-
-        foreach (BaseEntity obj in enemy)
-        {
-            BattleManager.Instance.deploy_Enemy_List.Add(obj.gameObject);
-        }
-
+        BattleManager.Instance.ChangePhase(BattleManager.BattlePhase.Start);
+        
         yield break;
 
     }
