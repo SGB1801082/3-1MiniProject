@@ -36,9 +36,11 @@ public class PartyData
 
     public bool partyAbleSkill;
 
+    public GameObject obj_Data;
     public PartyData(GameObject prefab, int _Lvel)
     {
         BaseEntity player = prefab.GetComponent<BaseEntity>();
+        obj_Data = prefab;
         level = _Lvel;
         partyJobIndex = player.entity_id;
         Debug.Log(partyJobIndex);
@@ -73,6 +75,9 @@ public class PartyData
             case 2:
                 break;
             case 3:
+                break;
+            case 0://Player
+
                 break;
             default: 
                 break;
