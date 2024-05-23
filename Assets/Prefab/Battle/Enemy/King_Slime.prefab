@@ -205,8 +205,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: HP
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3264687c00a958b4690ca6a8a32f9332, type: 2}
-  m_sharedMaterial: {fileID: -4613764661089659716, guid: 3264687c00a958b4690ca6a8a32f9332, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b1bafcd9c7a6b7247a63275da0ec75c1, type: 2}
+  m_sharedMaterial: {fileID: -224573598669475551, guid: b1bafcd9c7a6b7247a63275da0ec75c1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -230,8 +230,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
