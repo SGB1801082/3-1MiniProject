@@ -24,7 +24,7 @@ public class PartyListInit : MonoBehaviour
 
     private void SpawnPartyList()
     {
-        /*for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
+        for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
         {
             GameObject obj = Instantiate(party_Prefab, transform);
             UnitPlacement unit = obj.GetComponent<UnitPlacement>();
@@ -32,9 +32,9 @@ public class PartyListInit : MonoBehaviour
             unit.InitList(BattleManager.Instance.party_List[i], BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite);
 
             party.Add(obj);
-        }*/
+        }
         
-        for (int i = 0; i < GameUiMgr.single.poolMoveInSlot.Count; i++)
+        /*for (int i = 0; i < GameUiMgr.single.poolMoveInSlot.Count; i++)
         {
             if (GameUiMgr.single.poolMoveInSlot[i].partyData != null)
             {
@@ -45,7 +45,7 @@ public class PartyListInit : MonoBehaviour
 
                 party.Add(obj);
             }
-        }
+        }*/
     }
 
     private void DestroyPartyList()

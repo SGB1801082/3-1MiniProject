@@ -39,19 +39,20 @@ public class PartyData
     public GameObject obj_Data;
     public PartyData(GameObject prefab, int _Lvel)
     {
-        BaseEntity player = prefab.GetComponent<BaseEntity>();
         obj_Data = prefab;
+        BaseEntity player = prefab.GetComponent<BaseEntity>();
         level = _Lvel;
         partyJobIndex = player.entity_id;
         Debug.Log(partyJobIndex);
-        //GenerateStat(partyJobIndex, _Lvel, player);
+        GenerateStat(partyJobIndex, _Lvel);
+
         //이 아래의 정보는 추후 제거
-        partyHp = player.max_Hp;
+        /*partyHp = player.max_Hp;
         partyMp = player.max_Mp;
         partyAtk = player.atkDmg;
         partyAtkSpd = player.atkSpd;
         partyAtkRange = player.atkRange;
-        partyAbleSkill = player.able_Skill;
+        partyAbleSkill = player.able_Skill;*/
         Type = "Ranger";
         cost = Random.Range(50 + _Lvel*10, 100+ _Lvel*50);
         Debug.Log("cost: "+cost);
@@ -59,17 +60,17 @@ public class PartyData
     }
 
 
-    public void GenerateStat(int _Code, int _Lvel, BaseEntity entity)
+    public void GenerateStat(int _Code, int _Lvel)
     {
         switch (_Code)
         {
             case 1:
                 Debug.Log("Type Ranger, Generate Code: "+_Code);
-                partyHp = entity.max_Hp + (0.01f* _Lvel);
-                partyMp = entity.max_Mp + (0.01f * _Lvel);
-                partyAtk = entity.atkDmg;
-                partyAtkSpd = entity.atkSpd;
-                partyAtkRange = entity.atkRange;
+                partyHp = 20f + (0.01f* _Lvel);
+                partyMp = 5f + (0.01f * _Lvel);
+                partyAtk = 2f;
+                partyAtkSpd = 1.0f;
+                partyAtkRange = 7f;
                 Type = "Ranger";
                 break;
             case 2:

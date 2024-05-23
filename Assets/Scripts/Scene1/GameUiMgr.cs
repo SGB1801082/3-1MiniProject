@@ -959,7 +959,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         // 0부터 10 사이의 정수 난수 생성 (10은 포함되지 않음)
         int ran = Random.Range(1, 10);
-        PartyData newParty = new(objListPlayable[Random.Range(0,2)], ran);
+        PartyData newParty = new(objListPlayable[Random.Range(0,objListPlayable.Count)], ran);
 
         Debug.Log("Btn 파티 영입가능인원 생성 ");
 

@@ -60,6 +60,12 @@ public class BattleManager : MonoBehaviour
         }
         room = FindObjectOfType<RoomManager>();
         isFirstEnter = true;
+
+        for (int i = 0; i < GameUiMgr.single.lsastDeparture.Count; i++)
+        {
+            party_List.Add(GameUiMgr.single.lsastDeparture[i].partyData.obj_Data);
+        }
+
     }
 
   

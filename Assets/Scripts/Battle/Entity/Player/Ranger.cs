@@ -8,7 +8,7 @@ public class Ranger : BaseEntity
 {
     private EntityStat stat;
     //Transform cur_target;
-
+    int chek = 0;
 
     protected override void Start()
     {
@@ -16,8 +16,43 @@ public class Ranger : BaseEntity
         Debug.Log("Ranger 생성");
 
         // 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
-        stat = new EntityStat
-            (1, 25, 5, 2, 1, 8, false);
+        /*foreach (var _slot in GameUiMgr.single.lsastDeparture)
+        {
+            if (_slot.partyData.partyJobIndex == 2)
+            {
+                chek++;
+            }
+        }
+
+
+        if (chek == 1)
+        {
+            foreach (var _slot in GameUiMgr.single.lsastDeparture)
+            {
+                if (_slot.partyData.partyJobIndex == 2)
+                {
+                    stat = new(1, _slot.partyData.partyHp, 5, 2, 1, 8, false);
+                }
+            }
+        }
+        else if (chek >= 2)
+        {
+            for (int i = 0; i < GameUiMgr.single.lsastDeparture.Count; i++)
+            {
+                if (true)
+                {
+
+                }
+            }
+        }
+        else
+        {
+            return;
+        }*/
+
+
+        stat = new(1, 25, 5, 2, 1, 8, false);
+
 
         entity_id = stat.id;
         max_Hp = stat.max_Hp;
