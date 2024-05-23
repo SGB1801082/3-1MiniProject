@@ -52,6 +52,7 @@ public class PartyData
         partyAbleSkill = player.able_Skill;
         Type = "Ranger";
         cost = Random.Range(50 + _Lvel*10, 100+ _Lvel*50);
+        Debug.Log("cost: "+cost);
         spPartyIcon = player.GetComponent<SpriteRenderer>().sprite;
     }
 

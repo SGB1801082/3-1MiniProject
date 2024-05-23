@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -136,7 +137,13 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public GameObject partyPrefab; // 새로운 슬롯을 생성할 때 사용할 프리팹, 부모 transform은 transfrom.parent를 사용하는것으로 사용안함
     public GameObject playerPrefab;//플레이어 프리펩넣을곳 이걸로 파티고용리스트 0번 요소에 상호작용 불가능한 플레이어이미지를 고정으로 넣어 줄 것.
     //05-14
-    public List<GameObject> objListPlayable;// 파티보드에서 출력될 실제 플레이어블 캐릭터 데이터를 여기에 임시로 등록
+    public List<GameObject> objListPlayable;// 파티보드에서 출력될 실제 플레이어블 캐릭터 리소스 데이터를 여기에 임시로 등록
+
+    public TextMeshProUGUI textPartyCount;
+    public TextMeshProUGUI textPartyPrice;
+    public int partyPrice;
+
+    public List<PartySlot> lsastDeparture;
     private void Awake()
     {
         single = this;
@@ -896,16 +903,18 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             _slot.gameObject.SetActive(false);
             _slot.text_Cost.gameObject.SetActive(true);
             _slot.text_Name.gameObject.SetActive(false);
-            Debug.Log("PartyBordSlots Active: False");
+            //Debug.Log("PartyBordSlots Active: False");
         }
         foreach (var _slot in poolMoveInSlot)
         {
             _slot.gameObject.SetActive(false);
             _slot.text_Cost.gameObject.SetActive(false);
             _slot.text_Name.gameObject.SetActive(true);
-            Debug.Log("MoveInSlots Active: False");
+            //Debug.Log("MoveInSlots Active: False");
         }
         //지금 파티보드에서 보여야하는 플레이어의 데이터를 여기에다가 욱여넣고있는데 추후 수정해야함
+        PartyData pd = new(playerPrefab, 43);// 
+        poolMoveInSlot[0].partyData = pd;
         poolMoveInSlot[0].gameObject.SetActive(true);
         poolMoveInSlot[0].partyIcon.sprite = playerPrefab.GetComponent<SpriteRenderer>().sprite;
         poolMoveInSlot[0].text_Name.text = "Player";
@@ -914,11 +923,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //listPartyData.Add(poolMoveInSlot[0].partyData); 시발
         //poolMoveInSlot[0].GetComponent<Button>().interactable = false;
 
-        // 세이브된 기존의 파티 보드의 데이터가 존재한다면 해당 데이터를 슬롯에 추가해서 활성화
-        foreach (var nowPartyBord in listPartyData)
+        //05-23 고용리스트 텍스트 관리
+        RefreshiEmploy();
+
+        // 세이브된 기존의 파티 보드의 데이터가 존재한다면 해당 데이터를 슬롯에 추가해서 활성화, 이거는 다른곳으로 옮기는게 나을듯?
+        /*foreach (var nowPartyBord in listPartyData)
         {
             CreatePartySlot(nowPartyBord);
-        }
+        }*/
     }
     public void CreatePartySlot(PartyData _partyData)
     {
@@ -952,6 +964,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("Btn 파티 영입가능인원 생성 ");
 
         CreatePartySlot(newParty);
+        listPartyData.Add(newParty);// 고용가능 파티원목록리스트를 저장, 여기에서 저장했으니까 씬 넘어갈때 Clier해서 비워줘야겠지??
     }
 
     public bool ClickedPartySlot(PartyData _partyData)
@@ -962,7 +975,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             return false;
         }
 
-        PartySlot partySlot = poolMoveInSlot.Find(s => !s.gameObject.activeSelf); // 비활성화된 오브젝트 있으면 반환하는 코드
+        // 비활성화된 오브젝트 있으면 반환하는 코드
+        PartySlot partySlot = poolMoveInSlot.Find(s => !s.gameObject.activeSelf);
         if (partySlot == null)
         {
             GameObject go = Instantiate(partyPrefab, poolMoveInSlot[0].transform.parent);
@@ -980,6 +994,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         partySlot.text_Cost.gameObject.SetActive(false);
         partySlot.text_Name.gameObject.SetActive(true);
 
+        RefreshiEmploy();
         //listPartyData.Add(_partyData); 시발 이거 왜 안 보임?
 
         return true;
@@ -997,14 +1012,53 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 poolPartySlot[_index].block.SetActive(false);
                 poolPartySlot[_index].moveInChek = false;
                 poolPartySlot[_index].btnMy.interactable = true;
-
+                
+                _slot.ReSetPartySlot();
                 //listPartyData.Remove(poolPartySlot[_index].partyData); 시발
-
+                RefreshiEmploy();
                 /*poolMoveInSlot[_index].gameObject.SetActive(false);//비활성화 
                 poolPartySlot[_index].block.SetActive(false);
                 poolPartySlot[_index].moveInChek = false;*/
             }
         }
     }
+
+    public void RefreshiEmploy()
+    {
+        int countEmploy = 0;
+        int sum = 0;
+        foreach (PartySlot _slot in poolMoveInSlot)
+        {
+            if (_slot.partyData != null)
+            {
+                countEmploy++;
+                sum += _slot.intPartyCost;
+            }
+        }
+        textPartyCount.text = "파티원\n " + countEmploy + " / 4"; // countEmploy +" / 4";
+        textPartyPrice.text = "금액\n "+ sum + "\n골드";//금액\n 121\n골드
+        partyPrice = sum;
+    }
+
+    public void EmploymentCompleted()
+    {
+        playerGold = 999;
+        if ((playerGold - partyPrice) < 0 )
+        {
+            Debug.Log("골드 부족");
+            return; //버튼눌렀는데 골드가 부족하면 실행안됨
+        }
+        lsastDeparture.Clear();
+
+        foreach (PartySlot _slot in poolMoveInSlot)
+        {
+            if (_slot.partyData != null)
+            {
+                lsastDeparture.Add(_slot);
+                Debug.Log("최종파티원LV: "+_slot.partyData.level +", 직업코드:"+_slot.partyData.partyJobIndex);
+            }
+        }
+    }
+
 
 }

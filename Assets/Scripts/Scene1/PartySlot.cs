@@ -13,7 +13,7 @@ public class PartySlot : MonoBehaviour
     public Image partyIcon;
 
     public string strPartyName;
-    public string strPartyCost;
+    public int intPartyCost;
 
     public TextMeshProUGUI text_Name;
     public TextMeshProUGUI text_Cost;
@@ -32,8 +32,12 @@ public class PartySlot : MonoBehaviour
         this.partyData = _data;
         this.partyIcon.sprite = _data.spPartyIcon;
 
-        this.text_Name.text = _data.Type;
-        this.text_Cost.text = _data.cost.ToString();
+        this.strPartyName = _data.Type;
+        this.text_Name.text = strPartyName;
+
+        this.intPartyCost = _data.cost;
+        this.text_Cost.text = intPartyCost.ToString();
+
         this.text_Lv.text = "Lv "+_data.level.ToString();
     }
 
@@ -70,8 +74,8 @@ public class PartySlot : MonoBehaviour
         }*/
 
     }
-    public void BaseStat()
+    public void ReSetPartySlot()
     {
-        
+        this.partyData = null;
     }
 }
