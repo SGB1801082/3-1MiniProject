@@ -50,7 +50,7 @@ public class RoomManager : MonoBehaviour
         // 새로운 방으로 변경
         if ((rooms.Length - 1) == room_Count) 
         {
-            SceneManager.LoadScene("Scene1");
+            SceneManager.LoadScene("Town");
         }
         else
         {
