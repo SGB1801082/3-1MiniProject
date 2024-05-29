@@ -10,13 +10,18 @@ public class UIManager : MonoBehaviour
     public GameObject battleStart;
     public GameObject nextRoom;
 
+    private void Start()
+    {
+        player_Statbar.SetActive(true);
+        item_Bar.SetActive(true);
+    }
+
+
     private void FixedUpdate()
     {
         if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Rest || BattleManager.Instance._curphase == BattleManager.BattlePhase.End)
         {
             nextRoom.SetActive(true);
-            player_Statbar.SetActive(false);
-            item_Bar.SetActive(false);
             party_List.SetActive(false);
             battleStart.SetActive(false);
         }
@@ -25,15 +30,8 @@ public class UIManager : MonoBehaviour
             nextRoom.SetActive(false); 
         }
 
-
         if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
         {
-            player_Statbar.SetActive(true);
-            item_Bar.SetActive(true);
-        }
-        else
-        {
-            player_Statbar.SetActive(false);
             item_Bar.SetActive(false);
         }
 
@@ -46,6 +44,11 @@ public class UIManager : MonoBehaviour
         {
             party_List.SetActive(false);
             battleStart.SetActive(false);
+        }
+
+        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Rest || BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy)
+        {
+            item_Bar.SetActive(true);
         }
     }
 }

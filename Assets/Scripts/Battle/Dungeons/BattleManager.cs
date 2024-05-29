@@ -10,6 +10,7 @@ public class BattleManager : MonoBehaviour
     private static BattleManager instance = null;
     public ObjectManager pool;
     public RoomManager room;
+    public UIManager ui;
     public List<GameObject> party_List = new List<GameObject>();
     public List<GameObject> deploy_Player_List = new List<GameObject>();
     public List<GameObject> deploy_Enemy_List = new List<GameObject>();
@@ -138,7 +139,7 @@ public class BattleManager : MonoBehaviour
             case BattlePhase.Battle:
                 break;
             case BattlePhase.End:
-                EndBattle();
+                StartCoroutine(EndBattle());
                 break;
         }
     }
@@ -184,8 +185,10 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void EndBattle()
+    private IEnumerator EndBattle()
     {
+        yield return new WaitForSeconds(2f);
+
         if (_curphase == BattlePhase.End && !battleEnded)
         {
             BaseEntity[] unit = FindObjectsOfType<BaseEntity>();

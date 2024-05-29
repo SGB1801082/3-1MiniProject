@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 7461907867498809752}
   m_Layer: 0
   m_Name: Deloy_Area
-  m_TagString: Deloy
+  m_TagString: Deploy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

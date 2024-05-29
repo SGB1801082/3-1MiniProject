@@ -18,7 +18,7 @@ public class EntityDrag : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-        deloy = GameObject.FindGameObjectWithTag("Deloy").GetComponent<Tilemap>();
+        deloy = GameObject.FindGameObjectWithTag("Deploy").GetComponent<Tilemap>();
         wall = GameObject.FindGameObjectWithTag("Wall").GetComponent<Tilemap>();
     }
 
@@ -38,7 +38,7 @@ public class EntityDrag : MonoBehaviour
         {
             if (deloy == null)
             {
-                deloy = GameObject.FindGameObjectWithTag("Deloy").GetComponent<Tilemap>();
+                deloy = GameObject.FindGameObjectWithTag("Deploy").GetComponent<Tilemap>();
             }
         }    
     }

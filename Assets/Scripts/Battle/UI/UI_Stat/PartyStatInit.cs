@@ -21,25 +21,4 @@ public class PartyStatInit : MonoBehaviour
             stat_Obj.InitStat(player, sprite);
         }
     }
-
-
-    private void OnEnable()
-    {
-        UpdateStatInit();
-    }
-
-
-    public void UpdateStatInit()
-    {
-        for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
-        {
-            BaseEntity player = BattleManager.Instance.party_List[i].GetComponent<BaseEntity>();
-            Sprite sprite = BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite;
-
-            stats[i].GetComponent<StatManager>().InitStat(player, sprite);
-        }
-    }
-
-
-
 }

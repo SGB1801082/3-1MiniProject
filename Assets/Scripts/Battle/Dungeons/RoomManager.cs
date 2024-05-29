@@ -10,6 +10,8 @@ public class RoomManager : MonoBehaviour
     public int room_Count = 0;
     public GameObject popup;
     public bool isMoveDone = false;
+    public GameObject maps_Prefab;
+    public Transform map_Pos;
 
     public Transform currentRoom;
     public Transform previousRoom;
@@ -22,6 +24,7 @@ public class RoomManager : MonoBehaviour
 
         foreach (Transform obj in rooms) 
         {
+            Instantiate(maps_Prefab, map_Pos);
             if (currentRoom == obj)
             {
                 obj.gameObject.SetActive(true);

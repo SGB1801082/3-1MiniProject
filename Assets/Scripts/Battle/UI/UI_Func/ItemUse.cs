@@ -10,7 +10,7 @@ public class ItemUse : MonoBehaviour
     public TMP_Text item_Cnt_Text;
     int item_Cnt;
 
-    void OnEnable()
+    void Start()
     {
         item_Cnt = 5;
         item_Cnt_Text.text = item_Cnt.ToString();
@@ -22,15 +22,6 @@ public class ItemUse : MonoBehaviour
         {
             player[i] = obj[i].GetComponent<BaseEntity>();
         }
-    }
-
-    private void Update()
-    {
-        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
-        {
-            item_Cnt_Text.text = item_Cnt.ToString();
-        }
-        
     }
 
     public void Postion()
@@ -50,6 +41,7 @@ public class ItemUse : MonoBehaviour
                 
             }
             item_Cnt--;
+            item_Cnt_Text.text = item_Cnt.ToString();
             Debug.Log("아군 전체 각 최대 체력 3 만큼 회복");
         }
         else
