@@ -65,7 +65,6 @@ public class BattleManager : MonoBehaviour
         {
             party_List.Add(GameUiMgr.single.lsastDeparture[i].partyData.obj_Data);
         }
-
     }
 
   
@@ -158,7 +157,7 @@ public class BattleManager : MonoBehaviour
             Debug.Log("배틀 시작");
             ChangePhase(BattlePhase.Battle);
 
-            deploy_area = GameObject.FindGameObjectWithTag("Deloy");
+            deploy_area = GameObject.FindGameObjectWithTag("Deploy");
             unit_deploy_area = GameObject.FindGameObjectWithTag("Wait");
             deploy_area.SetActive(false);
             unit_deploy_area.SetActive(false);

@@ -25,7 +25,7 @@ public class RoomManager : MonoBehaviour
             if (currentRoom == obj)
             {
                 obj.gameObject.SetActive(true);
-                BattleManager.Instance.deploy_area = GameObject.FindGameObjectWithTag("Deloy");
+                BattleManager.Instance.deploy_area = GameObject.FindGameObjectWithTag("Deploy");
                 BattleManager.Instance.unit_deploy_area = GameObject.FindGameObjectWithTag("Wait");
                 foreach (Transform child in obj)
                 {
@@ -83,7 +83,7 @@ public class RoomManager : MonoBehaviour
             }
 
         }
-        BattleManager.Instance.deploy_area = GameObject.FindGameObjectWithTag("Deloy");
+        BattleManager.Instance.deploy_area = GameObject.FindGameObjectWithTag("Deploy");
         BattleManager.Instance.unit_deploy_area = GameObject.FindGameObjectWithTag("Wait");
 
         if (BattleManager.Instance.deploy_area != null && BattleManager.Instance.unit_deploy_area != null)

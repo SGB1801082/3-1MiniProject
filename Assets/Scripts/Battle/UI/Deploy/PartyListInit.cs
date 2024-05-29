@@ -24,14 +24,22 @@ public class PartyListInit : MonoBehaviour
 
     private void SpawnPartyList()
     {
-        for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
+        if (BattleManager.Instance.party_List.Count <= 0)
         {
-            GameObject obj = Instantiate(party_Prefab, transform);
-            UnitPlacement unit = obj.GetComponent<UnitPlacement>();
+            Debug.Log("파티 리스트에 플레이어가 없습니다");
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
+            {
+                GameObject obj = Instantiate(party_Prefab, transform);
+                UnitPlacement unit = obj.GetComponent<UnitPlacement>();
 
-            unit.InitList(BattleManager.Instance.party_List[i], BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite);
+                unit.InitList(BattleManager.Instance.party_List[i], BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite);
 
-            party.Add(obj);
+                party.Add(obj);
+            }
         }
         
         /*for (int i = 0; i < GameUiMgr.single.poolMoveInSlot.Count; i++)

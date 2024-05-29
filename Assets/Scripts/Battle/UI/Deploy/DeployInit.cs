@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class DeloyInit : MonoBehaviour
+public class DeployInit : MonoBehaviour
 {
     private Tilemap tilemap; // 타일맵
     public GameObject spritePrefab; // 배치할 스프라이트 프리팹

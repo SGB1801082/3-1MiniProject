@@ -147,4 +147,10 @@ MonoBehaviour:
     itemType: 0
     itemName: 
     itemImage: {fileID: 0}
+    efts: []
+    itemTitle: 
+    itemDesc: 
+    itemIndex: 0
+    isDraggable: 0
+    itemCode: 0
   image: {fileID: 6006747133654818937}

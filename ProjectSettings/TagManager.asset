@@ -5,13 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - FieldItem
-  - Deloy
   - Enemy
   - Highlight
   - Item
   - Wall
   - Wait
   - Battle
+  - Deploy
   layers:
   - Default
   - TransparentFX

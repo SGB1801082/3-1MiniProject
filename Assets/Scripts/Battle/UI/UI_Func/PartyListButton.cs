@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PartyListButton : MonoBehaviour
 {
-    public GameObject targetObject; // 열고 닫을 대상 오브젝트
+    /*public GameObject targetObject; // 열고 닫을 대상 오브젝트
     public float animationDuration = 1f; // 애니메이션 지속 시간
     public float open = 200f; // 열린 상태에서의 높이
     private Vector3 originalPosition; // 오브젝트의 원래 위치
     private bool isOpen = false; // 열린 상태 여부
     private Coroutine toggleCoroutine;
-    private bool isFirst = true;
+    private bool isFirst = true;*/
 
-    private void Start()
+    /*private void Start()
     {
         originalPosition = targetObject.transform.position;
     }
@@ -60,5 +60,69 @@ public class PartyListButton : MonoBehaviour
         isOpen = !isOpen;
 
         toggleCoroutine = null;
+    }*/
+
+    public GameObject obj_Side;
+    public Vector2 vec_From;
+    public Vector2 vec_To;
+    public float f_Set_Timer;
+    bool isOpen = false;
+
+    public void Clicked_Side()
+    {
+        if (!isOpen)
+        {
+            Open_Side();
+            isOpen = true;
+        }
+        else
+        {
+            Close_Side();
+        }
     }
+
+    private void Open_Side()
+    {
+        StartCoroutine(Open_Side_Co());
+    }
+
+    private IEnumerator Open_Side_Co()
+    {
+        Debug.Log("열리는 중");
+        float timer = 0;
+        while (timer < f_Set_Timer)
+        {
+            timer += Time.deltaTime;
+            Vector2 temp = Vector2.Lerp(vec_From, vec_To, timer / f_Set_Timer);
+            yield return null;
+            obj_Side.GetComponent<RectTransform>().anchoredPosition = temp;
+        }
+        obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_To;
+
+        StopCoroutine(Open_Side_Co());
+    }
+
+    private void Close_Side()
+    {
+        StartCoroutine(Close_Side_Co());
+    }
+
+    private IEnumerator Close_Side_Co()
+    {
+        Debug.Log("닫히는중");
+        float timer = 0;
+        while (timer < f_Set_Timer)
+        {
+            timer += Time.deltaTime;
+            Vector2 temp = Vector2.Lerp(vec_To, vec_From, timer / f_Set_Timer);
+            yield return null;
+            obj_Side.GetComponent<RectTransform>().anchoredPosition = temp;
+        }
+        obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_From;
+
+        isOpen = false;
+        StopCoroutine(Close_Side_Co());
+    }
+
+
 }

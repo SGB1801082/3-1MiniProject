@@ -536,6 +536,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box
       objectReference: {fileID: 0}
+    - target: {fileID: 5767417812751299194, guid: 88ddc6f93a85dd046b84b10280554256, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6330954026727046122, guid: 88ddc6f93a85dd046b84b10280554256, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41
@@ -1011,8 +1015,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 350505513}
-        m_TargetAssemblyTypeName: UIButton, Assembly-CSharp
-        m_MethodName: Toggle
+        m_TargetAssemblyTypeName: PartyListButton, Assembly-CSharp
+        m_MethodName: Clicked_Side
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1072,9 +1076,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0205781e4397b84d853ee022c1789c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 1461607063}
-  animationDuration: 1
-  open: 175
+  obj_Side: {fileID: 1461607063}
+  vec_From: {x: 0, y: 0}
+  vec_To: {x: -175, y: 0}
+  f_Set_Timer: 0.2
 --- !u!1 &379160247
 GameObject:
   m_ObjectHideFlags: 0
@@ -3506,10 +3511,10 @@ RectTransform:
   - {fileID: 350505508}
   m_Father: {fileID: 1390437427}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -175, y: 0}
-  m_SizeDelta: {x: 175, y: 800}
+  m_SizeDelta: {x: 175, y: -280}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1461607065
 MonoBehaviour:
