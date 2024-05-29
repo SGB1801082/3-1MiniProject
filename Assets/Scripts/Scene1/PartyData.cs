@@ -35,16 +35,15 @@ public class PartyData
     public float partyAtkRange;
 
     public bool partyAbleSkill;
-
+    public bool isMelee;
     public GameObject obj_Data;
+    public BaseEntity player;
     public PartyData(GameObject prefab, int _Lvel)
     {
         obj_Data = prefab;
-        BaseEntity player = prefab.GetComponent<BaseEntity>();
+        this.player = prefab.GetComponent<BaseEntity>();
         level = _Lvel;
-        partyJobIndex = player.entity_id;
-        Debug.Log(partyJobIndex);
-        GenerateStat(partyJobIndex, _Lvel);
+        GenerateStat(player.job, _Lvel);
 
         //이 아래의 정보는 추후 제거
         /*partyHp = player.max_Hp;
@@ -53,18 +52,18 @@ public class PartyData
         partyAtkSpd = player.atkSpd;
         partyAtkRange = player.atkRange;
         partyAbleSkill = player.able_Skill;*/
-        Type = "Ranger";
+        Type = prefab.name;
         cost = Random.Range(50 + _Lvel*10, 100+ _Lvel*50);
         Debug.Log("cost: "+cost);
         spPartyIcon = player.GetComponent<SpriteRenderer>().sprite;
     }
 
 
-    public void GenerateStat(int _Code, int _Lvel)
+    public void GenerateStat(BaseEntity.JobClass _Code, int _Lvel)
     {
         switch (_Code)
         {
-            case 1:
+            case BaseEntity.JobClass.Ranger:
                 Debug.Log("Type Ranger, Generate Code: "+_Code);
                 partyHp = 20f + (0.01f* _Lvel);
                 partyMp = 5f + (0.01f * _Lvel);
@@ -72,15 +71,37 @@ public class PartyData
                 partyAtkSpd = 1.0f;
                 partyAtkRange = 7f;
                 Type = "Ranger";
+                isMelee = false;
                 break;
-            case 2:
+            case BaseEntity.JobClass.Wizard:
+                Debug.Log("Type wizard, Generate Code: " + _Code);
+                partyHp = 20f + (0.01f * _Lvel);
+                partyMp = 5f + (0.01f * _Lvel);
+                partyAtk = 2f;
+                partyAtkSpd = 1.0f;
+                partyAtkRange = 7f;
+                Type = "wizard";
+                isMelee = false;
                 break;
-            case 3:
+            case BaseEntity.JobClass.Knight:
+                Debug.Log("Type 3, Generate Code: " + _Code);
+                partyHp = 20f + (0.01f * _Lvel);
+                partyMp = 5f + (0.01f * _Lvel);
+                partyAtk = 2f;
+                partyAtkSpd = 1.0f;
+                partyAtkRange = 2f;
+                isMelee = true;
                 break;
-            case 0://Player
-
-                break;
-            default: 
+/*            case 0://Player
+                break;*/
+            default:
+                Debug.Log("Type d, Generate Code: " + _Code);
+                partyHp = 20f + (0.01f * _Lvel);
+                partyMp = 5f + (0.01f * _Lvel);
+                partyAtk = 2f;
+                partyAtkSpd = 1.0f;
+                partyAtkRange = 2f;
+                isMelee = true;
                 break;
         }
     }

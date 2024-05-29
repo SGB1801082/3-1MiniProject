@@ -15,7 +15,7 @@ public class Wizard : BaseEntity
         base.Start();
         Debug.Log("Wizard 생성");
 
-        // 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
+        /*// 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
         stat = new EntityStat
             (2, 20f, 3f, 3f, 0.8f, 6.5f, false);
 
@@ -28,7 +28,10 @@ public class Wizard : BaseEntity
         SetAttackSpeed(stat.atkSpd);
         atkRange = stat.atkRange;
         able_Skill = stat.isSkill;
-        isMelee = true; // 임시로 근접 유닛과 똑같은 방식으로 공격 추후에 투사체를 발사하는 방식으로 바꿀 예정
+        isMelee = true; // 임시로 근접 유닛과 똑같은 방식으로 공격 추후에 투사체를 발사하는 방식으로 바꿀 예정*/
+
+        SetAttackSpeed(atkSpd);
+
     }
 
     protected override void Update()

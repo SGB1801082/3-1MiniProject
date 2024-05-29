@@ -912,17 +912,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             _slot.text_Name.gameObject.SetActive(true);
             //Debug.Log("MoveInSlots Active: False");
         }
-        //지금 파티보드에서 보여야하는 플레이어의 데이터를 여기에다가 욱여넣고있는데 추후 수정해야함
-        PartyData pd = new(playerPrefab, 43);// 
-        poolMoveInSlot[0].partyData = pd;
-        poolMoveInSlot[0].gameObject.SetActive(true);
-        poolMoveInSlot[0].partyIcon.sprite = playerPrefab.GetComponent<SpriteRenderer>().sprite;
-        poolMoveInSlot[0].text_Name.text = "Player";
-        poolMoveInSlot[0].partySlotIndex = 999;
-        poolMoveInSlot[0].text_Lv.text = "Lv 43";
-        //listPartyData.Add(poolMoveInSlot[0].partyData); 시발
-        //poolMoveInSlot[0].GetComponent<Button>().interactable = false;
-
+        //MoveInSlot 초기화
+        PartyListInPlayer();
         //05-23 고용리스트 텍스트 관리
         RefreshiEmploy();
 
@@ -1042,6 +1033,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void EmploymentCompleted()
     {
+        int battleIndex = 0;
         playerGold = 999;
         if ((playerGold - partyPrice) < 0 )
         {
@@ -1054,11 +1046,32 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             if (_slot.partyData != null)
             {
+                _slot.partyData.partyJobIndex = battleIndex++;
                 lsastDeparture.Add(_slot);
+                _slot.partyData.obj_Data.GetComponent<BaseEntity>().Init(_slot.partyData.partyJobIndex, _slot.partyData.partyHp, _slot.partyData.partyMp, _slot.partyData.partyAtk, _slot.partyData.partyAtkSpd, _slot.partyData.partyAtkRange, _slot.partyData.isMelee, _slot.partyData.partyAbleSkill);
                 Debug.Log("최종파티원LV: "+_slot.partyData.level +", 직업코드:"+_slot.partyData.partyJobIndex);
             }
         }
     }
 
+    private void PartyListInPlayer()
+    {
+        //지금 파티보드에서 보여야하는 플레이어의 데이터를 여기에다가 욱여넣고있는데 추후 수정해야함
+        PartyData pd = new(playerPrefab, GameMgr.playerData.player_level);// 
+        pd.partyHp = GameMgr.playerData.max_Player_Hp;
+        pd.partyMp = GameMgr.playerData.max_Player_Mp;
+        pd.partyAtk = GameMgr.playerData.base_atk_Dmg;
+        pd.partyAtkSpd = GameMgr.playerData.atk_Speed;
+        pd.partyAtkRange = GameMgr.playerData.atk_Range;
 
+        poolMoveInSlot[0].partyData = pd;
+        poolMoveInSlot[0].gameObject.SetActive(true);
+        poolMoveInSlot[0].partyIcon.sprite = playerPrefab.GetComponent<SpriteRenderer>().sprite;
+        poolMoveInSlot[0].text_Name.text = "Player";// GameMgr.playerData. ~~~
+        poolMoveInSlot[0].partySlotIndex = 999; // 파티보드에서 0번누르면 플레이어가 사라지는 찐빠가나서 이걸로 회피
+        poolMoveInSlot[0].text_Lv.text = GameMgr.playerData.player_level.ToString();
+        listPartyData.Add(poolMoveInSlot[0].partyData);
+
+        //poolMoveInSlot[0].GetComponent<Button>().interactable = false;
+    }
 }

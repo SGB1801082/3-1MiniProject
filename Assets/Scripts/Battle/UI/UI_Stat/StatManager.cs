@@ -27,15 +27,15 @@ public class StatManager : MonoBehaviour
     private void Start()
     {
         // 배치된 플레이어의 고유 아이디와 같은 아이디를 가진 상태창을 찾아서 오브젝트의 정보(체력, 마나 등)를 넣어줌 (미리 프리팹에 Id를 설정해줘야함 -> 어떤식으로 할지 고민해야될 부분)
-        FindUnitStat();
+       // FindUnitStat();
     }
 
     private void OnEnable()
     {
-        FindUnitStat();
+        //FindUnitStat();
     }
 
-    private void FindUnitStat()
+/*    private void FindUnitStat()
     {
         foreach (GameObject obj in BattleManager.Instance.deploy_Player_List)
         {
@@ -53,7 +53,7 @@ public class StatManager : MonoBehaviour
             }
         }
     }
-
+*/
     private void Update()
     {
         if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
