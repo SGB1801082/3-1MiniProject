@@ -940,8 +940,18 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
 
         partySlot.Init(_partyData);
-        partySlot.partySlotIndex = activeCount;
-        partySlot.partyData.index = activeCount;
+        if (partySlot.partySlotIndex == 0)
+        {
+            partySlot.partySlotIndex = 999;
+            partySlot.partyData.index = 999;
+        }
+        else
+        {
+            partySlot.partySlotIndex = activeCount;
+            partySlot.partyData.index = activeCount;
+        }
+        
+        
         Debug.Log("생성 번호: "+activeCount);
         partySlot.gameObject.SetActive(true);//활성화
     }
@@ -1068,7 +1078,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         poolMoveInSlot[0].gameObject.SetActive(true);
         poolMoveInSlot[0].partyIcon.sprite = playerPrefab.GetComponent<SpriteRenderer>().sprite;
         poolMoveInSlot[0].text_Name.text = "Player";// GameMgr.playerData. ~~~
-        poolMoveInSlot[0].partySlotIndex = 999; // 파티보드에서 0번누르면 플레이어가 사라지는 찐빠가나서 이걸로 회피
+        //poolMoveInSlot[0].partySlotIndex = 999; // 파티보드에서 0번누르면 플레이어가 사라지는 찐빠가나서 이걸로 회피 였는데 파티생성할때 아예 인덱스0이면 999로 주라고 수정함
         poolMoveInSlot[0].text_Lv.text = GameMgr.playerData.player_level.ToString();
         listPartyData.Add(poolMoveInSlot[0].partyData);
 

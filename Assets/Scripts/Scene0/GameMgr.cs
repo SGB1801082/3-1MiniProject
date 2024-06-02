@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class GameMgr : MonoBehaviour
 {
     public static GameMgr single { get; private set; }
-    public static PlayerData playerData { get; private set; }
+    //public static List<PlayerData> playerData { get; private set; }//여기 수정함 06-02
+    public static PlayerData playerData { get; private set; }//임시 버그 틀어막기용
 
     private bool loadChecker = false;
 
@@ -20,7 +21,9 @@ public class GameMgr : MonoBehaviour
 
     public bool OnSelectPlayer(string name)
     {
-        playerData = new PlayerData(name);
+        //playerData[0] = new PlayerData(name); // 여기 수정함 06-02
+
+        playerData = new PlayerData(name); // 임시 버그 틀어막기용
 
         bool succ = playerData != null;
         if (!succ)
