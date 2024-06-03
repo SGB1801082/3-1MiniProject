@@ -41,7 +41,7 @@ public class Hero : BaseEntity
 
         if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
         {
-            GameMgr.playerData.cur_Player_Hp = cur_Hp;
+            GameMgr.playerData[0].cur_Player_Hp = cur_Hp;
         }
 
         if (_curstate == State.Skill)

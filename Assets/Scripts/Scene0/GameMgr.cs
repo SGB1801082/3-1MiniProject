@@ -7,23 +7,19 @@ using UnityEngine.SceneManagement;
 public class GameMgr : MonoBehaviour
 {
     public static GameMgr single { get; private set; }
-    //public static List<PlayerData> playerData { get; private set; }//여기 수정함 06-02
-    public static PlayerData playerData { get; private set; }//임시 버그 틀어막기용
+    public static List<PlayerData> playerData { get; private set; }//여기 수정함 06-02
 
     private bool loadChecker = false;
 
     private void Awake()
     {
         single = this;
-
         playerData = null;
     }
 
     public bool OnSelectPlayer(string name)
     {
-        //playerData[0] = new PlayerData(name); // 여기 수정함 06-02
-
-        playerData = new PlayerData(name); // 임시 버그 틀어막기용
+        playerData[0] = new PlayerData(name); // 여기 수정함 06-02
 
         bool succ = playerData != null;
         if (!succ)
