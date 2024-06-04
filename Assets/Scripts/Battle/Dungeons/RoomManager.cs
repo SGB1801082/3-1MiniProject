@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,24 +8,53 @@ using UnityEngine.SceneManagement;
 public class RoomManager : MonoBehaviour
 {
     public Transform[] rooms;
+    public List<GameObject> map_List;
     public int room_Count = 0;
     public GameObject popup;
     public bool isMoveDone = false;
     public GameObject maps_Prefab;
     public Transform map_Pos;
+    public Camera map_Camera;
 
+    Transform cur_Map;
     public Transform currentRoom;
     public Transform previousRoom;
     private Vector3 velocity = Vector3.zero;
 
     void Awake()
     {
+        map_List = new List<GameObject>();
+
         // 초기 방 설정
         currentRoom = rooms[room_Count];
 
+        for (int i = 0; i < rooms.Length; i++) 
+        {
+            Vector3 map = map_Pos.position + new Vector3(i * 5f, 0, 0); 
+            GameObject maps = Instantiate(maps_Prefab, map, Quaternion.identity);
+
+            maps.transform.SetParent(map_Pos);
+            map_List.Add(maps);
+        }
+
+        cur_Map = map_List[room_Count].transform;
+
+        foreach (GameObject minimap in map_List) 
+        {
+            if (cur_Map.gameObject == minimap)
+            {
+                foreach (Transform child in minimap.transform)
+                {
+                    child.gameObject.SetActive(false);
+                }
+                map_Camera.transform.position = new Vector3(minimap.transform.position.x, minimap.transform.position.y, map_Camera.transform.position.z);
+            }
+        }
+
+
         foreach (Transform obj in rooms) 
         {
-            Instantiate(maps_Prefab, map_Pos);
+            
             if (currentRoom == obj)
             {
                 obj.gameObject.SetActive(true);
@@ -59,6 +89,7 @@ public class RoomManager : MonoBehaviour
         {
             previousRoom = currentRoom;
             currentRoom = rooms[++room_Count];
+            cur_Map = map_List[room_Count].transform;
             isMoveDone = false;
             StartCoroutine(MoveCamera());
         }
@@ -68,6 +99,7 @@ public class RoomManager : MonoBehaviour
     private IEnumerator MoveCamera()
     {
         Vector3 targetPosition = new Vector3(currentRoom.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
+        Vector3 targetMap = new Vector3(cur_Map.position.x, cur_Map.position.y, map_Camera.transform.position.z);
 
         foreach (Transform obj in rooms)
         {
@@ -101,12 +133,35 @@ public class RoomManager : MonoBehaviour
 
         while (Vector3.Distance(Camera.main.transform.position, targetPosition) > 0.1f)
         {
-            Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, targetPosition, ref velocity, 0.3f);
+            if (Vector3.Distance(Camera.main.transform.position, targetPosition) > 0.1f)
+            {
+                Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, targetPosition, ref velocity, 0.3f);
+            }
             yield return null; // 다음 프레임까지 대기
         }
 
         // 목표 위치에 정확히 맞춤
         Camera.main.transform.position = targetPosition;
+        map_Camera.transform.position = targetMap;
+
+        foreach (GameObject minimap in map_List)
+        {
+            if (cur_Map.gameObject == minimap)
+            {
+                foreach (Transform child in minimap.transform)
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                foreach (Transform child in minimap.transform)
+                {
+                    child.gameObject.SetActive(true);
+                }
+            }
+        }
+
 
         foreach (Transform obj in rooms)
         {
@@ -134,8 +189,5 @@ public class RoomManager : MonoBehaviour
         BattleManager.Instance.ChangePhase(BattleManager.BattlePhase.Start);
         
         yield break;
-
     }
-
-
 }

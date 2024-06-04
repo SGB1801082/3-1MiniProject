@@ -14,12 +14,15 @@ public class GameMgr : MonoBehaviour
     private void Awake()
     {
         single = this;
-        playerData = null;
+        if (playerData == null)
+        {
+            playerData = new List<PlayerData>();
+        }
     }
 
     public bool OnSelectPlayer(string name)
     {
-        playerData[0] = new PlayerData(name); // 여기 수정함 06-02
+        playerData.Add(new PlayerData(name));
 
         bool succ = playerData != null;
         if (!succ)

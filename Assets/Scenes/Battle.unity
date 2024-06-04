@@ -394,21 +394,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &230539423
-Transform:
+--- !u!224 &230539423
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230539422}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5000, y: 5000, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 5000, y: 5000}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &328631892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1467,8 +1471,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1403373299}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &563113944
@@ -3488,11 +3491,11 @@ Transform:
   m_GameObject: {fileID: 1403373298}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5000, y: 5000, z: 0}
+  m_LocalPosition: {x: 5000, y: 5000, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 519420032}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &1403373300
 AudioListener:
@@ -4202,11 +4205,13 @@ MonoBehaviour:
   - {fileID: 5997718694094961925}
   - {fileID: 1788213943}
   - {fileID: 4300563412224516265}
+  map_List: []
   room_Count: 0
   popup: {fileID: 216788132}
   isMoveDone: 0
   maps_Prefab: {fileID: 3314482758534832354, guid: 0d824616e1a173648a5bdb1c27d025c1, type: 3}
   map_Pos: {fileID: 230539423}
+  map_Camera: {fileID: 1403373301}
   currentRoom: {fileID: 0}
   previousRoom: {fileID: 0}
 --- !u!1001 &1682527243
@@ -5431,6 +5436,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1403373299}
   - {fileID: 1992317810}
   - {fileID: 1390437427}
   - {fileID: 1682527243}
