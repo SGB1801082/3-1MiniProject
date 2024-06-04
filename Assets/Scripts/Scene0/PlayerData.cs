@@ -26,7 +26,9 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
     public bool isMelee;
 
     public List<Item> listInventory;
-    public List<Item> listEquipment; 
+    public List<Item> listEquipment;
+
+    public int playerIndex;
 
     public PlayerData(string name)
     {
@@ -46,10 +48,28 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         player_level = 1;
         
         skill_Able = false;
-        isMelee = false;
+        isMelee = true;
 
         listInventory = new List<Item>();
         listEquipment = new List<Item>();
+    }
+    public PlayerData(int index, float hp, float mp, float atk_spd, float atk_range, float atkDmg, int lv, bool skil_able, bool melee)
+    {
+        playerIndex = index;
+
+        max_Player_Hp = hp;
+        cur_Player_Hp = hp;
+        max_Player_Mp = mp;
+        cur_Player_Mp = 0f;
+
+        atk_Speed = atk_spd;
+        atk_Range = atk_range;
+        base_atk_Dmg = atkDmg;
+
+        player_level = lv;
+
+        skill_Able = skil_able;
+        isMelee = melee;
     }
 
     public string GetPlayerName()

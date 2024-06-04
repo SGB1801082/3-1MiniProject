@@ -70,9 +70,9 @@ public class PartyData
             case BaseEntity.JobClass.Ranger:
                 Debug.Log("Type Ranger, Generate Code: "+_Code);
                 partyHp = 20f + (0.01f* _Lvel);
-                partyMp = 5f + (0.01f * _Lvel);
-                partyAtk = 2f;
-                partyAtkSpd = 1.0f;
+                partyMp = 5f;
+                partyAtk = 2f + (0.1f * _Lvel);
+                partyAtkSpd = 1.0f + (0.1f * _Lvel);
                 partyAtkRange = 7f;
                 Type = "Ranger";
                 isMelee = false;
@@ -80,9 +80,9 @@ public class PartyData
             case BaseEntity.JobClass.Wizard:
                 Debug.Log("Type wizard, Generate Code: " + _Code);
                 partyHp = 20f + (0.01f * _Lvel);
-                partyMp = 5f + (0.01f * _Lvel);
-                partyAtk = 2f;
-                partyAtkSpd = 1.0f;
+                partyMp = 5f;
+                partyAtk = 2f + (0.1f * _Lvel);
+                partyAtkSpd = 1.0f + (0.1f * _Lvel);
                 partyAtkRange = 7f;
                 Type = "wizard";
                 isMelee = false;
@@ -90,10 +90,10 @@ public class PartyData
             case BaseEntity.JobClass.Knight:
                 Debug.Log("Type 3, Generate Code: " + _Code);
                 partyHp = 20f + (0.01f * _Lvel);
-                partyMp = 5f + (0.01f * _Lvel);
-                partyAtk = 2f;
+                partyMp = 5f;
+                partyAtk = 2f + (0.1f * _Lvel);
                 partyAtkSpd = 1.0f;
-                partyAtkRange = 2f;
+                partyAtkRange = 2f + (0.1f * _Lvel);
                 isMelee = true;
                 break;
 /*            case 0://Player
@@ -101,9 +101,9 @@ public class PartyData
             default:
                 Debug.Log("Type d, Generate Code: " + _Code);
                 partyHp = 20f + (0.01f * _Lvel);
-                partyMp = 5f + (0.01f * _Lvel);
-                partyAtk = 2f;
-                partyAtkSpd = 1.0f;
+                partyMp = 5f;
+                partyAtk = 2f + (0.1f * _Lvel);
+                partyAtkSpd = 1.0f + (0.1f * _Lvel);
                 partyAtkRange = 2f;
                 isMelee = true;
                 break;

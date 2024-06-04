@@ -45,7 +45,8 @@ public class PartySlot : MonoBehaviour
     {
         if (moveInChek == true)
         {
-            GameUiMgr.single.RestorePartySlot(this.partySlotIndex);
+            //GameUiMgr.single.RestorePartySlot(this.partySlotIndex + 1);
+            GameUiMgr.single.RestorePartySlot(this.partySlotIndex -1);
             return;
         }
 

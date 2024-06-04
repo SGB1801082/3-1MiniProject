@@ -6,15 +6,19 @@ using UnityEngine.UI;
 
 public class Ranger : BaseEntity
 {
-    private EntityStat stat;
-    //Transform cur_target;
-    int chek = 0;
-
     protected override void Start()
     {
         base.Start();
         Debug.Log("Ranger 생성");
+        foreach (GameObject player in BattleManager.Instance.party_List)
+        {
+            BaseEntity player_Stat = player.GetComponent<BaseEntity>();
 
+            if (player_Stat.entity_index == GetComponent<BaseEntity>().entity_index)
+            {
+                InitStat(entity_index);
+            }
+        }
         // 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
         /*foreach (var _slot in GameUiMgr.single.lsastDeparture)
         {
@@ -65,7 +69,7 @@ public class Ranger : BaseEntity
         able_Skill = stat.isSkill;
         isMelee = false; // 임시로 근접 유닛과 똑같은 방식으로 공격 추후에 투사체를 발사하는 방식으로 바꿀 예정
 */
-        SetAttackSpeed(atkSpd);
+        //SetAttackSpeed(atkSpd);
     }
 
     protected override void Update()

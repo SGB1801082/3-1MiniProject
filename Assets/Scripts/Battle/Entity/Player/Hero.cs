@@ -7,12 +7,22 @@ using UnityEngine.UI;
 
 public class Hero : BaseEntity
 {
-    private EntityStat stat;
 
     protected override void Start()
     {
         base.Start();
-        /*        Debug.Log("Player 생성");
+        Debug.Log("Player 생성");
+        foreach (GameObject _player in BattleManager.Instance.party_List)
+        {
+            BaseEntity player_Stat = _player.GetComponent<BaseEntity>();
+
+            if (player_Stat.entity_index == GetComponent<BaseEntity>().entity_index)
+            {
+                InitStat(entity_index);
+            }
+        }
+
+        /*        
         */
         /*
                 // 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
@@ -31,7 +41,7 @@ public class Hero : BaseEntity
                 able_Skill = stat.isSkill;
                 isMelee = true;*/
 
-        SetAttackSpeed(atkSpd);
+        //SetAttackSpeed(atkSpd);
 
     }
 
@@ -39,10 +49,10 @@ public class Hero : BaseEntity
     {
         base.Update();
 
-        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
+        /*if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
         {
-            GameMgr.playerData[0].cur_Player_Hp = cur_Hp;
-        }
+            GameMgr.playerData[entity_index].cur_Player_Hp = cur_Hp;
+        }*/
 
         if (_curstate == State.Skill)
         {

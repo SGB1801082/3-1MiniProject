@@ -10,7 +10,7 @@ public class GameMgr : MonoBehaviour
     public static List<PlayerData> playerData { get; private set; }//여기 수정함 06-02
 
     private bool loadChecker = false;
-
+    
     private void Awake()
     {
         single = this;

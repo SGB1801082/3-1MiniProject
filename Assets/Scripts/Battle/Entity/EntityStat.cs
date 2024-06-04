@@ -9,15 +9,13 @@ public class EntityStat : MonoBehaviour
     public float atkDmg;
     public float atkSpd;
     public float atkRange;
-    public bool isSkill;
 
-    public EntityStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange, bool isSkill)
+    public EntityStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange)
     {
         this.max_Hp = max_Hp;
         this.max_Mp = max_Mp;
         this.atkDmg = atkDmg;
         this.atkSpd = atkSpd;
         this.atkRange = atkRange;
-        this.isSkill = isSkill;
     }
 }

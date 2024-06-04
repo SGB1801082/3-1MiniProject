@@ -143,7 +143,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public TextMeshProUGUI textPartyPrice;
     public int partyPrice;
 
-    public List<PartySlot> lsastDeparture;
+    public List<PartySlot> lastDeparture;
     private void Awake()
     {
         single = this;
@@ -915,6 +915,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
         //MoveInSlot 초기화
         PartyListInPlayer();
+
         //05-23 고용리스트 텍스트 관리
         RefreshiEmploy();
 
@@ -923,6 +924,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             CreatePartySlot(nowPartyBord);
         }*/
+        
     }
     public void CreatePartySlot(PartyData _partyData)
     {
@@ -941,32 +943,27 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
 
         partySlot.Init(_partyData);
-        if (partySlot.partySlotIndex == 0)
-        {
-            partySlot.partySlotIndex = 999;
-            partySlot.partyData.index = 999;
-        }
-        else
-        {
-            partySlot.partySlotIndex = activeCount;
-            partySlot.partyData.index = activeCount;
-        }
-        
-        
+
+        partySlot.partySlotIndex = (activeCount +1);
+        partySlot.partyData.index = partySlot.partySlotIndex;
+
         Debug.Log("생성 번호: "+activeCount);
         partySlot.gameObject.SetActive(true);//활성화
     }
 
     public void OnClickCreateParty()//테스트용 모집가능파티원리스트 생성 메서드
     {
-        // 0부터 10 사이의 정수 난수 생성 (10은 포함되지 않음)
-        int ran = Random.Range(1, 10);
-        PartyData newParty = new(objListPlayable[Random.Range(0,objListPlayable.Count)], ran);
+        for (int i = 0; i < 16; i++)
+        {
+            // 0부터 10 사이의 정수 난수 생성 (10은 포함되지 않음)
+            int ran = Random.Range(1, 10);
+            PartyData newParty = new(objListPlayable[Random.Range(0, objListPlayable.Count)], ran);
 
-        Debug.Log("Btn 파티 영입가능인원 생성 ");
+            Debug.Log("Btn 파티 영입가능인원 생성 ");
 
-        CreatePartySlot(newParty);
-        listPartyData.Add(newParty);// 고용가능 파티원목록리스트를 저장, 여기에서 저장했으니까 씬 넘어갈때 Clier해서 비워줘야겠지??
+            CreatePartySlot(newParty);
+            listPartyData.Add(newParty);// 고용가능 파티원목록리스트를 저장, 여기에서 저장했으니까 씬 넘어갈때 Clier해서 비워줘야겠지??
+        }
     }
 
     public bool ClickedPartySlot(PartyData _partyData)
@@ -988,7 +985,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         partySlot.Init(_partyData);
         
-        partySlot.partySlotIndex = _partyData.index;
+        partySlot.partySlotIndex = _partyData.index;// 06-04 여기수정
         partySlot.moveInChek = true;
         partySlot.btnMy.interactable = true;
 
@@ -1005,10 +1002,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void RestorePartySlot(int _index)
     {
+        Debug.Log("Rrestore Index: " + _index);
         foreach (var _slot in poolMoveInSlot)
         {
             if (_slot.partySlotIndex == _index)
             {
+                Debug.Log("equal Index: " + _slot.partySlotIndex);
                 _slot.gameObject.SetActive(false);
 
                 poolPartySlot[_index].block.SetActive(false);
@@ -1051,35 +1050,42 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             Debug.Log("골드 부족");
             return; //버튼눌렀는데 골드가 부족하면 실행안됨
         }
-        lsastDeparture.Clear();
+        lastDeparture.Clear();
 
         foreach (PartySlot _slot in poolMoveInSlot)
         {
-            if (_slot.partyData != null)
+            if (_slot.partySlotIndex != 0 &&_slot.partyData != null)
             {
                 _slot.partyData.partyJobIndex = battleIndex++;
-                lsastDeparture.Add(_slot);
-                _slot.partyData.obj_Data.GetComponent<BaseEntity>().Init(_slot.partyData.partyJobIndex, _slot.partyData.partyHp, _slot.partyData.partyMp, _slot.partyData.partyAtk, _slot.partyData.partyAtkSpd, _slot.partyData.partyAtkRange, _slot.partyData.isMelee, _slot.partyData.partyAbleSkill);
+                lastDeparture.Add(_slot);
 
-                PlayerData _pd = new(_slot.name);
+                PlayerData _pd = new(
+                    _slot.partyData.partyJobIndex,
 
-                _pd.max_Player_Hp = _slot.partyData.partyHp;
-                _pd.cur_Player_Hp = _pd.max_Player_Hp;
+                    _slot.partyData.partyHp,
+                    _slot.partyData.partyMp,
 
-                _pd.max_Player_Mp = _slot.partyData.partyMp;
-                _pd.cur_Player_Mp = 0;
+                    _slot.partyData.partyAtkSpd,
+                    _slot.partyData.partyAtkRange,
+                    _slot.partyData.partyAtk,
 
-                _pd.base_atk_Dmg = _slot.partyData.partyAtk;
-                _pd.atk_Range = _slot.partyData.partyAtkRange;
-                _pd.atk_Speed = _slot.partyData.partyAtkSpd;
-                PartyOptionSetting(_pd, _slot.partyData.jobType);
+                    _slot.partyData.level,
+
+                    _slot.partyData.partyAbleSkill,
+                    _slot.partyData.isMelee
+
+                    );
+
                 GameMgr.playerData.Add(_pd);
-                Debug.Log("최종파티원LV: "+_slot.partyData.level +", 직업코드:"+_slot.partyData.partyJobIndex);
+
+                _slot.partyData.obj_Data.GetComponent<BaseEntity>().Init(_pd.playerIndex, _pd);
+                Debug.Log("최종파티원LV: " + _slot.partyData.level + ", 직업코드:" + _slot.partyData.partyJobIndex);
             }
+            
         }
     }
 
-    private void PartyListInPlayer()
+    public void PartyListInPlayer()
     {
         //지금 파티보드에서 보여야하는 플레이어의 데이터를 여기에다가 욱여넣고있는데 추후 수정해야함
         PartyData pd = new(playerPrefab, GameMgr.playerData[0].player_level);// 
@@ -1092,37 +1098,15 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         poolMoveInSlot[0].partyData = pd;
         poolMoveInSlot[0].gameObject.SetActive(true);
         poolMoveInSlot[0].partyIcon.sprite = playerPrefab.GetComponent<SpriteRenderer>().sprite;
-        poolMoveInSlot[0].text_Name.text = "Player";// GameMgr.playerData. ~~~
-        //poolMoveInSlot[0].partySlotIndex = 999; // 파티보드에서 0번누르면 플레이어가 사라지는 찐빠가나서 이걸로 회피 였는데 파티생성할때 아예 인덱스0이면 999로 주라고 수정함
+        poolMoveInSlot[0].text_Name.text = "Player";
+
         poolMoveInSlot[0].text_Lv.text = GameMgr.playerData[0].player_level.ToString();
         listPartyData.Add(poolMoveInSlot[0].partyData);
 
-        //poolMoveInSlot[0].GetComponent<Button>().interactable = false;
+        PartySlot nSlot = new();
+        nSlot.Init(pd);
+
+        lastDeparture.Add(nSlot);
     }
 
-    private void PartyOptionSetting(PlayerData _playerData, BaseEntity.JobClass job)//PartyData _partyData)
-    {
-
-        switch (job)
-        {
-            case BaseEntity.JobClass.Hero:
-                _playerData.skill_Able = false;
-                _playerData.isMelee = true;
-                break;
-            case BaseEntity.JobClass.Knight:
-                _playerData.skill_Able = false;
-                _playerData.isMelee = true;
-                break;
-            case BaseEntity.JobClass.Ranger:
-                _playerData.skill_Able = false;
-                _playerData.isMelee = false;
-                break;
-            case BaseEntity.JobClass.Wizard:
-                _playerData.skill_Able = false;
-                _playerData.isMelee = false;
-                break;
-            default:
-                break;
-        }
-    }
 }
