@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs.LowLevel.Unsafe;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -38,6 +39,8 @@ public class PartyData
     public bool isMelee;
     public GameObject obj_Data;
     public BaseEntity player;
+
+    public BaseEntity.JobClass jobType; 
     public PartyData(GameObject prefab, int _Lvel)
     {
         obj_Data = prefab;
@@ -61,6 +64,7 @@ public class PartyData
 
     public void GenerateStat(BaseEntity.JobClass _Code, int _Lvel)
     {
+        jobType = _Code;
         switch (_Code)
         {
             case BaseEntity.JobClass.Ranger:

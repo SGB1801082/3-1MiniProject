@@ -92,6 +92,14 @@ public class PlayerAction : MonoBehaviour
         {
             //Debug.Log("This is : "+ scanRayObjcet.name);// 레이에 맞고 스페이스바를 통해 상호작용하여 Scan Object에 저장된 물체가 있을 시 오브젝트 이름 출력 
             //Debug.Log(scanRayObjcet.name); // 04- 23 Debug
+            
+            ObjectData obj = scanRayObjcet.GetComponent<ObjectData>();
+            if (obj.id == 9000)
+            {
+                GameUiMgr.single.panelPartyBoard.SetActive(true);
+                Debug.Log("id: " + obj.id);
+                return;
+            }
             gUiMgr.TalkAction(scanRayObjcet);// Ray로 상호작용한 Object의 정보를 twonMgr로 넘겨서 그곳에 있는 대화창에 정보를 출력하게 함.
         }
 

@@ -23,6 +23,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
     public float atk_Range;
     public float base_atk_Dmg;
     public bool skill_Able;
+    public bool isMelee;
 
     public List<Item> listInventory;
     public List<Item> listEquipment; 
@@ -43,7 +44,9 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         atk_Range = 1.1f;
         base_atk_Dmg = 3f;
         player_level = 1;
+        
         skill_Able = false;
+        isMelee = false;
 
         listInventory = new List<Item>();
         listEquipment = new List<Item>();

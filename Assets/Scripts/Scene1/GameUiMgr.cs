@@ -466,6 +466,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void TalkAction(GameObject scanObj)
     {
+        
         scanObject = scanObj;
         ObjectData objectData = scanObject.GetComponent<ObjectData>();// Ray가 스캔했을때  LayerMask가 Obejct인 오브젝트가 부착중인 ObecjtData를  Ray가 오브젝트를 스캔 했을 때만 추출해서 TossTalkData메서드의 매개변수로 사용함.
         TossTalkData(objectData.id, objectData.isNpc);
@@ -1059,6 +1060,20 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 _slot.partyData.partyJobIndex = battleIndex++;
                 lsastDeparture.Add(_slot);
                 _slot.partyData.obj_Data.GetComponent<BaseEntity>().Init(_slot.partyData.partyJobIndex, _slot.partyData.partyHp, _slot.partyData.partyMp, _slot.partyData.partyAtk, _slot.partyData.partyAtkSpd, _slot.partyData.partyAtkRange, _slot.partyData.isMelee, _slot.partyData.partyAbleSkill);
+
+                PlayerData _pd = new(_slot.name);
+
+                _pd.max_Player_Hp = _slot.partyData.partyHp;
+                _pd.cur_Player_Hp = _pd.max_Player_Hp;
+
+                _pd.max_Player_Mp = _slot.partyData.partyMp;
+                _pd.cur_Player_Mp = 0;
+
+                _pd.base_atk_Dmg = _slot.partyData.partyAtk;
+                _pd.atk_Range = _slot.partyData.partyAtkRange;
+                _pd.atk_Speed = _slot.partyData.partyAtkSpd;
+                PartyOptionSetting(_pd, _slot.partyData.jobType);
+                GameMgr.playerData.Add(_pd);
                 Debug.Log("최종파티원LV: "+_slot.partyData.level +", 직업코드:"+_slot.partyData.partyJobIndex);
             }
         }
@@ -1083,5 +1098,31 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         listPartyData.Add(poolMoveInSlot[0].partyData);
 
         //poolMoveInSlot[0].GetComponent<Button>().interactable = false;
+    }
+
+    private void PartyOptionSetting(PlayerData _playerData, BaseEntity.JobClass job)//PartyData _partyData)
+    {
+
+        switch (job)
+        {
+            case BaseEntity.JobClass.Hero:
+                _playerData.skill_Able = false;
+                _playerData.isMelee = true;
+                break;
+            case BaseEntity.JobClass.Knight:
+                _playerData.skill_Able = false;
+                _playerData.isMelee = true;
+                break;
+            case BaseEntity.JobClass.Ranger:
+                _playerData.skill_Able = false;
+                _playerData.isMelee = false;
+                break;
+            case BaseEntity.JobClass.Wizard:
+                _playerData.skill_Able = false;
+                _playerData.isMelee = false;
+                break;
+            default:
+                break;
+        }
     }
 }
