@@ -43,10 +43,10 @@ public class PartySlot : MonoBehaviour
 
     public void OnClick()
     {
+
         if (moveInChek == true)
         {
-            //GameUiMgr.single.RestorePartySlot(this.partySlotIndex + 1);
-            GameUiMgr.single.RestorePartySlot(this.partySlotIndex -1);
+            GameUiMgr.single.RestorePartySlot(this.partySlotIndex);
             return;
         }
 
@@ -57,22 +57,6 @@ public class PartySlot : MonoBehaviour
             moveInChek = true;
             btnMy.interactable = false;
         }
-
-        /*if (moveInChek == false)
-        {
-            
-            //TODO: 클릭되었으니 PlayerPartyList에 내 partyData를 넘겨 Add해 주고, 새로그려야함
-            //여기에서  파티슬롯에 Add해주는데 새로 생성하는 방식이아니라 슬롯에 내 정보를 그대로 덮어씌워서 내껄로만들면서 Block을 false로 해주고 그 상태에서 다시 클릭되면 리스트에서빠지면서 내 본체의 block을 false로 해주기.
-        }
-        else
-        {
-            Debug.Log("Delete MoveInSlot");
-            //하단 MoveIn Slot List의 PartySlot이 클릭되면 해당 MoveInSlot List에 활성화된 슬롯이 비활성화/제거 되고
-            GameUiMgr.single.poolMoveInSlot[partySlotIndex].gameObject.SetActive(false);
-            GameUiMgr.single.poolMoveInSlot.Remove(GameUiMgr.single.poolMoveInSlot[partySlotIndex]);
-            //Body의 PartyBordSlot이 다시 상호작용가능하게 되어야함.
-            block.SetActive(false);
-        }*/
 
     }
     public void ReSetPartySlot()

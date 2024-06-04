@@ -1,8 +1,6 @@
 ﻿//using System;
-using JetBrains.Annotations;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -966,7 +964,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
     }
 
-    public bool ClickedPartySlot(PartyData _partyData)
+    /*public bool ClickedPartySlot(PartyData _partyData)
     {
         int activeCount = poolMoveInSlot.FindAll(s => s.gameObject.activeSelf).Count;
         if (activeCount >= 4)
@@ -1017,13 +1015,67 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 _slot.ReSetPartySlot();
                 //listPartyData.Remove(poolPartySlot[_index].partyData); 시발
                 RefreshiEmploy();
-                /*poolMoveInSlot[_index].gameObject.SetActive(false);//비활성화 
+                *//*poolMoveInSlot[_index].gameObject.SetActive(false);//비활성화 
                 poolPartySlot[_index].block.SetActive(false);
-                poolPartySlot[_index].moveInChek = false;*/
+                poolPartySlot[_index].moveInChek = false;*//*
+            }
+        }
+    }*/
+    public bool ClickedPartySlot(PartyData _partyData)
+    {
+        int activeCount = poolMoveInSlot.FindAll(s => s.gameObject.activeSelf).Count;
+        if (activeCount >= 4)
+        {
+            return false;
+        }
+
+        // 비활성화된 오브젝트 있으면 반환하는 코드
+        PartySlot partySlot = poolMoveInSlot.Find(s => !s.gameObject.activeSelf);
+        if (partySlot == null)
+        {
+            GameObject go = Instantiate(partyPrefab, poolMoveInSlot[0].transform.parent);
+            partySlot = go.GetComponent<PartySlot>();
+            poolMoveInSlot.Add(partySlot);
+        }
+
+        partySlot.Init(_partyData);
+
+        partySlot.partySlotIndex = _partyData.index; // 여기 수정
+        partySlot.moveInChek = true;
+        partySlot.btnMy.interactable = true;
+
+        partySlot.gameObject.SetActive(true); // 활성화
+        partySlot.text_Cost.gameObject.SetActive(false);
+        partySlot.text_Name.gameObject.SetActive(true);
+
+        RefreshiEmploy();
+
+        return true;
+    }
+
+    public void RestorePartySlot(int _index)
+    {
+        Debug.Log("Restore Index: " + _index);
+        foreach (var _slot in poolMoveInSlot)
+        {
+            if (_slot.partySlotIndex == _index)
+            {
+                Debug.Log("Equal Index: " + _slot.partySlotIndex);
+                _slot.gameObject.SetActive(false);
+
+                var correspondingSlot = poolPartySlot.Find(s => s.partySlotIndex == _index);
+                if (correspondingSlot != null)
+                {
+                    correspondingSlot.block.SetActive(false);
+                    correspondingSlot.moveInChek = false;
+                    correspondingSlot.btnMy.interactable = true;
+                }
+
+                _slot.ReSetPartySlot();
+                RefreshiEmploy();
             }
         }
     }
-
     public void RefreshiEmploy()
     {
         int countEmploy = 0;
@@ -1050,7 +1102,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             Debug.Log("골드 부족");
             return; //버튼눌렀는데 골드가 부족하면 실행안됨
         }
-        lastDeparture.Clear();
 
         foreach (PartySlot _slot in poolMoveInSlot)
         {
@@ -1087,13 +1138,17 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void PartyListInPlayer()
     {
+        lastDeparture.Clear();
+
         //지금 파티보드에서 보여야하는 플레이어의 데이터를 여기에다가 욱여넣고있는데 추후 수정해야함
-        PartyData pd = new(playerPrefab, GameMgr.playerData[0].player_level);// 
-        pd.partyHp = GameMgr.playerData[0].max_Player_Hp;
-        pd.partyMp = GameMgr.playerData[0].max_Player_Mp;
-        pd.partyAtk = GameMgr.playerData[0].base_atk_Dmg;
-        pd.partyAtkSpd = GameMgr.playerData[0].atk_Speed;
-        pd.partyAtkRange = GameMgr.playerData[0].atk_Range;
+        PartyData pd = new(playerPrefab, GameMgr.playerData[0].player_level)//개체 초기화 단순화 하는 코드 
+        {
+            partyHp = GameMgr.playerData[0].max_Player_Hp,
+            partyMp = GameMgr.playerData[0].max_Player_Mp,
+            partyAtk = GameMgr.playerData[0].base_atk_Dmg,
+            partyAtkSpd = GameMgr.playerData[0].atk_Speed,
+            partyAtkRange = GameMgr.playerData[0].atk_Range
+        };
 
         poolMoveInSlot[0].partyData = pd;
         poolMoveInSlot[0].gameObject.SetActive(true);
@@ -1101,12 +1156,15 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         poolMoveInSlot[0].text_Name.text = "Player";
 
         poolMoveInSlot[0].text_Lv.text = GameMgr.playerData[0].player_level.ToString();
+        
         listPartyData.Add(poolMoveInSlot[0].partyData);
+        lastDeparture.Add(poolMoveInSlot[0]);
 
-        PartySlot nSlot = new();
-        nSlot.Init(pd);
+        poolMoveInSlot[0].btnMy.interactable = false;
+        /*        PartySlot nSlot = new();
+                nSlot.Init(pd);*/
 
-        lastDeparture.Add(nSlot);
+        
     }
 
 }
