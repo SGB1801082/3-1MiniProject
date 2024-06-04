@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,31 +10,41 @@ public class MainMenuMgr : MonoBehaviour
     [SerializeField] GameObject OptionMenu;
     [SerializeField] AddUserName addUserName;
 
-    [SerializeField] Button btnLoadGame;
+    //[SerializeField] Button btnLoadGame;
 
     [SerializeField] List<Sprite> imgListBG;
     public Image imgMenuBG;
+
+    [Header("Title Buttons")]
+    public List<Button> TitleBtns;
+
+    [Header("Title Button Sprite")]
+    public List<Sprite> TitleBtnSprites;
     private void Awake()
     {
-        Screen.SetResolution(1920,1080,FullScreenMode.Windowed);// 게임 시작 시 1920*1080 창모드 실행
+        Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);// 게임 시작 시 1920*1080 창모드 실행
 
         mainMenu.SetActive(true);
         OptionMenu.SetActive(false);
         addUserName.gameObject.SetActive(false);
 
-        if (SaveSystem.DataCheck("save") == false )
+        if (SaveSystem.DataCheck("save") == false)
         {
-            btnLoadGame.gameObject.SetActive(false);
-        }else
-            btnLoadGame.gameObject.SetActive(true);
-
+            TitleBtns[0].gameObject.SetActive(false);//btnLoadGame.gameObject.SetActive(false);
+        }
+        else 
+        {
+            TitleBtns[0].gameObject.SetActive(true);
+        }
 
         string SavePath = Path.Combine(Application.persistentDataPath, "saves/");
         Debug.Log(SavePath);
     }
+    
     private void Start()
     {
         ChangeBG();
+        //RefreshTitleBtns();
     }
 
     public void OnClickedGameStart()
@@ -52,7 +60,7 @@ public class MainMenuMgr : MonoBehaviour
     public void OnClickedReLoadGame()
     {
         GameMgr.single.IsGameLoad(true);
-        SceneManager.LoadScene("Scene1");
+        SceneManager.LoadScene("Town");
     }
 
 
@@ -122,4 +130,13 @@ public class MainMenuMgr : MonoBehaviour
         Debug.Log("현재는 밤 시간대입니다. 야간 작업을 수행합니다.");
         // 야간 작업 수행 코드 작성
     }
+
+    /*public void RefreshTitleBtns()
+    {
+        foreach (var _btn in TitleBtns)
+        {
+            _btn.image.sprite = TitleBtnSprites[0];
+        }
+    }*/
+
 }

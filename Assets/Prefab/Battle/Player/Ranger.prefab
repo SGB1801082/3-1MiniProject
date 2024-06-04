@@ -134,14 +134,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155ccaa164d7b7349a7ac0c8ef05ae5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity_id: 1
-  max_Hp: 30
-  cur_Hp: 0
-  max_Mp: 0
+  max_Hp: 20.02
+  cur_Hp: 20.02
+  max_Mp: 5.02
   cur_Mp: 0
-  atkDmg: 0
-  atkSpd: 0
-  atkRange: 0
+  atkDmg: 2
+  atkSpd: 1
+  atkRange: 7
   isAttack: 0
   isAtkDone: 0
   isDie: 0
@@ -149,6 +148,7 @@ MonoBehaviour:
   able_Skill: 0
   agent: {fileID: 0}
   ani: {fileID: 1876938298027869184}
+  job: 2
   _curstate: 0
 --- !u!195 &7057994498990099850
 NavMeshAgent:

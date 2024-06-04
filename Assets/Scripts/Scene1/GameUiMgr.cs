@@ -230,7 +230,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             GameLoad();
             Debug.Log("Load Success");
-            Debug.Log(GameMgr.playerData.GetPlayerName());
+            Debug.Log(GameMgr.playerData[0].GetPlayerName());
         }
     
         questDesc.text = questMgr.CheckQuest();
@@ -423,27 +423,27 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     #endregion
     private void SetPlayerDatas()
     {
-        tmp_PlayerName.text = GameMgr.playerData.NAME;
-        playerGold = GameMgr.playerData.player_Gold;
-        playerLevel = GameMgr.playerData.player_level;
+        tmp_PlayerName.text = GameMgr.playerData[0].NAME;
+        playerGold = GameMgr.playerData[0].player_Gold;
+        playerLevel = GameMgr.playerData[0].player_level;
 
-        tmp_PlayerLevle.text = "Lv." + GameMgr.playerData.player_level .ToString();
-        tmp_PlayerGold.text = GameMgr.playerData.player_Gold .ToString();
+        tmp_PlayerLevle.text = "Lv." + GameMgr.playerData[0].player_level .ToString();
+        tmp_PlayerGold.text = GameMgr.playerData[0].player_Gold .ToString();
 
-        this.player_Max_HP = GameMgr.playerData.max_Player_Hp;
-        this.player_Cur_HP = GameMgr.playerData.cur_Player_Hp;
+        this.player_Max_HP = GameMgr.playerData[0].max_Player_Hp;
+        this.player_Cur_HP = GameMgr.playerData[0].cur_Player_Hp;
 
-        this.player_Max_SN = GameMgr.playerData.max_Player_Sn;
-        this.player_Cur_SN = GameMgr.playerData.cur_Player_Sn;
+        this.player_Max_SN = GameMgr.playerData[0].max_Player_Sn;
+        this.player_Cur_SN = GameMgr.playerData[0].cur_Player_Sn;
 
-        this.player_Max_MP = GameMgr.playerData.max_Player_Mp;
-        this.player_Cur_MP = GameMgr.playerData.cur_Player_Mp;
+        this.player_Max_MP = GameMgr.playerData[0].max_Player_Mp;
+        this.player_Cur_MP = GameMgr.playerData[0].cur_Player_Mp;
 
-        this.player_Atk_Speed = GameMgr.playerData.atk_Speed;
-        this.player_Atk_Range = GameMgr.playerData.atk_Range;
-        this.player_Base_Atk_Dmg = GameMgr.playerData.base_atk_Dmg;
-        this.player_Max_EXP = GameMgr.playerData.player_max_Exp;
-        this.player_Cur_EXP = GameMgr.playerData.player_cur_Exp;
+        this.player_Atk_Speed = GameMgr.playerData[0].atk_Speed;
+        this.player_Atk_Range = GameMgr.playerData[0].atk_Range;
+        this.player_Base_Atk_Dmg = GameMgr.playerData[0].base_atk_Dmg;
+        this.player_Max_EXP = GameMgr.playerData[0].player_max_Exp;
+        this.player_Cur_EXP = GameMgr.playerData[0].player_cur_Exp;
         
 
         s_HP.value = this.player_Cur_HP / this.player_Max_HP;
@@ -565,7 +565,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }
         }
 
-        SaveData gameSaveData = new SaveData(GameMgr.playerData.GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP, saveInventoryItem, saveWearItem);
+        SaveData gameSaveData = new SaveData(GameMgr.playerData[0].GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP, saveInventoryItem, saveWearItem);
         SaveSystem.Save(gameSaveData, "save");
 
         //  Player DayCount, Player Inventory, Player Desc (Stat, Name, Job, Gold ... ect)
@@ -583,29 +583,29 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //Debug.Log("load x, y: "+loadData.playerX +", "+ loadData.playerY);
         //SetNowPosition(loadData.playerX, loadData.playerY);
 
-        GameMgr.playerData.max_Player_Hp = loadData.p_max_hp;
-        GameMgr.playerData.cur_Player_Hp = loadData.p_cur_hp;
+        GameMgr.playerData[0].max_Player_Hp = loadData.p_max_hp;
+        GameMgr.playerData[0].cur_Player_Hp = loadData.p_cur_hp;
 
-        GameMgr.playerData.max_Player_Sn = loadData.p_max_sn;
-        GameMgr.playerData.cur_Player_Sn = loadData.p_cur_sn;
+        GameMgr.playerData[0].max_Player_Sn = loadData.p_max_sn;
+        GameMgr.playerData[0].cur_Player_Sn = loadData.p_cur_sn;
 
-        GameMgr.playerData.max_Player_Mp = loadData.p_max_mp;
-        GameMgr.playerData.cur_Player_Mp = loadData.p_cur_mp;
+        GameMgr.playerData[0].max_Player_Mp = loadData.p_max_mp;
+        GameMgr.playerData[0].cur_Player_Mp = loadData.p_cur_mp;
 
-        GameMgr.playerData.player_max_Exp = loadData.p_max_Exp;
-        GameMgr.playerData.player_cur_Exp = loadData.p_cur_Exp;
-
-
-        GameMgr.playerData.player_Gold = loadData.p_gold;
-        GameMgr.playerData.player_level = loadData.p_level;
+        GameMgr.playerData[0].player_max_Exp = loadData.p_max_Exp;
+        GameMgr.playerData[0].player_cur_Exp = loadData.p_cur_Exp;
 
 
-        GameMgr.playerData.atk_Speed = loadData.p_atk_speed;
-        GameMgr.playerData.atk_Range = loadData.p_atk_range;
-        GameMgr.playerData.base_atk_Dmg = loadData.p_base_atk_Dmg;
+        GameMgr.playerData[0].player_Gold = loadData.p_gold;
+        GameMgr.playerData[0].player_level = loadData.p_level;
 
-        GameMgr.playerData.listInventory = loadData.listInven;
-        GameMgr.playerData.listEquipment = loadData.listEquip;
+
+        GameMgr.playerData[0].atk_Speed = loadData.p_atk_speed;
+        GameMgr.playerData[0].atk_Range = loadData.p_atk_range;
+        GameMgr.playerData[0].base_atk_Dmg = loadData.p_base_atk_Dmg;
+
+        GameMgr.playerData[0].listInventory = loadData.listInven;
+        GameMgr.playerData[0].listEquipment = loadData.listEquip;
 
         LoadInventory(loadData.listInven);
         LoadEquipment(loadData.listEquip);
@@ -912,17 +912,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             _slot.text_Name.gameObject.SetActive(true);
             //Debug.Log("MoveInSlots Active: False");
         }
-        //지금 파티보드에서 보여야하는 플레이어의 데이터를 여기에다가 욱여넣고있는데 추후 수정해야함
-        PartyData pd = new(playerPrefab, 43);// 
-        poolMoveInSlot[0].partyData = pd;
-        poolMoveInSlot[0].gameObject.SetActive(true);
-        poolMoveInSlot[0].partyIcon.sprite = playerPrefab.GetComponent<SpriteRenderer>().sprite;
-        poolMoveInSlot[0].text_Name.text = "Player";
-        poolMoveInSlot[0].partySlotIndex = 999;
-        poolMoveInSlot[0].text_Lv.text = "Lv 43";
-        //listPartyData.Add(poolMoveInSlot[0].partyData); 시발
-        //poolMoveInSlot[0].GetComponent<Button>().interactable = false;
-
+        //MoveInSlot 초기화
+        PartyListInPlayer();
         //05-23 고용리스트 텍스트 관리
         RefreshiEmploy();
 
@@ -949,8 +940,18 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
 
         partySlot.Init(_partyData);
-        partySlot.partySlotIndex = activeCount;
-        partySlot.partyData.index = activeCount;
+        if (partySlot.partySlotIndex == 0)
+        {
+            partySlot.partySlotIndex = 999;
+            partySlot.partyData.index = 999;
+        }
+        else
+        {
+            partySlot.partySlotIndex = activeCount;
+            partySlot.partyData.index = activeCount;
+        }
+        
+        
         Debug.Log("생성 번호: "+activeCount);
         partySlot.gameObject.SetActive(true);//활성화
     }
@@ -1042,6 +1043,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void EmploymentCompleted()
     {
+        int battleIndex = 0;
         playerGold = 999;
         if ((playerGold - partyPrice) < 0 )
         {
@@ -1054,11 +1056,32 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             if (_slot.partyData != null)
             {
+                _slot.partyData.partyJobIndex = battleIndex++;
                 lsastDeparture.Add(_slot);
+                _slot.partyData.obj_Data.GetComponent<BaseEntity>().Init(_slot.partyData.partyJobIndex, _slot.partyData.partyHp, _slot.partyData.partyMp, _slot.partyData.partyAtk, _slot.partyData.partyAtkSpd, _slot.partyData.partyAtkRange, _slot.partyData.isMelee, _slot.partyData.partyAbleSkill);
                 Debug.Log("최종파티원LV: "+_slot.partyData.level +", 직업코드:"+_slot.partyData.partyJobIndex);
             }
         }
     }
 
+    private void PartyListInPlayer()
+    {
+        //지금 파티보드에서 보여야하는 플레이어의 데이터를 여기에다가 욱여넣고있는데 추후 수정해야함
+        PartyData pd = new(playerPrefab, GameMgr.playerData[0].player_level);// 
+        pd.partyHp = GameMgr.playerData[0].max_Player_Hp;
+        pd.partyMp = GameMgr.playerData[0].max_Player_Mp;
+        pd.partyAtk = GameMgr.playerData[0].base_atk_Dmg;
+        pd.partyAtkSpd = GameMgr.playerData[0].atk_Speed;
+        pd.partyAtkRange = GameMgr.playerData[0].atk_Range;
 
+        poolMoveInSlot[0].partyData = pd;
+        poolMoveInSlot[0].gameObject.SetActive(true);
+        poolMoveInSlot[0].partyIcon.sprite = playerPrefab.GetComponent<SpriteRenderer>().sprite;
+        poolMoveInSlot[0].text_Name.text = "Player";// GameMgr.playerData. ~~~
+        //poolMoveInSlot[0].partySlotIndex = 999; // 파티보드에서 0번누르면 플레이어가 사라지는 찐빠가나서 이걸로 회피 였는데 파티생성할때 아예 인덱스0이면 999로 주라고 수정함
+        poolMoveInSlot[0].text_Lv.text = GameMgr.playerData[0].player_level.ToString();
+        listPartyData.Add(poolMoveInSlot[0].partyData);
+
+        //poolMoveInSlot[0].GetComponent<Button>().interactable = false;
+    }
 }

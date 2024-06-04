@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EntityStat : MonoBehaviour
 {
-    public int id;
     public float max_Hp;
     public float max_Mp;
     public float atkDmg;
@@ -12,9 +11,8 @@ public class EntityStat : MonoBehaviour
     public float atkRange;
     public bool isSkill;
 
-    public EntityStat(int id, float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange, bool isSkill)
+    public EntityStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange, bool isSkill)
     {
-        this.id = id;
         this.max_Hp = max_Hp;
         this.max_Mp = max_Mp;
         this.atkDmg = atkDmg;

@@ -7,20 +7,19 @@ using UnityEngine.SceneManagement;
 public class GameMgr : MonoBehaviour
 {
     public static GameMgr single { get; private set; }
-    public static PlayerData playerData { get; private set; }
+    public static List<PlayerData> playerData { get; private set; }//여기 수정함 06-02
 
     private bool loadChecker = false;
 
     private void Awake()
     {
         single = this;
-
         playerData = null;
     }
 
     public bool OnSelectPlayer(string name)
     {
-        playerData = new PlayerData(name);
+        playerData[0] = new PlayerData(name); // 여기 수정함 06-02
 
         bool succ = playerData != null;
         if (!succ)

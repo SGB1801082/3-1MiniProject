@@ -51,7 +51,7 @@ public class Ranger : BaseEntity
         }*/
 
 
-        stat = new(1, 25, 5, 2, 1, 8, false);
+        /*stat = new(1, 25, 5, 2, 1, 8, false);
 
 
         entity_id = stat.id;
@@ -60,12 +60,12 @@ public class Ranger : BaseEntity
         max_Mp = stat.max_Mp;
         cur_Mp = 0;
         atkDmg = stat.atkDmg;
-        SetAttackSpeed(stat.atkSpd);
+       
         atkRange = stat.atkRange;
         able_Skill = stat.isSkill;
         isMelee = false; // 임시로 근접 유닛과 똑같은 방식으로 공격 추후에 투사체를 발사하는 방식으로 바꿀 예정
-
-        
+*/
+        SetAttackSpeed(atkSpd);
     }
 
     protected override void Update()

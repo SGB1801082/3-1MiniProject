@@ -9,7 +9,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class BaseEntity : MonoBehaviour
 {
-    public int entity_id;
+   //public int entity_id;
     public float max_Hp;
     public float cur_Hp;
     public float max_Mp;
@@ -42,6 +42,29 @@ public class BaseEntity : MonoBehaviour
         Attack,
         Skill,
         Death
+    }
+
+    public enum JobClass
+    {
+        Hero,
+        Knight,
+        Ranger,
+        Wizard
+    }
+
+    public JobClass job;
+
+    public void Init(int index, float hp, float mp, float dmg, float spd, float range, bool melee, bool skill)
+    {
+        max_Hp = hp;
+        cur_Hp = max_Hp;
+        max_Mp = mp;
+        cur_Mp = 0;
+        atkDmg = dmg;
+        atkSpd = spd;
+        atkRange = range;
+        isMelee = melee;
+        able_Skill = skill;
     }
 
     public State _curstate;
@@ -146,7 +169,6 @@ public class BaseEntity : MonoBehaviour
             }
 
             _stateManager.UpdateState();
-
             
 
             // 현재 체력이 0이 되면 Death 상태로 변하고 상태창도 죽은 것으로 표시

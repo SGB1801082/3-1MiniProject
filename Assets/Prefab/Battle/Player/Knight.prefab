@@ -220,7 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d1a85637306dc4ca00e58d8d19d376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity_id: 3
   max_Hp: 0
   cur_Hp: 0
   max_Mp: 0
@@ -235,4 +234,5 @@ MonoBehaviour:
   able_Skill: 0
   agent: {fileID: 0}
   ani: {fileID: 8262451124436653978}
+  job: 1
   _curstate: 0
