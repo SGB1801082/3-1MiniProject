@@ -49,7 +49,8 @@ public class BaseEntity : MonoBehaviour
         Hero,
         Knight,
         Ranger,
-        Wizard
+        Wizard,
+        Enemy
     }
 
     public JobClass job;

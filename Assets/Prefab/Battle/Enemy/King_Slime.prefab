@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3981629499084138417}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 1808660723397856769}
   - component: {fileID: 6258085662929525872}
   - component: {fileID: 2636371955803484230}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 1155276333509800742}
   - component: {fileID: 5928089452175869880}
   - component: {fileID: 1988839257391979474}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hp_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 6110102987110451852}
   - component: {fileID: 3468509845823784394}
   - component: {fileID: 7139308372165757991}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 4524310124018659475}
   - component: {fileID: 3679427112167076749}
   - component: {fileID: 4590196108005640455}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -438,7 +438,7 @@ GameObject:
   - component: {fileID: 7443803871649562271}
   - component: {fileID: 8026341547702672561}
   - component: {fileID: 3900367707566890526}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: King_Slime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -645,7 +645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bcd858a6b543b419249701c2c74d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity_id: 0
   max_Hp: 0
   cur_Hp: 0
   max_Mp: 0
@@ -658,8 +657,9 @@ MonoBehaviour:
   isDie: 0
   isMelee: 0
   able_Skill: 0
-  agent: {fileID: 0}
-  ani: {fileID: 0}
+  agent: {fileID: 1567952724172015931}
+  ani: {fileID: 7443803871649562271}
+  job: 4
   _curstate: 0
 --- !u!1 &9101621495221056930
 GameObject:
@@ -671,7 +671,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1155050132512487551}
   - component: {fileID: 5422903987516207710}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}

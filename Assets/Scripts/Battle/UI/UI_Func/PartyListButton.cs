@@ -68,12 +68,17 @@ public class PartyListButton : MonoBehaviour
     public float f_Set_Timer;
     bool isOpen = false;
 
+    private void OnEnable()
+    {
+        Clicked_Side();
+    }
+
+
     public void Clicked_Side()
     {
         if (!isOpen)
         {
             Open_Side();
-            isOpen = true;
         }
         else
         {
@@ -99,6 +104,7 @@ public class PartyListButton : MonoBehaviour
         }
         obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_To;
 
+        isOpen = true;
         StopCoroutine(Open_Side_Co());
     }
 
