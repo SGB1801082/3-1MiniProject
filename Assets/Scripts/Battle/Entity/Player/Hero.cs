@@ -26,14 +26,14 @@ public class Hero : Ally
     {
         base.Update();
 
-        if (_curstate == State.Skill)
+        /*if (_curstate == State.Skill)
         {
             Skill();
-        }
+        }*/
     }
 
 
-    public void Skill()
+    /*public void Skill()
     {
         if (_curstate == State.Skill)
         {
@@ -52,5 +52,5 @@ public class Hero : Ally
             cur_Mp = 0;
             ChangeState(State.Idle);
         }
-    }
+    }*/
 }

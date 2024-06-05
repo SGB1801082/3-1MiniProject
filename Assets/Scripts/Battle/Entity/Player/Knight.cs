@@ -7,9 +7,6 @@ using UnityEngine.UI;
 
 public class Knight : Ally
 {
-    //Transform cur_target;
-
-
     protected override void Start()
     {
         base.Start();
@@ -24,24 +21,6 @@ public class Knight : Ally
                 InitStat(entity_index);
             }
         }
-
-        /*// 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
-        stat = new EntityStat
-            (3, 30f, 10f, 3f, 1f, 1.1f, false);
-
-        entity_id = stat.id;
-        max_Hp = stat.max_Hp;
-        cur_Hp = max_Hp;
-        max_Mp = stat.max_Mp;
-        cur_Mp = 0;
-        atkDmg = stat.atkDmg;
-        SetAttackSpeed(stat.atkSpd);
-        atkRange = stat.atkRange;
-        able_Skill = stat.isSkill;
-        isMelee = true; // 임시로 근접 유닛과 똑같은 방식으로 공격 추후에 투사체를 발사하는 방식으로 바꿀 예정*/
-
-
-        //SetAttackSpeed(atkSpd);
     }
    
 
