@@ -10,15 +10,18 @@ public class Ranger : Ally
     {
         base.Start();
         Debug.Log("Ranger »ý¼º");
-        foreach (GameObject player in BattleManager.Instance.party_List)
-        {
-            BaseEntity player_Stat = player.GetComponent<BaseEntity>();
 
-            if (player_Stat.entity_index == GetComponent<BaseEntity>().entity_index)
+        foreach (PlayerData player in GameMgr.playerData)
+        {
+            foreach (GameObject obj in BattleManager.Instance.party_List)
             {
-                InitStat(entity_index);
+                if (obj.GetComponent<Entity_Unique>().index == player.playerIndex)
+                {
+                    InitStat(player.playerIndex);
+                }
             }
         }
+
     }
 
     protected override void Update()

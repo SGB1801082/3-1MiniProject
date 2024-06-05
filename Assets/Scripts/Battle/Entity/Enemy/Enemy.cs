@@ -11,11 +11,8 @@ public class Enemy : BaseEntity
 
     public void InitStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange)
     {
-        float cur_hp = max_Hp;
-
         stat = new(
             max_Hp,
-            cur_hp,
             max_Mp,
             atkDmg,
             atkSpd,
@@ -23,7 +20,7 @@ public class Enemy : BaseEntity
             );
 
         this.max_Hp = stat.max_Hp;
-        this.cur_Hp = stat.cur_hp;
+        this.cur_Hp = this.max_Hp;
         this.max_Mp = stat.max_Mp;
         this.cur_Mp = 0f;
         this.atkDmg = stat.atkDmg;

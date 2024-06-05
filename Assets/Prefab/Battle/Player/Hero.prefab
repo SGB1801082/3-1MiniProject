@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7290721332234880372}
   - component: {fileID: 8811124800605819279}
   - component: {fileID: -7213554166292842373}
+  - component: {fileID: 6045051310047242135}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Player
@@ -151,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bacbb4a51c1d3344990676e03a87ca44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity_id: 0
+  entity_index: 0
   max_Hp: 0
   cur_Hp: 0
   max_Mp: 0
@@ -162,11 +163,14 @@ MonoBehaviour:
   isAttack: 0
   isAtkDone: 0
   isDie: 0
-  isMelee: 0
+  isMelee: 1
   able_Skill: 0
   agent: {fileID: 0}
   ani: {fileID: 0}
   _curstate: 0
+  player_Name: asdas
+  level: 1
+  job: 0
 --- !u!114 &7290721332234880372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,3 +240,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6045051310047242135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8126696727815886533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ed7a5648ac7dd45ba4e6bc13d5fa19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0

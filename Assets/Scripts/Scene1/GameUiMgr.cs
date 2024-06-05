@@ -1134,8 +1134,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
                 GameMgr.playerData.Add(_pd);
 
-                _slot.partyData.obj_Data.GetComponent<Ally>().Init(_pd.playerIndex, _pd);
-                Debug.Log("최종파티원LV: " + _slot.partyData.level + ", 직업코드:" + _slot.partyData.partyJobIndex);
+                //_slot.partyData.obj_Data.GetComponent<Ally>().Init(_pd.playerIndex, _pd);
+                Debug.Log("최종파티원LV: " + _slot.partyData.level + ", 파티인덱스 :" + _slot.partyData.partyJobIndex);
             }
             
         }
@@ -1161,7 +1161,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         poolMoveInSlot[0].text_Name.text = "Player";
 
         poolMoveInSlot[0].text_Lv.text = GameMgr.playerData[0].player_level.ToString();
-        poolMoveInSlot[0].partyData.obj_Data.GetComponent<Ally>().Init(GameMgr.playerData[0].playerIndex, GameMgr.playerData[0]);
+        //poolMoveInSlot[0].partyData.obj_Data.GetComponent<Ally>().Init(GameMgr.playerData[0].playerIndex, GameMgr.playerData[0]);
         listPartyData.Add(poolMoveInSlot[0].partyData);
         lastDeparture.Add(poolMoveInSlot[0]);
 

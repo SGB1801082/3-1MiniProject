@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EntityStat : MonoBehaviour
 {
+    public int index;
     public float max_Hp;
     public float cur_hp;
     public float max_Mp;
@@ -11,8 +12,9 @@ public class EntityStat : MonoBehaviour
     public float atkSpd;
     public float atkRange;
 
-    public EntityStat(float max_Hp, float cur_hp, float max_Mp, float atkDmg, float atkSpd, float atkRange)
+    public EntityStat(int index, float max_Hp, float cur_hp, float max_Mp, float atkDmg, float atkSpd, float atkRange)
     {
+        this.index = index;
         this.max_Hp = max_Hp;
         this.cur_hp = cur_hp;  
         this.max_Mp = max_Mp;
@@ -20,4 +22,15 @@ public class EntityStat : MonoBehaviour
         this.atkSpd = atkSpd;
         this.atkRange = atkRange;
     }
+
+
+    public EntityStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange)
+    {
+        this.max_Hp = max_Hp;
+        this.max_Mp = max_Mp;
+        this.atkDmg = atkDmg;
+        this.atkSpd = atkSpd;
+        this.atkRange = atkRange;
+    }
+
 }

@@ -10,13 +10,14 @@ public class Wizard : Ally
     {
         base.Start();
         Debug.Log("Wizard »ý¼º");
-        foreach (GameObject player in BattleManager.Instance.party_List)
+        foreach (PlayerData player in GameMgr.playerData)
         {
-            BaseEntity player_Stat = player.GetComponent<BaseEntity>();
-
-            if (player_Stat.entity_index == GetComponent<BaseEntity>().entity_index)
+            foreach (GameObject obj in BattleManager.Instance.party_List)
             {
-                InitStat(entity_index);
+                if (obj.GetComponent<Entity_Unique>().index == player.playerIndex)
+                {
+                    InitStat(player.playerIndex);
+                }
             }
         }
     }

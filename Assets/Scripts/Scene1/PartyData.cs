@@ -68,7 +68,7 @@ public class PartyData
                 partyAtk = 2f + (0.1f * _Lvel);
                 partyAtkSpd = 1.0f + (0.1f * _Lvel);
                 partyAtkRange = 7f;
-                strPartyName = "궁수";
+                strPartyName = "Ranger";
                 type = "Ranger";
                 isMelee = false;//false 일때 원거리공격
                 break;
@@ -79,7 +79,7 @@ public class PartyData
                 partyAtk = 2f + (0.1f * _Lvel);
                 partyAtkSpd = 1.0f + (0.1f * _Lvel);
                 partyAtkRange = 7f;
-                strPartyName = "법사";
+                strPartyName = "Wizard";
                 type = "wizard";
                 isMelee = true;
                 break;
@@ -90,7 +90,7 @@ public class PartyData
                 partyAtk = 2f + (0.1f * _Lvel);
                 partyAtkSpd = 1.0f;
                 partyAtkRange = 2f + (0.1f * _Lvel);
-                strPartyName = "기사";
+                strPartyName = "Knight";
                 type = "Knight";
                 isMelee = true;
                 break;

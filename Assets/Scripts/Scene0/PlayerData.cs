@@ -30,7 +30,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
 
     public int playerIndex;
 
-    public string partyName;
+    //public string partyName;
 
     public PlayerData(string name)
     {
@@ -69,7 +69,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         base_atk_Dmg = atkDmg;
 
         player_level = lv;
-        partyName = name;
+        this.NAME = name;
 
         skill_Able = skil_able;
         isMelee = melee;

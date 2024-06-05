@@ -47,6 +47,9 @@ GameObject:
   - component: {fileID: 4978432409490693512}
   - component: {fileID: 1185456871789358827}
   - component: {fileID: 1876938298027869184}
+  - component: {fileID: -3997879714454754518}
+  - component: {fileID: -5329271184272976978}
+  - component: {fileID: 8221701925675953452}
   m_Layer: 0
   m_Name: Ranger
   m_TagString: Player
@@ -196,14 +199,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155ccaa164d7b7349a7ac0c8ef05ae5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity_index: 1
-  max_Hp: 20.07
-  cur_Hp: 20.07
-  max_Mp: 5
+  entity_index: 0
+  max_Hp: 0
+  cur_Hp: 0
+  max_Mp: 0
   cur_Mp: 0
-  atkDmg: 2.7
-  atkSpd: 1.7
-  atkRange: 7
+  atkDmg: 0
+  atkSpd: 0
+  atkRange: 0
   isAttack: 0
   isAtkDone: 0
   isDie: 0
@@ -211,8 +214,10 @@ MonoBehaviour:
   able_Skill: 0
   agent: {fileID: 0}
   ani: {fileID: 1876938298027869184}
-  job: 2
   _curstate: 0
+  player_Name: Ranger
+  level: 5
+  job: 2
 --- !u!70 &1185456871789358827
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -269,3 +274,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3997879714454754518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985926566086981382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ed7a5648ac7dd45ba4e6bc13d5fa19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 1
+--- !u!114 &-5329271184272976978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985926566086981382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ed7a5648ac7dd45ba4e6bc13d5fa19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 2
+--- !u!114 &8221701925675953452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985926566086981382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ed7a5648ac7dd45ba4e6bc13d5fa19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 3

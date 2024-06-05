@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class Hero : Ally
 {
@@ -11,13 +12,14 @@ public class Hero : Ally
     {
         base.Start();
         Debug.Log("Player »ý¼º");
-        foreach (GameObject _player in BattleManager.Instance.party_List)
+        foreach (PlayerData player in GameMgr.playerData)
         {
-            BaseEntity player_Stat = _player.GetComponent<BaseEntity>();
-
-            if (player_Stat.entity_index == GetComponent<BaseEntity>().entity_index)
+            foreach (GameObject obj in BattleManager.Instance.party_List)
             {
-                InitStat(entity_index);
+                if (obj.GetComponent<Entity_Unique>().index == player.playerIndex)
+                {
+                    InitStat(player.playerIndex);
+                }
             }
         }
     }

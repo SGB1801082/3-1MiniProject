@@ -9,6 +9,8 @@ public class PartySlot : MonoBehaviour
     public int partySlotIndex;
 
     public PartyData partyData;
+    public Ally player;
+    public int index;
 
     public Image partyIcon;
 
@@ -31,6 +33,8 @@ public class PartySlot : MonoBehaviour
         //Lv, Name, HP, Atk
         this.partyData = _data;
         this.partyIcon.sprite = _data.spPartyIcon;
+        player = _data.player;
+        index = _data.partyJobIndex;
 
         this.strPartyName = _data.type;
         this.text_Name.text = strPartyName;
