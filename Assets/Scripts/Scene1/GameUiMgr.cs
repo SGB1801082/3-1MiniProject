@@ -1095,6 +1095,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void EmploymentCompleted()
     {
+        PartyListInPlayer();
+
         int battleIndex = 0;
         playerGold = 999;
         if ((playerGold - partyPrice) < 0 )
