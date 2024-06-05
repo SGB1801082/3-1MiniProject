@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class Knight : BaseEntity
+public class Knight : Ally
 {
-    private EntityStat stat;
     //Transform cur_target;
 
 
@@ -14,6 +14,16 @@ public class Knight : BaseEntity
     {
         base.Start();
         Debug.Log("Knight 생성");
+
+        foreach (GameObject player in BattleManager.Instance.party_List)
+        {
+            BaseEntity player_Stat = player.GetComponent<BaseEntity>();
+
+            if (player_Stat.entity_index == GetComponent<BaseEntity>().entity_index)
+            {
+                InitStat(entity_index);
+            }
+        }
 
         /*// 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
         stat = new EntityStat
@@ -31,8 +41,9 @@ public class Knight : BaseEntity
         isMelee = true; // 임시로 근접 유닛과 똑같은 방식으로 공격 추후에 투사체를 발사하는 방식으로 바꿀 예정*/
 
 
-        SetAttackSpeed(atkSpd);
+        //SetAttackSpeed(atkSpd);
     }
+   
 
     protected override void Update()
     {

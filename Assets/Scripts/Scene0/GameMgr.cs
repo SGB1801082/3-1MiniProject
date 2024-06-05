@@ -10,19 +10,24 @@ public class GameMgr : MonoBehaviour
     public static List<PlayerData> playerData { get; private set; }//여기 수정함 06-02
 
     private bool loadChecker = false;
-
+    
     private void Awake()
     {
         single = this;
         if (playerData == null)
         {
-            playerData = new List<PlayerData>();
+            playerData = new();
         }
+        else
+        {
+            playerData.Clear();
+        }
+
     }
 
     public bool OnSelectPlayer(string name)
     {
-        playerData.Add(new PlayerData(name));
+        playerData.Add(new PlayerData(name)); // 여기 수정함 06-04
 
         bool succ = playerData != null;
         if (!succ)

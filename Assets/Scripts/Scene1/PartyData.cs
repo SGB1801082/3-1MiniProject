@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs.LowLevel.Unsafe;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -12,10 +13,10 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class PartyData
 {
     //Party Panel Act
-    /*public string strPartyName;
-    public string strName;*/
+    public string strPartyName;
+    //public string strName;
 
-    public string Type;
+    public string type;
 
     public int cost = 128;
     public int index;
@@ -37,70 +38,73 @@ public class PartyData
     public bool partyAbleSkill;
     public bool isMelee;
     public GameObject obj_Data;
-    public BaseEntity player;
+    public Ally player;
+
+    public Ally.JobClass jobType; 
     public PartyData(GameObject prefab, int _Lvel)
     {
         obj_Data = prefab;
-        this.player = prefab.GetComponent<BaseEntity>();
+        this.player = prefab.GetComponent<Ally>();
         level = _Lvel;
-        GenerateStat(player.job, _Lvel);
+        GenerateStat(player.job, _Lvel);//플레이어 프리펩이 선천적으로 지니고있는(수동으로 지정해줌) 플레이어 직업정보와, 레벨에 따라서 스텟을 생성
+        //str name = RandomGenerateName();  
 
-        //이 아래의 정보는 추후 제거
-        /*partyHp = player.max_Hp;
-        partyMp = player.max_Mp;
-        partyAtk = player.atkDmg;
-        partyAtkSpd = player.atkSpd;
-        partyAtkRange = player.atkRange;
-        partyAbleSkill = player.able_Skill;*/
-        Type = prefab.name;
+        type = prefab.name;// 프리펩오브젝트의 이름, JobClass enum값과 큰 차이는 없음.
         cost = Random.Range(50 + _Lvel*10, 100+ _Lvel*50);
         Debug.Log("cost: "+cost);
         spPartyIcon = player.GetComponent<SpriteRenderer>().sprite;
     }
 
 
-    public void GenerateStat(BaseEntity.JobClass _Code, int _Lvel)
+    public void GenerateStat(Ally.JobClass _Code, int _Lvel)
     {
+        jobType = _Code;
         switch (_Code)
         {
-            case BaseEntity.JobClass.Ranger:
+            case Ally.JobClass.Ranger:
                 Debug.Log("Type Ranger, Generate Code: "+_Code);
                 partyHp = 20f + (0.01f* _Lvel);
-                partyMp = 5f + (0.01f * _Lvel);
-                partyAtk = 2f;
-                partyAtkSpd = 1.0f;
+                partyMp = 5f;
+                partyAtk = 2f + (0.1f * _Lvel);
+                partyAtkSpd = 1.0f + (0.1f * _Lvel);
                 partyAtkRange = 7f;
-                Type = "Ranger";
-                isMelee = false;
+                strPartyName = "궁수";
+                type = "Ranger";
+                isMelee = false;//false 일때 원거리공격
                 break;
-            case BaseEntity.JobClass.Wizard:
+            case Ally.JobClass.Wizard:
                 Debug.Log("Type wizard, Generate Code: " + _Code);
                 partyHp = 20f + (0.01f * _Lvel);
-                partyMp = 5f + (0.01f * _Lvel);
-                partyAtk = 2f;
-                partyAtkSpd = 1.0f;
+                partyMp = 5f;
+                partyAtk = 2f + (0.1f * _Lvel);
+                partyAtkSpd = 1.0f + (0.1f * _Lvel);
                 partyAtkRange = 7f;
-                Type = "wizard";
-                isMelee = false;
+                strPartyName = "법사";
+                type = "wizard";
+                isMelee = true;
                 break;
-            case BaseEntity.JobClass.Knight:
+            case Ally.JobClass.Knight:
                 Debug.Log("Type 3, Generate Code: " + _Code);
                 partyHp = 20f + (0.01f * _Lvel);
-                partyMp = 5f + (0.01f * _Lvel);
-                partyAtk = 2f;
+                partyMp = 5f;
+                partyAtk = 2f + (0.1f * _Lvel);
                 partyAtkSpd = 1.0f;
-                partyAtkRange = 2f;
+                partyAtkRange = 2f + (0.1f * _Lvel);
+                strPartyName = "기사";
+                type = "Knight";
                 isMelee = true;
                 break;
 /*            case 0://Player
                 break;*/
             default:
+                type = "Default";
                 Debug.Log("Type d, Generate Code: " + _Code);
                 partyHp = 20f + (0.01f * _Lvel);
-                partyMp = 5f + (0.01f * _Lvel);
-                partyAtk = 2f;
-                partyAtkSpd = 1.0f;
+                partyMp = 5f;
+                partyAtk = 2f + (0.1f * _Lvel);
+                partyAtkSpd = 1.0f + (0.1f * _Lvel);
                 partyAtkRange = 2f;
+                strPartyName = "근첩";
                 isMelee = true;
                 break;
         }
