@@ -64,7 +64,7 @@ public class BattleManager : MonoBehaviour
             party_List.Add(GameUiMgr.single.lastDeparture[i].partyData.obj_Data);
             Debug.Log(i + "PartyData.JobType: " + GameUiMgr.single.lastDeparture[i].partyData.jobType.ToString());
             Debug.Log(i + "PartyData.JobType: " + GameUiMgr.single.lastDeparture[i].partyData.type);
-            Debug.Log(i + "PartyData.JobIndex: " + GameUiMgr.single.lastDeparture[i].partyData.partyJobIndex);
+            Debug.Log(i + "PartyData.JobIndex: " + GameUiMgr.single.lastDeparture[i].partyData.partySlotIndex);
         }
     }
 

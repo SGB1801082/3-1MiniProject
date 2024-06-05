@@ -28,7 +28,8 @@ public class PartyData
     //public State myState;//플레이어블 프리펩을 결정할 상태변수
 
     // Ranger.cs에서 고유 id, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리 순으로 초기화
-    public int partyJobIndex;// 고유 id == 직업인덱스
+    public int partySlotIndex;// 파티슬롯에서 할당되는 배열 위치값
+    public int classIndex;
     public float partyHp;
     public float partyMp;
     public float partyAtk;
@@ -71,6 +72,7 @@ public class PartyData
                 strPartyName = "궁수";
                 type = "Ranger";
                 isMelee = false;//false 일때 원거리공격
+                classIndex = 1;
                 break;
             case Ally.JobClass.Wizard:
                 Debug.Log("Type wizard, Generate Code: " + _Code);
@@ -82,6 +84,7 @@ public class PartyData
                 strPartyName = "법사";
                 type = "wizard";
                 isMelee = true;
+                classIndex = 2;
                 break;
             case Ally.JobClass.Knight:
                 Debug.Log("Type 3, Generate Code: " + _Code);
@@ -93,6 +96,7 @@ public class PartyData
                 strPartyName = "기사";
                 type = "Knight";
                 isMelee = true;
+                classIndex = 3;
                 break;
 /*            case 0://Player
                 break;*/
@@ -106,6 +110,7 @@ public class PartyData
                 partyAtkRange = 2f;
                 strPartyName = "근첩";
                 isMelee = true;
+                classIndex = 5;
                 break;
         }
     }

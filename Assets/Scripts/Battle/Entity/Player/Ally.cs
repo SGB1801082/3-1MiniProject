@@ -50,9 +50,9 @@ public class Ally : BaseEntity
         Debug.Log("Index: "+index + "\tName: " + strName + "\tLv: " + strLv);
     }
 
-    public void InitStat(int index)
+    public void InitStat(int index, PartyData _pd)
     {
-        stat = new(
+        this.stat = new(
             GameMgr.playerData[index].max_Player_Hp,
             GameMgr.playerData[index].cur_Player_Hp,
             GameMgr.playerData[index].max_Player_Mp,

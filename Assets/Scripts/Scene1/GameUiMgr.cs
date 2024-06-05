@@ -1122,11 +1122,11 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             if (_slot.partySlotIndex != 0 &&_slot.partyData != null)
             {
-                _slot.partyData.partyJobIndex = battleIndex++;
+                _slot.partyData.partySlotIndex = battleIndex++;
                 lastDeparture.Add(_slot);
 
                 PlayerData _pd = new(
-                    _slot.partyData.partyJobIndex,
+                    _slot.partyData.partySlotIndex,
 
                     _slot.partyData.partyHp,
                     _slot.partyData.partyMp,
@@ -1142,11 +1142,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                     _slot.partyData.isMelee
 
                     );
+                _pd.partySlotData = _slot.partyData;// 06-05 수정
 
                 GameMgr.playerData.Add(_pd);
 
                 _slot.partyData.obj_Data.GetComponent<Ally>().Init(_pd.playerIndex, _pd);
-                Debug.Log("최종파티원LV: " + _slot.partyData.level + ", 직업코드:" + _slot.partyData.partyJobIndex);
+                Debug.Log("최종파티원LV: " + _slot.partyData.level + ", 파티슬롯인덱스:" + _slot.partyData.partySlotIndex);
             }
             
         }
@@ -1159,12 +1160,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //게임이 최초로 시작될때, lastDepatuar[0]에 PlayerPartyData를 가진 MoveInSlot[0]에 || PartyData를 Player[0]의 Data로 채워서 Slot을만들어 MoveInSlot에 Add하고 
         PartyData pd = new(playerPrefab, GameMgr.playerData[0].player_level)//개체 초기화 단순화 하는 코드 
         {
+            classIndex = 0,
             partyHp = GameMgr.playerData[0].max_Player_Hp,
             partyMp = GameMgr.playerData[0].max_Player_Mp,
             partyAtk = GameMgr.playerData[0].base_atk_Dmg,
             partyAtkSpd = GameMgr.playerData[0].atk_Speed,
             partyAtkRange = GameMgr.playerData[0].atk_Range
         };
+        GameMgr.playerData[0].partySlotData = pd;// 06-05 수정
 
         poolMoveInSlot[0].partyData = pd;
         poolMoveInSlot[0].gameObject.SetActive(true);
