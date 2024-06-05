@@ -135,7 +135,12 @@ public class RoomManager : MonoBehaviour
         {
             if (Vector3.Distance(Camera.main.transform.position, targetPosition) > 0.1f)
             {
-                Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, targetPosition, ref velocity, 0.3f);
+                Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, targetPosition, ref velocity, 0.2f);
+            }
+
+            if (Vector3.Distance(map_Camera.transform.position, targetMap) > 0.1f)
+            {
+                map_Camera.transform.position = Vector3.SmoothDamp(map_Camera.transform.position, targetMap, ref velocity, 1f);
             }
             yield return null; // 다음 프레임까지 대기
         }

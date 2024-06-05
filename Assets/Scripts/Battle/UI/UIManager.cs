@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
     public GameObject party_List;
     public GameObject battleStart;
     public GameObject nextRoom;
+    public GameObject popup_Bg;
+    public GameObject vic_Popup;
+    public GameObject def_Popup;
 
     private void Start()
     {

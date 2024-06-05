@@ -9,10 +9,16 @@ using UnityEngine.UI;
 public class StatManager : MonoBehaviour
 {
     public BaseEntity player;
+
+    [Header("Player_Stat")]
     public Slider hp;
-    public TMP_Text hp_Text;
     public Slider mp;
-    public TMP_Text mp_Text;
+
+    [Header("Player_Text")]
+    public TMP_Text level_Text;
+    public TMP_Text name_Text;
+
+    [Header("Image")]
     public Image player_Icon;
     public GameObject entry_Check;
     public GameObject dead_Check;
@@ -74,8 +80,6 @@ public class StatManager : MonoBehaviour
         if (player != null && player.cur_Hp >= 0) 
         {
             hp.value = player.cur_Hp / player.max_Hp;
-            hp_Text.text = $"{player.cur_Hp} / {player.max_Hp}";
-            mp_Text.text = $"{player.cur_Mp} / {player.max_Mp}";
             mp.value = player.cur_Mp / player.max_Mp;
             dead_Check.SetActive(false);
         }
