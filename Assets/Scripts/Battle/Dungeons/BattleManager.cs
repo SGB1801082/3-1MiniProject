@@ -14,9 +14,6 @@ public class BattleManager : MonoBehaviour
     public List<GameObject> party_List = new List<GameObject>();
     public List<GameObject> deploy_Player_List = new List<GameObject>();
     public List<GameObject> deploy_Enemy_List = new List<GameObject>();
-    public GameObject popup_Bg;
-    public GameObject vic_Popup;
-    public GameObject def_Popup;
     public GameObject deploy_area;
     public GameObject unit_deploy_area;
     public bool isFirstEnter;
@@ -200,15 +197,9 @@ public class BattleManager : MonoBehaviour
 
             if (deploy_Player_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
             {
-                popup_Bg.SetActive(true);
-                def_Popup.SetActive(true);
-                vic_Popup.SetActive(false);
             }
             else if (deploy_Enemy_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
             {
-                popup_Bg.SetActive(true);
-                def_Popup.SetActive(false);
-                vic_Popup.SetActive(true);
             }
 
             deploy_Player_List.Clear();
