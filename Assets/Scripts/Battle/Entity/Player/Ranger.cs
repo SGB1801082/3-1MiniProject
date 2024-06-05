@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class Ranger : BaseEntity
+public class Ranger : Ally
 {
     protected override void Start()
     {

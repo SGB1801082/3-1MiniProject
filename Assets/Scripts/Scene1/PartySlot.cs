@@ -32,7 +32,7 @@ public class PartySlot : MonoBehaviour
         this.partyData = _data;
         this.partyIcon.sprite = _data.spPartyIcon;
 
-        this.strPartyName = _data.Type;
+        this.strPartyName = _data.type;
         this.text_Name.text = strPartyName;
 
         this.intPartyCost = _data.cost;

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class Knight : BaseEntity
+public class Knight : Ally
 {
     //Transform cur_target;
 

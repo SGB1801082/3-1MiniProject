@@ -14,23 +14,12 @@ public class TestPDList : MonoBehaviour
         ps.Clear();
         for (int i = 0; i < GameMgr.playerData.Count; i++)
         {
-            if (i == GameMgr.playerData.Count - 1)
-            {
-                Debug.Log("playerData.Countcont: " + i);
-            }
-
-            if (i == GameMgr.playerData.Count)
-            {
-                Debug.Log("playerData.Count: " + i);
-            }
+            Debug.Log("playerData.Countcont: " + GameMgr.playerData.Count);
         }
 
         for (int i = 0; i < GameUiMgr.single.lastDeparture.Count; i++)
         {
-            if (i == GameUiMgr.single.lastDeparture.Count -1)
-            {
-                Debug.Log("lastDeparture cnt: "+i);
-            }
+            Debug.Log("lastDeparture cnt: " + GameUiMgr.single.lastDeparture.Count);
         }
     }
 }

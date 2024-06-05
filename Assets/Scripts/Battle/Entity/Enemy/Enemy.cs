@@ -4,28 +4,30 @@ using UnityEngine;
 
 public class Enemy : BaseEntity
 {
-    protected override void Start()
-    {
-        base.Start();
-        Debug.Log("Enemy ( " + name + " ) 생성");
-
-        // 고유 ID, 최대 HP, 최대 MP, 공격력, 공격속도, 공격사거리, 스킬유무 순으로 초기화
-        stat = new EntityStat(12, 0, 1f, 0.8f, 1.0f);
-
-        max_Hp = stat.max_Hp;
-        cur_Hp = max_Hp;
-        max_Mp = stat.max_Mp;
-        cur_Mp = 0;
-        atkDmg = stat.atkDmg;
-        SetAttackSpeed(stat.atkSpd);
-        atkRange = stat.atkRange;
-        able_Skill = false;
-
-        isMelee = true;
-    }
-
     protected override void Update()
     {
         base.Update();
+    }
+
+    public void InitStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange)
+    {
+        float cur_hp = max_Hp;
+
+        stat = new(
+            max_Hp,
+            cur_hp,
+            max_Mp,
+            atkDmg,
+            atkSpd,
+            atkRange
+            );
+
+        this.max_Hp = stat.max_Hp;
+        this.cur_Hp = stat.cur_hp;
+        this.max_Mp = stat.max_Mp;
+        this.cur_Mp = 0f;
+        this.atkDmg = stat.atkDmg;
+        SetAttackSpeed(stat.atkSpd);
+        this.atkRange = stat.atkRange;
     }
 }

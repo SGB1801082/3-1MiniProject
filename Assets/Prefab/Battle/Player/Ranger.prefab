@@ -41,10 +41,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6216937021130433118}
   - component: {fileID: 8141113493040129672}
-  - component: {fileID: 4978432409490693512}
   - component: {fileID: 7057994498990099850}
   - component: {fileID: 7501896315474105893}
   - component: {fileID: 4065379729405948105}
+  - component: {fileID: 4978432409490693512}
   - component: {fileID: 1185456871789358827}
   - component: {fileID: 1876938298027869184}
   m_Layer: 0
@@ -122,34 +122,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4978432409490693512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8985926566086981382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 155ccaa164d7b7349a7ac0c8ef05ae5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  max_Hp: 20.02
-  cur_Hp: 20.02
-  max_Mp: 5.02
-  cur_Mp: 0
-  atkDmg: 2
-  atkSpd: 1
-  atkRange: 7
-  isAttack: 0
-  isAtkDone: 0
-  isDie: 0
-  isMelee: 0
-  able_Skill: 0
-  agent: {fileID: 0}
-  ani: {fileID: 1876938298027869184}
-  job: 2
-  _curstate: 0
 --- !u!195 &7057994498990099850
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -212,6 +184,35 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4978432409490693512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985926566086981382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 155ccaa164d7b7349a7ac0c8ef05ae5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity_index: 1
+  max_Hp: 20.07
+  cur_Hp: 20.07
+  max_Mp: 5
+  cur_Mp: 0
+  atkDmg: 2.7
+  atkSpd: 1.7
+  atkRange: 7
+  isAttack: 0
+  isAtkDone: 0
+  isDie: 0
+  isMelee: 0
+  able_Skill: 0
+  agent: {fileID: 0}
+  ani: {fileID: 1876938298027869184}
+  job: 2
+  _curstate: 0
 --- !u!70 &1185456871789358827
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class Wizard : BaseEntity
+public class Wizard : Ally
 {
 
     protected override void Start()

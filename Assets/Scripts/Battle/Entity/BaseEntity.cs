@@ -45,47 +45,6 @@ public class BaseEntity : MonoBehaviour
         Death
     }
 
-    public enum JobClass
-    {
-        Hero,
-        Knight,
-        Ranger,
-        Wizard
-    }
-
-    public JobClass job;
-
-    public void Init(int index, PlayerData player)
-    {
-        entity_index = index;
-        max_Hp = player.max_Player_Hp;
-        cur_Hp = max_Hp;
-        max_Mp = player.max_Player_Mp;
-        cur_Mp = 0;
-        atkDmg = player.base_atk_Dmg;
-        atkSpd = player.atk_Speed;
-        atkRange = player.atk_Range;
-        isMelee = player.isMelee;
-        able_Skill = player.skill_Able;
-    }
-
-    public void InitStat(int jobIndex)
-    {
-        stat = new(
-            GameMgr.playerData[jobIndex].max_Player_Hp,
-            GameMgr.playerData[jobIndex].max_Player_Mp,
-            GameMgr.playerData[jobIndex].base_atk_Dmg,
-            GameMgr.playerData[jobIndex].atk_Speed,
-            GameMgr.playerData[jobIndex].atk_Range
-            );
-
-        max_Hp = stat.max_Hp;
-        max_Mp = stat.max_Mp;
-        atkDmg = stat.atkDmg;
-        SetAttackSpeed(stat.atkSpd);
-        atkRange = stat.atkRange;
-    }
-
     public State _curstate;
     protected StateManager _stateManager;
 
@@ -188,7 +147,6 @@ public class BaseEntity : MonoBehaviour
             }
 
             _stateManager.UpdateState();
-            UpdateCurHp();
 
             // 현재 체력이 0이 되면 Death 상태로 변하고 상태창도 죽은 것으로 표시
             if (cur_Hp <= 0)
@@ -242,14 +200,6 @@ public class BaseEntity : MonoBehaviour
         }
     }
 
-
-    private void UpdateCurHp()
-    {
-        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
-        {
-            GameMgr.playerData[entity_index].cur_Player_Hp = cur_Hp;
-        }
-    }
 
 
 

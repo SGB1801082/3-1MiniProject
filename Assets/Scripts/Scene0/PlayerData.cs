@@ -30,6 +30,8 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
 
     public int playerIndex;
 
+    public string partyName;
+
     public PlayerData(string name)
     {
         this.NAME = name;
@@ -53,7 +55,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         listInventory = new List<Item>();
         listEquipment = new List<Item>();
     }
-    public PlayerData(int index, float hp, float mp, float atk_spd, float atk_range, float atkDmg, int lv, bool skil_able, bool melee)
+    public PlayerData(int index, float hp, float mp, float atk_spd, float atk_range, float atkDmg, int lv, string name, bool skil_able, bool melee)
     {
         playerIndex = index;
 
@@ -67,6 +69,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         base_atk_Dmg = atkDmg;
 
         player_level = lv;
+        partyName = name;
 
         skill_Able = skil_able;
         isMelee = melee;

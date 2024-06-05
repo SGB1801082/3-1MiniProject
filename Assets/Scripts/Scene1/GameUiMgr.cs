@@ -137,11 +137,13 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     //05-14
     public List<GameObject> objListPlayable;// 파티보드에서 출력될 실제 플레이어블 캐릭터 리소스 데이터를 여기에 임시로 등록
 
+    //파티보드 하단에 출력되는 파티원 인원수 카운팅 / 고용할 파티원목록에 포함된 파티원 들 몸값 텍스트 반영
     public TextMeshProUGUI textPartyCount;
     public TextMeshProUGUI textPartyPrice;
     public int partyPrice;
 
-    public List<PartySlot> lastDeparture;
+// PoolMoveInSlot에 PartyData가 있을경우 여기에 담아서 고용완료 목록에 추가되어 Battle씬의 PartyList가 얘를 참조하게됨 || 슬롯이가지고있는 PartyData에 포함된 Prefab을 가져가는형식
+    public List<PartySlot> lastDeparture; 
     private void Awake()
     {
         single = this;
@@ -1097,7 +1099,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         PartyListInPlayer();
 
-        int battleIndex = 0;
+        int battleIndex = 1;
         playerGold = 999;
         if ((playerGold - partyPrice) < 0 )
         {
@@ -1123,6 +1125,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                     _slot.partyData.partyAtk,
 
                     _slot.partyData.level,
+                    _slot.partyData.strPartyName,
 
                     _slot.partyData.partyAbleSkill,
                     _slot.partyData.isMelee
@@ -1131,7 +1134,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
                 GameMgr.playerData.Add(_pd);
 
-                _slot.partyData.obj_Data.GetComponent<BaseEntity>().Init(_pd.playerIndex, _pd);
+                _slot.partyData.obj_Data.GetComponent<Ally>().Init(_pd.playerIndex, _pd);
                 Debug.Log("최종파티원LV: " + _slot.partyData.level + ", 직업코드:" + _slot.partyData.partyJobIndex);
             }
             
@@ -1142,7 +1145,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         lastDeparture.Clear();
 
-        //지금 파티보드에서 보여야하는 플레이어의 데이터를 여기에다가 욱여넣고있는데 추후 수정해야함
+        //게임이 최초로 시작될때, lastDepatuar[0]에 PlayerPartyData를 가진 MoveInSlot[0]에 || PartyData를 Player[0]의 Data로 채워서 Slot을만들어 MoveInSlot에 Add하고 
         PartyData pd = new(playerPrefab, GameMgr.playerData[0].player_level)//개체 초기화 단순화 하는 코드 
         {
             partyHp = GameMgr.playerData[0].max_Player_Hp,
@@ -1158,7 +1161,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         poolMoveInSlot[0].text_Name.text = "Player";
 
         poolMoveInSlot[0].text_Lv.text = GameMgr.playerData[0].player_level.ToString();
-        
+        poolMoveInSlot[0].partyData.obj_Data.GetComponent<Ally>().Init(GameMgr.playerData[0].playerIndex, GameMgr.playerData[0]);
         listPartyData.Add(poolMoveInSlot[0].partyData);
         lastDeparture.Add(poolMoveInSlot[0]);
 
