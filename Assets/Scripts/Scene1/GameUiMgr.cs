@@ -1,6 +1,7 @@
 ﻿//using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -319,7 +320,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
 
         //Inventory
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) && questMgr.questId >= 20)
         {
             ActiveInventory();
         }
@@ -330,7 +331,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("y:" + player.transform.position.y);*/
 
         //PartyPanel
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && questMgr.questId >= 30)
         {
             ActiveParty();
         }
@@ -510,17 +511,27 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
             if (scanObj_ID == 8000)
             {
-                SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
-                GameSave();
+                Debug.Log("8000 실행");
+                if (questMgr.questId >= 30)
+                {
+                    Debug.Log("던전 입장");
+                    SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
+                    GameSave();
+                }
+                else
+                {
+                    // ToDo: CallBack Img.SetActive(true);
+                    Debug.Log("튜토리얼 던전에 진입 할 수 없습니다.");
+                    return;
+                }
             }
-            
-            /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
-            {
-                questMgr.receptionist[0].SetActive(false);
-                questMgr.receptionist[1].SetActive(true);
-            }*/
+                /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
+                {
+                    questMgr.receptionist[0].SetActive(false);
+                    questMgr.receptionist[1].SetActive(true);
+                }*/
 
-            return;
+                return;
         }
 
         //Continue Talk

@@ -96,9 +96,14 @@ public class PlayerAction : MonoBehaviour
             ObjectData obj = scanRayObjcet.GetComponent<ObjectData>();
             if (obj.id == 9000)
             {
-                GameUiMgr.single.panelPartyBoard.SetActive(true);
-                Debug.Log("id: " + obj.id);
-                return;
+                if (GameUiMgr.single.questMgr.questId >= 30)
+                {
+                    GameUiMgr.single.panelPartyBoard.SetActive(true);
+                    Debug.Log("id: " + obj.id);
+                    return;
+                }
+                else
+                    return;
             }
             gUiMgr.TalkAction(scanRayObjcet);// Ray로 상호작용한 Object의 정보를 twonMgr로 넘겨서 그곳에 있는 대화창에 정보를 출력하게 함.
         }

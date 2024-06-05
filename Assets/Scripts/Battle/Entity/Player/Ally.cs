@@ -14,6 +14,9 @@ public class Ally : BaseEntity
 
     public JobClass job;
 
+    private string strName;
+    private string strLv;
+
     protected override void Update()
     {
         base.Update();
@@ -31,6 +34,9 @@ public class Ally : BaseEntity
     public void Init(int index, PlayerData player)
     {
         entity_index = index;
+        strName = player.GetPlayerName();
+        strLv = player.player_level.ToString();
+        
         max_Hp = player.max_Player_Hp;
         cur_Hp = max_Hp;
         max_Mp = player.max_Player_Mp;
@@ -40,6 +46,8 @@ public class Ally : BaseEntity
         atkRange = player.atk_Range;
         isMelee = player.isMelee;
         able_Skill = player.skill_Able;
+
+        Debug.Log("Index: "+index + "\tName: " + strName + "\tLv: " + strLv);
     }
 
     public void InitStat(int index)

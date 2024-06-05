@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4143807930143542032}
   - component: {fileID: 2421624152121373253}
   - component: {fileID: 3539814822408716395}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 1363904437443937651}
   - component: {fileID: 3655136208367513359}
   - component: {fileID: 8576000007019697759}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Hp_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 3491210967312504109}
   - component: {fileID: 3502592840196510986}
   - component: {fileID: 6542396242209014193}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8486875714276218138}
   - component: {fileID: 5331608812123811110}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 6206691008695888278}
   - component: {fileID: 4381962411908159777}
   - component: {fileID: 2370865119712446599}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -625,7 +625,7 @@ GameObject:
   - component: {fileID: 8849272569679926755}
   - component: {fileID: 7068478220046198782}
   - component: {fileID: 3262584952172544444}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -724,7 +724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3205670406191210364}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
