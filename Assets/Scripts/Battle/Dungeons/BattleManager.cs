@@ -62,7 +62,6 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < GameUiMgr.single.lastDeparture.Count; i++)
         {
             party_List.Add(GameUiMgr.single.lastDeparture[i].partyData.obj_Data);
-            party_List[i].AddComponent<Entity_Unique>().InitIndex(i);
         }
 
     }

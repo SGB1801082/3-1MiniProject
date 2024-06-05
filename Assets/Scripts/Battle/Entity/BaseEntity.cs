@@ -349,9 +349,6 @@ public class BaseEntity : MonoBehaviour
                         {
                             RangeAttack(target);
                         }
-
-
-                        
                     }
                     cur_atk_CoolTime += Time.deltaTime;
                     yield return null;

@@ -35,7 +35,7 @@ public class PartyData
     public float partyAtkSpd;
     public float partyAtkRange;
 
-    public bool partyAbleSkill;
+    public bool able_Skill;
     public bool isMelee;
     public GameObject obj_Data;
     public Ally player;
@@ -59,7 +59,7 @@ public class PartyData
     public void GenerateStat(Ally.JobClass _Code, int _Lvel)
     {
         jobType = _Code;
-        switch (_Code)
+        switch (jobType)
         {
             case Ally.JobClass.Ranger:
                 Debug.Log("Type Ranger, Generate Code: "+_Code);
@@ -71,6 +71,7 @@ public class PartyData
                 strPartyName = "Ranger";
                 type = "Ranger";
                 isMelee = false;//false 일때 원거리공격
+                able_Skill = false;
                 break;
             case Ally.JobClass.Wizard:
                 Debug.Log("Type wizard, Generate Code: " + _Code);
@@ -82,6 +83,7 @@ public class PartyData
                 strPartyName = "Wizard";
                 type = "wizard";
                 isMelee = true;
+                able_Skill = false;
                 break;
             case Ally.JobClass.Knight:
                 Debug.Log("Type 3, Generate Code: " + _Code);
@@ -93,6 +95,7 @@ public class PartyData
                 strPartyName = "Knight";
                 type = "Knight";
                 isMelee = true;
+                able_Skill = false;
                 break;
 /*            case 0://Player
                 break;*/

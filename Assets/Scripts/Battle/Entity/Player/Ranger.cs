@@ -9,30 +9,19 @@ public class Ranger : Ally
     protected override void Start()
     {
         base.Start();
+        job = JobClass.Ranger;
         Debug.Log("Ranger »ý¼º");
-
-        foreach (PlayerData player in GameMgr.playerData)
-        {
-            foreach (GameObject obj in BattleManager.Instance.party_List)
-            {
-                if (obj.GetComponent<Entity_Unique>().index == player.playerIndex)
-                {
-                    InitStat(player.playerIndex);
-                }
-            }
-        }
-
     }
 
-    protected override void Update()
+    /*protected override void Update()
     {
         base.Update();
-        /*if (_curstate == State.Skill)
+        *//*if (_curstate == State.Skill)
         {
             Skill();
-        }*/
+        }*//*
         //cur_target = target;
-    }
+    }*/
 
 
     /*public void Skill()

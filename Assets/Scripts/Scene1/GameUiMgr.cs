@@ -1127,7 +1127,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                     _slot.partyData.level,
                     _slot.partyData.strPartyName,
 
-                    _slot.partyData.partyAbleSkill,
+                    _slot.partyData.able_Skill,
                     _slot.partyData.isMelee
 
                     );

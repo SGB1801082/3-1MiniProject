@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class StatManager : MonoBehaviour
 {
-    public Ally player;
+    public PlayerData player;
 
     [Header("Player_Stat")]
     public Slider hp;
@@ -24,10 +24,9 @@ public class StatManager : MonoBehaviour
     public GameObject dead_Check;
     bool isDeploy;
 
-    public void InitStat(Ally player, int index, Sprite icon, int level, string name)
+    public void InitStat(PlayerData player, Sprite icon, int level, string name)
     {
         this.player = player;
-        this.player.entity_index = index;
         this.player_Icon.sprite = icon;
         this.level_Text.text = level.ToString();
         this.name_Text.text = name;
@@ -55,10 +54,9 @@ public class StatManager : MonoBehaviour
         foreach (GameObject deploy in BattleManager.Instance.deploy_Player_List)
         {
             Ally deploy_Ally = deploy.GetComponent<Ally>();
-            if (deploy_Ally.entity_index == player.entity_index)
+            if (deploy_Ally.entity_index == player.playerIndex)
             {
                 isDeploy = true;
-                player = deploy_Ally;
                 break;
             }
         }
@@ -78,10 +76,10 @@ public class StatManager : MonoBehaviour
         if (player != null)
         {
             // 실시간으로 HP, MP 업데이트
-            hp.value = player.cur_Hp / player.max_Hp;
-            mp.value = player.cur_Mp / player.max_Mp;
+            hp.value = player.cur_Player_Hp / player.max_Player_Hp;
+            mp.value = player.cur_Player_Mp / player.max_Player_Hp;
 
-            if (player.cur_Hp > 0)
+            if (player.cur_Player_Hp > 0)
             {
                 dead_Check.SetActive(false);
             }

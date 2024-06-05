@@ -9,6 +9,7 @@ public class UnitPlacement : MonoBehaviour
     public Tilemap deployTilemap;
     public GameObject unitPrefab;
     public Image unit_Icon;
+    PlayerData data;
 
     private void Start()
     {
@@ -16,10 +17,11 @@ public class UnitPlacement : MonoBehaviour
         deployTilemap = GameObject.FindGameObjectWithTag("Wait").GetComponent<Tilemap>();
     }
 
-    public void InitList(GameObject unit, Sprite icon)
+    public void InitList(GameObject unit, Sprite icon, PlayerData data)
     {
         this.unitPrefab = unit;
         this.unit_Icon.sprite = icon;
+        this.data = data;
     }
 
 
@@ -37,6 +39,7 @@ public class UnitPlacement : MonoBehaviour
                     {
                         Vector3 worldPos = deployTilemap.GetCellCenterWorld(position);
                         GameObject obj = Instantiate(unitPrefab, worldPos, Quaternion.identity);
+                        obj.GetComponent<Ally>().InitStat(data.playerIndex);
                         BattleManager.Instance.deploy_Player_List.Add(obj);
                         gameObject.SetActive(false);
                         

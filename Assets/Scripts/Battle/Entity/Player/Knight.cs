@@ -11,29 +11,19 @@ public class Knight : Ally
     {
         base.Start();
         Debug.Log("Knight »ý¼º");
-
-        foreach (PlayerData player in GameMgr.playerData)
-        {
-            foreach (GameObject obj in BattleManager.Instance.party_List)
-            {
-                if (obj.GetComponent<Entity_Unique>().index == player.playerIndex)
-                {
-                    InitStat(player.playerIndex);
-                }
-            }
-        }
+        job = JobClass.Knight;
     }
    
 
-    protected override void Update()
+    /*protected override void Update()
     {
         base.Update();
-        /*if (_curstate == State.Skill)
+        *//*if (_curstate == State.Skill)
         {
             Skill();
-        }*/
+        }*//*
         //cur_target = target;
-    }
+    }*/
 
 
     /*public void Skill()

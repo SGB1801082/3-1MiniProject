@@ -47,9 +47,6 @@ GameObject:
   - component: {fileID: 4978432409490693512}
   - component: {fileID: 1185456871789358827}
   - component: {fileID: 1876938298027869184}
-  - component: {fileID: -3997879714454754518}
-  - component: {fileID: -5329271184272976978}
-  - component: {fileID: 8221701925675953452}
   m_Layer: 0
   m_Name: Ranger
   m_TagString: Player
@@ -274,42 +271,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-3997879714454754518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8985926566086981382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ed7a5648ac7dd45ba4e6bc13d5fa19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: 1
---- !u!114 &-5329271184272976978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8985926566086981382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ed7a5648ac7dd45ba4e6bc13d5fa19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: 2
---- !u!114 &8221701925675953452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8985926566086981382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ed7a5648ac7dd45ba4e6bc13d5fa19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: 3

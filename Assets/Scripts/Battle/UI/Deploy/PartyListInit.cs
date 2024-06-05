@@ -29,6 +29,16 @@ public class PartyListInit : MonoBehaviour
             Debug.Log("파티 리스트에 플레이어가 없습니다");
             return;
         }
+        /*else if (party.Count > 0)
+        {
+            foreach (GameObject party_obj in party) 
+            {
+                if (!party_obj.activeSelf)
+                {
+                    party_obj.SetActive(true);
+                }
+            }
+        }*/
         else
         {
             for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
@@ -36,7 +46,7 @@ public class PartyListInit : MonoBehaviour
                 GameObject obj = Instantiate(party_Prefab, transform);
                 UnitPlacement unit = obj.GetComponent<UnitPlacement>();
 
-                unit.InitList(BattleManager.Instance.party_List[i], BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite);
+                unit.InitList(BattleManager.Instance.party_List[i], BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite, GameMgr.playerData[i]);
 
                 party.Add(obj);
             }

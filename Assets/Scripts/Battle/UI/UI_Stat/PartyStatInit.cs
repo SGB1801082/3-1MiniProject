@@ -15,10 +15,10 @@ public class PartyStatInit : MonoBehaviour
             StatManager stat_Obj = obj.GetComponent<StatManager>();
             stats.Add(obj);
 
-            Ally player = BattleManager.Instance.party_List[i].GetComponent<Ally>();
+            PlayerData data = GameMgr.playerData[i];
             Sprite sprite = BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite;
 
-            stat_Obj.InitStat(player, player.entity_index, sprite, player.level, player.player_Name);
+            stat_Obj.InitStat(data, sprite, data.player_level, data.GetPlayerName());
         }
     }
 }
