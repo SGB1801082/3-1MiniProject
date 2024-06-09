@@ -10,6 +10,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public Item item;
     public Image itemIcon;
     public bool wearChek = false;
+    public bool usability = false;
 
     //private bool isDraging;
 
@@ -85,18 +86,46 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerUp(PointerEventData eventData)//Click ItemSlot
     {
-        if (item != null )
+        if (this.usability == true  && this.wearChek == false)//인벤토리 좌측의 장착아이템 목록이면서, 장비를 장착 중이 아닐때 상호작용불가능하게함.
         {
-            switch (item.itemType)
+            return;
+        }
+
+        Debug.Log("Run Methode: Clicked ItemSlot");
+        //int||float 아이템효과 담을 변수 선언
+        if (this.wearChek == true)// 장착중인 장비와 상호작용
+        {
+            GameUiMgr.single.nowSlot = this;
+            GameUiMgr.single.textEquipPanel.text = "장비를 해제 하시겠 습니까?";//OK버튼 클릭했을때 다른효과가 나와야하는데 생각조금 더 해봐야함
+            GameUiMgr.single.addEquipPanel.gameObject.SetActive(true);
+
+            Debug.Log("Run Methode: Take Off Item, Item Code: " + this.item.itemCode);
+            
+
+            //해당아이템의 효과수치 받아올 메서드(this.item); 를 실행
+            /*switch (item.itemType)
             {
-                /*case Item.ItemType.Equipment_Arrmor:
+                //ex 모자 = 체력, 무기 = 공격력, 신발 = 공속, 갑옷 = 범위 인데 받아온 효과변수의 수치만큼 GameMgr.PlayerData[0]. 모자면 hp, 무기면 atk, 신발은 spd, 갑옷은 range에서 -- 하고, 해당 itme을 remove한 뒤 해당 targetSlot의 item을 비우고 itemType를 재 지정해 준 후 아이템을 인벤토리에 add
+                *//*case Item.ItemType.Equipment_Arrmor:
                     break;
                 case Item.ItemType.Equipment_Boots:
                     break;
                 case Item.ItemType.Equipment_Helmet:
                     break;
                 case Item.ItemType.Equipment_Weapon:
-                    break;*/
+                    break;*//*
+                default:
+                    
+                    break;
+            }*/
+            return;
+        }
+
+
+        if (item != null )//인벤토리의 아이템과 상호작용
+        {
+            switch (item.itemType)
+            {
                 case Item.ItemType.Ect:
                     break;
                 case Item.ItemType.Consumables:
@@ -114,6 +143,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                     break;
                 default:
                     GameUiMgr.single.nowSlot = this;
+                    GameUiMgr.single.textEquipPanel.text = "장비를 장착 하시겠 습니까?";
                     GameUiMgr.single.addEquipPanel.gameObject.SetActive(true);
 
 

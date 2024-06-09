@@ -9,7 +9,7 @@ public class Hero : Ally
 {
     protected override void Start()
     {
-        /*base.Start();
+        base.Start();
         Debug.Log("Player »ý¼º");
         foreach (GameObject _player in BattleManager.Instance.party_List)
         {
@@ -19,9 +19,9 @@ public class Hero : Ally
             {
                 InitStat(entity_index);
             }
-        }*/
+        }
 
-        foreach (var _party in BattleManager.Instance.party_List)
+        /*foreach (var _party in BattleManager.Instance.party_List)
         {
             for (int i = 0; i < GameMgr.playerData.Count; i++)
             {
@@ -30,7 +30,7 @@ public class Hero : Ally
                     InitStat(i, GameMgr.playerData[i].partySlotData);
                 }
             }
-        }
+        }*/
     }
 
     protected override void Update()

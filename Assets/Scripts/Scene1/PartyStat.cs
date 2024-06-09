@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class PartyStat : MonoBehaviour
 {
-    public static PartyStat single;
 
-    private EntityStat stat;
-    private void Awake()
-    {
-        single = this;
-    }
  /*   public void GenratePartyStat()
     {
         foreach (listPartyData)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 {
     public static GameUiMgr single;
     private GameObject scanObject;//상호작용중인 오브젝트의 정보를 받아오 변수, PlayerAction에서 스캔할 오브젝트정보를 받아오기때문에 얘는 인스펙터에서 안 보여도된다.
-    
+
     [Header("TalkPanel")]
     [SerializeField] private Image imgTalkPnel;// 대화창 표시유무를 위해 변수 선언
     public bool isActionTalk;// 대화창의 활성화 유무를 판별하기위한 변수
@@ -39,7 +40,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     [SerializeField] private Image img_Portrait;
     [SerializeField] private Sprite[] ary_sp_Portrait;
     [SerializeField] private GameObject objSubButtonFrame;
-    
+
     [Header("VideoOption")]
     [SerializeField] private VideoOption videoOption_S1;
 
@@ -86,7 +87,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public Button btn_YesEquipAdd;
     public Button btn_NoEquipAdd;
     public bool equipmnet;
-
+    //06-09
+    public TextMeshProUGUI textEquipPanel;
+    public Item livingItem;
 
     [Header("ToolTip")]
     public GameObject tooltip;
@@ -128,7 +131,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public GameObject panelPartyBoard;// 파티 게시판오브젝트
     [SerializeField] private List<PartySlot> poolPartySlot = new(); // 파티게시판의 Body에 해당하는 고용가능한 파티원 리스트 이거수정해야할수도있음
     [SerializeField] private List<PartyData> listPartyData = new();// 실제파티원들 정보가 저장되어야함
-    
+
     //05-21 ClickedPartySlot -> Add Buttom PartySlot 
     public List<PartyData> partyData;// 얘로 파티원데이터생성해서 집어넣음 왜인지 아직 파악못했는데 Slot자체로하려니까 오류가남
     public List<PartySlot> poolMoveInSlot = new(); // 파티게시판의 Buttom에 해당하는 고용파티원 명단 리스트
@@ -143,8 +146,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public TextMeshProUGUI textPartyPrice;
     public int partyPrice;
 
-// PoolMoveInSlot에 PartyData가 있을경우 여기에 담아서 고용완료 목록에 추가되어 Battle씬의 PartyList가 얘를 참조하게됨 || 슬롯이가지고있는 PartyData에 포함된 Prefab을 가져가는형식
-    public List<PartySlot> lastDeparture; 
+    public GameObject partyBlock;// 파티원 소집이 완료되면 무를 수 없음.
+
+    // PoolMoveInSlot에 PartyData가 있을경우 여기에 담아서 고용완료 목록에 추가되어 Battle씬의 PartyList가 얘를 참조하게됨 || 슬롯이가지고있는 PartyData에 포함된 Prefab을 가져가는형식
+    public List<PartySlot> lastDeparture;
     private void Awake()
     {
         single = this;
@@ -153,7 +158,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         Debug.Log("AddItem");
 
-        Item newItem = ItemResources.instance.itemRS[UnityEngine.Random.Range(1,6)]; // 새로운 아이템 생성
+        Item newItem = ItemResources.instance.itemRS[UnityEngine.Random.Range(1, 6)]; // 새로운 아이템 생성
         inventory.AddItem(newItem); // 인벤토리에 아이템 추가,
         RedrawSlotUI();
     }
@@ -185,7 +190,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         SliderChange();
     }
-    
+
 
     private void Start()
     {
@@ -218,6 +223,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         //05-21 
         RefreshiPartyBord();
+        partyBlock.SetActive(false);
 
         //04-22
         addEquipPanel.gameObject.SetActive(false);
@@ -232,8 +238,17 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             GameLoad();
             Debug.Log("Load Success");
             Debug.Log(GameMgr.playerData[0].GetPlayerName());
+
+            /*if (세이브된 파티고용 리스트가 존재 할 경우! == true)
+            {
+                partyBlock.gameObject.SetActive(true);
+            }
+            else
+            {
+                partyBlock.gameObject.SetActive(false);
+            }*/
         }
-    
+
         questDesc.text = questMgr.CheckQuest();
 
         SetPlayerDatas();
@@ -264,12 +279,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     }
     public void RedrawSlotUI()
     {
-        for(int i = 0; i< slots.Length;i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             slots[i].RemoveSlot();
+            slots[i].GetComponent<Button>().interactable = false;
         }
-        for(int i = 0; i< inventory.items.Count; i++)
+        for (int i = 0; i < inventory.items.Count; i++)
         {
+            slots[i].GetComponent<Button>().interactable = true;
             slots[i].item = inventory.items[i];
             slots[i].item.itemIndex = i;
             //Debug.Log(slots[i].item.itemIndex);
@@ -305,9 +322,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }
 
         }
-        
+
         // Sub Menu Set
-        if (Input.GetButtonDown("Cancel") )
+        if (Input.GetButtonDown("Cancel"))
         {
             if (menuSet.activeSelf)
             {
@@ -428,8 +445,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         playerGold = GameMgr.playerData[0].player_Gold;
         playerLevel = GameMgr.playerData[0].player_level;
 
-        tmp_PlayerLevle.text = "Lv." + GameMgr.playerData[0].player_level .ToString();
-        tmp_PlayerGold.text = GameMgr.playerData[0].player_Gold .ToString();
+        tmp_PlayerLevle.text = "Lv." + GameMgr.playerData[0].player_level.ToString();
+        tmp_PlayerGold.text = GameMgr.playerData[0].player_Gold.ToString();
 
         this.player_Max_HP = GameMgr.playerData[0].max_Player_Hp;
         this.player_Cur_HP = GameMgr.playerData[0].cur_Player_Hp;
@@ -445,7 +462,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         this.player_Base_Atk_Dmg = GameMgr.playerData[0].base_atk_Dmg;
         this.player_Max_EXP = GameMgr.playerData[0].player_max_Exp;
         this.player_Cur_EXP = GameMgr.playerData[0].player_cur_Exp;
-        
+
 
         s_HP.value = this.player_Cur_HP / this.player_Max_HP;
         s_SN.value = this.player_Cur_SN / this.player_Max_SN;
@@ -467,7 +484,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void TalkAction(GameObject scanObj)
     {
-        
+
         scanObject = scanObj;
         ObjectData objectData = scanObject.GetComponent<ObjectData>();// Ray가 스캔했을때  LayerMask가 Obejct인 오브젝트가 부착중인 ObecjtData를  Ray가 오브젝트를 스캔 했을 때만 추출해서 TossTalkData메서드의 매개변수로 사용함.
         TossTalkData(objectData.id, objectData.isNpc);
@@ -525,13 +542,13 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                     return;
                 }
             }
-                /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
-                {
-                    questMgr.receptionist[0].SetActive(false);
-                    questMgr.receptionist[1].SetActive(true);
-                }*/
+            /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
+            {
+                questMgr.receptionist[0].SetActive(false);
+                questMgr.receptionist[1].SetActive(true);
+            }*/
 
-                return;
+            return;
         }
 
         //Continue Talk
@@ -730,15 +747,24 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnYesButtonClick()
     {
+        if (nowSlot.wearChek)
+        {
+            TakeOffItem(nowSlot);
+            addEquipPanel.gameObject.SetActive(false);
+            return;
+        }
+
         equipmnet = true;
         Debug.Log("AddEquip Name: " + nowSlot.item.itemName);
         Debug.Log("AddEquip Type: " + nowSlot.item.itemType);
 
         WearEquipment();
-        if (AllEquipChek())
+        if (AllEquipChek() && questMgr.questId == 20)
         {
             questMgr.questActionIndex = 1;
         }
+
+        addEquipPanel.gameObject.SetActive(false);// 켰으면 꺼야지
     }
     public void OnNoButtonClick()
     {
@@ -769,6 +795,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         for (int i = 0; i < targetSlots.Length; i++)
         {
+            targetSlots[i].GetComponent<Button>().interactable = false;
+            targetSlots[i].item = new();
             switch (i)
             {
                 case 0:
@@ -786,6 +814,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 default:
                     break;
             }
+            targetSlots[i].usability = true;
         }
     }
     public void WearEquipment()
@@ -817,8 +846,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         RedrawSlotUI();
 
         nowSlot = null;
-
-        addEquipPanel.gameObject.SetActive(false);
     }
     public bool AllEquipChek()
     {
@@ -886,12 +913,36 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 targetSlots[i].itemIcon.sprite = _items[i].itemImage;
                 targetSlots[i].itemIcon.gameObject.SetActive(true);
                 targetSlots[i].wearChek = true;
+                targetSlots[i].GetComponent<Button>().interactable = true;//06-09 Add
                 // 아이템 설정
                 targetSlots[i].item = _items[i];
             }
         }
         // 사용한 아이템 제거 
         RedrawSlotUI();
+    }
+
+    //06-09 InventoryAdd
+    public void TakeOffItem(Slot _Slot)
+    {
+        Item livingItem = _Slot.item;
+        livingItem = ItemResources.instance.itemRS[_Slot.item.itemCode];//매개변수로 넘겨받은 슬롯의 아이템 코드 값으로 새 아이템을 생성하여.
+
+        //현재 슬롯의 아이템 지우기
+        _Slot.item = new();
+        _Slot.itemIcon.sprite = ItemResources.instance.iconRS[0];
+        _Slot.wearChek = false;//슬롯의 장비가 빠졌으니 fasle로 바꿔줌
+        //_Slot.usability = true;//까먹을까봐 넣어둠 내가 클릭한 슬롯의 주소값을 참조하고있을(확실하진 않은데 그간 경험상 맞을거임) _Slot의 item들과 wearChek만 수정해주면되서 얘는 시작할때 건드려둔거 안 건드려도됨.
+
+        //다시 장착할때 필요한 기본설정 초기화
+        _Slot.item.itemType = livingItem.itemType;
+        _Slot.GetComponent<Button>().interactable = false;
+
+        //인벤토리에 장착 해제한 아이템 추가 후 인벤토리 새로그리기
+        inventory.AddItem(livingItem);
+        RedrawSlotUI();
+
+        nowSlot = null;
     }
 
     //05-12 PartyPanel
@@ -935,7 +986,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             CreatePartySlot(nowPartyBord);
         }*/
-        
+
     }
     public void CreatePartySlot(PartyData _partyData)
     {
@@ -955,10 +1006,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         partySlot.Init(_partyData);
 
-        partySlot.partySlotIndex = (activeCount +1);
+        partySlot.partySlotIndex = (activeCount + 1);
         partySlot.partyData.index = partySlot.partySlotIndex;
 
-        Debug.Log("생성 번호: "+activeCount);
+        Debug.Log("생성 번호: " + activeCount);
         partySlot.gameObject.SetActive(true);//활성화
     }
 
@@ -1102,17 +1153,19 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }
         }
         textPartyCount.text = "파티원\n " + countEmploy + " / 4"; // countEmploy +" / 4";
-        textPartyPrice.text = "금액\n "+ sum + "\n골드";//금액\n 121\n골드
+        textPartyPrice.text = "금액\n " + sum + "\n골드";//금액\n 121\n골드
         partyPrice = sum;
     }
 
     public void EmploymentCompleted()
     {
+        //여기에 정말 확정하시겠습니까? 되돌릴 수 없습니다 문구 추가.
+        partyBlock.SetActive(true);// 확정한다면 실행됨
         PartyListInPlayer();
 
         int battleIndex = 1;
         playerGold = 999;
-        if ((playerGold - partyPrice) < 0 )
+        if ((playerGold - partyPrice) < 0)
         {
             Debug.Log("골드 부족");
             return; //버튼눌렀는데 골드가 부족하면 실행안됨
@@ -1120,7 +1173,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         foreach (PartySlot _slot in poolMoveInSlot)
         {
-            if (_slot.partySlotIndex != 0 &&_slot.partyData != null)
+            if (_slot.partySlotIndex != 0 && _slot.partyData != null)
             {
                 _slot.partyData.partySlotIndex = battleIndex++;
                 lastDeparture.Add(_slot);
@@ -1149,7 +1202,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 _slot.partyData.obj_Data.GetComponent<Ally>().Init(_pd.playerIndex, _pd);
                 Debug.Log("최종파티원LV: " + _slot.partyData.level + ", 파티슬롯인덱스:" + _slot.partyData.partySlotIndex);
             }
-            
         }
     }
 
@@ -1182,8 +1234,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         poolMoveInSlot[0].btnMy.interactable = false;
         /*        PartySlot nSlot = new();
                 nSlot.Init(pd);*/
-
-        
     }
+
 
 }
