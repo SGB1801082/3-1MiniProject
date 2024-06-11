@@ -11,7 +11,7 @@ public class TitleBtnsSprite : MonoBehaviour, IPointerEnterHandler, IPointerUpHa
     [SerializeField] private Image img;
     [SerializeField] private Button my;
     private bool isPointerOver = false; // 마우스가 버튼 위에 있는지 여부를 저장하는 변수
-
+    public List<AudioClip> audioSources = new();
     private void Update()
     {
         // 마우스가 버튼 위에 있지 않고, 마우스가 눌린 상태가 아닌 경우
@@ -24,11 +24,11 @@ public class TitleBtnsSprite : MonoBehaviour, IPointerEnterHandler, IPointerUpHa
         {
             if (isPointerOver == true)
             {
-                img.sprite = mainMenuMgr.TitleBtnSprites[2];
+                img.sprite = mainMenuMgr.TitleBtnSprites[2];// 클릭
             }
             else
             {
-                img.sprite = mainMenuMgr.TitleBtnSprites[0];
+                img.sprite = mainMenuMgr.TitleBtnSprites[0];//기본
             }
         }
         else
@@ -42,7 +42,7 @@ public class TitleBtnsSprite : MonoBehaviour, IPointerEnterHandler, IPointerUpHa
     public void OnPointerEnter(PointerEventData eventData)
     {
         isPointerOver = true;
-        img.sprite = mainMenuMgr.TitleBtnSprites[1];
+        img.sprite = mainMenuMgr.TitleBtnSprites[1];//호버
     }
 
     public void OnPointerUp(PointerEventData eventData)

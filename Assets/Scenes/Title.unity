@@ -1851,6 +1851,7 @@ GameObject:
   - component: {fileID: 598743003}
   - component: {fileID: 598743006}
   - component: {fileID: 598743007}
+  - component: {fileID: 598743008}
   m_Layer: 5
   m_Name: ReLoad
   m_TagString: Untagged
@@ -1987,6 +1988,23 @@ MonoBehaviour:
   mainMenuMgr: {fileID: 1638594990}
   img: {fileID: 598743006}
   my: {fileID: 598743003}
+  audioSources: []
+--- !u!114 &598743008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598743001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e8fcb9a8f3f9f488d0ffd83e83cacc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverClip: {fileID: 8300000, guid: 8cbebdf409dc7694e9fc0bcdacc8ef7f, type: 3}
+  clickClip: {fileID: 8300000, guid: 1ce65f8967404634f874beb07b3d9f7f, type: 3}
+  hoverVolume: 0.5
+  clickVolume: 0.5
 --- !u!1 &676628206
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,6 +2152,7 @@ GameObject:
   - component: {fileID: 757537123}
   - component: {fileID: 757537122}
   - component: {fileID: 757537125}
+  - component: {fileID: 757537126}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -2270,6 +2289,23 @@ MonoBehaviour:
   mainMenuMgr: {fileID: 1638594990}
   img: {fileID: 757537122}
   my: {fileID: 757537123}
+  audioSources: []
+--- !u!114 &757537126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757537120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e8fcb9a8f3f9f488d0ffd83e83cacc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverClip: {fileID: 8300000, guid: 8cbebdf409dc7694e9fc0bcdacc8ef7f, type: 3}
+  clickClip: {fileID: 8300000, guid: 1ce65f8967404634f874beb07b3d9f7f, type: 3}
+  hoverVolume: 0.5
+  clickVolume: 0.5
 --- !u!1 &838408589
 GameObject:
   m_ObjectHideFlags: 0
@@ -2433,6 +2469,7 @@ GameObject:
   - component: {fileID: 962153190}
   - component: {fileID: 962153189}
   - component: {fileID: 962153192}
+  - component: {fileID: 962153193}
   m_Layer: 5
   m_Name: Quite
   m_TagString: Untagged
@@ -2569,6 +2606,23 @@ MonoBehaviour:
   mainMenuMgr: {fileID: 1638594990}
   img: {fileID: 962153189}
   my: {fileID: 962153190}
+  audioSources: []
+--- !u!114 &962153193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962153187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e8fcb9a8f3f9f488d0ffd83e83cacc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverClip: {fileID: 8300000, guid: 8cbebdf409dc7694e9fc0bcdacc8ef7f, type: 3}
+  clickClip: {fileID: 8300000, guid: 1ce65f8967404634f874beb07b3d9f7f, type: 3}
+  hoverVolume: 0.5
+  clickVolume: 0.5
 --- !u!1 &1034424954
 GameObject:
   m_ObjectHideFlags: 0
@@ -2580,6 +2634,8 @@ GameObject:
   - component: {fileID: 1034424957}
   - component: {fileID: 1034424956}
   - component: {fileID: 1034424955}
+  - component: {fileID: 1034424958}
+  - component: {fileID: 1034424959}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2637,6 +2693,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1034424958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034424954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ce02046dbdb8c4c99e024cef91d8c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1034424959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034424954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5f1897f4f98f74ab4c8684bf4d719a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneClip: {fileID: 8300000, guid: c240a8dc7c416bc49bff756d35a295a3, type: 3}
+  targetSceneName: Title
+  sceneVolume: 0.255
 --- !u!1 &1079605448
 GameObject:
   m_ObjectHideFlags: 0
@@ -2800,6 +2883,7 @@ GameObject:
   - component: {fileID: 1124484875}
   - component: {fileID: 1124484874}
   - component: {fileID: 1124484877}
+  - component: {fileID: 1124484878}
   m_Layer: 5
   m_Name: Setting
   m_TagString: Untagged
@@ -2936,6 +3020,23 @@ MonoBehaviour:
   mainMenuMgr: {fileID: 1638594990}
   img: {fileID: 1124484874}
   my: {fileID: 1124484875}
+  audioSources: []
+--- !u!114 &1124484878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124484872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e8fcb9a8f3f9f488d0ffd83e83cacc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverClip: {fileID: 8300000, guid: 8cbebdf409dc7694e9fc0bcdacc8ef7f, type: 3}
+  clickClip: {fileID: 8300000, guid: 1ce65f8967404634f874beb07b3d9f7f, type: 3}
+  hoverVolume: 0.5
+  clickVolume: 0.5
 --- !u!1 &1151781694
 GameObject:
   m_ObjectHideFlags: 0
