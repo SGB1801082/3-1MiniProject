@@ -32,21 +32,24 @@ public class StatManager : MonoBehaviour
         this.name_Text.text = name;
     }
 
-    /*    private void Start()
+    private void Start()
+    {
+        UnitStat();
+    }
+    
+    private void UnitStat()
+    {
+        foreach (GameObject obj in BattleManager.Instance.party_List)
         {
-            UnitStat();
-        }*/
-    /*
-        private void UnitStat()
-        {
-            foreach (GameObject obj in BattleManager.Instance.party_List)
+            Ally players = obj.GetComponent<Ally>();
+                
+            if (players.entity_index == player.playerIndex)
             {
-                BaseEntity entity = obj.GetComponent<BaseEntity>();
-                player = entity;
-                Debug.Log("정보 넣기 " + obj);
+                UpdateStatus();
                 break;
             }
-        }*/
+        }
+    }
 
     private void DeployUnitCheck()
     {
@@ -69,6 +72,9 @@ public class StatManager : MonoBehaviour
         {
             DeployUnitCheck();
         }
+
+        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Rest)
+            isDeploy = true;
     }
 
     public void UpdateStatus()

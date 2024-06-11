@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class BattleManager : MonoBehaviour
     public ObjectManager pool;
     public RoomManager room;
     public UIManager ui;
+    public Dialogue dialogue;
     public List<GameObject> party_List = new List<GameObject>();
     public List<GameObject> deploy_Player_List = new List<GameObject>();
     public List<GameObject> deploy_Enemy_List = new List<GameObject>();
@@ -138,6 +141,41 @@ public class BattleManager : MonoBehaviour
                 break;
             case BattlePhase.End:
                 StartCoroutine(EndBattle());
+                break;
+        }
+    }
+
+    public void Tutorial(int dialogue_Cnt)
+    {
+        Debug.Log(dialogue.cnt);
+        switch (dialogue_Cnt) 
+        {
+            case 11:
+                party_List[0].GetComponent<Ally>().cur_Hp -= 3;
+                ui.item_Tutorial.SetActive(true);
+                Canvas tutorial_item = ui.item_Bar.AddComponent<Canvas>();
+                ui.item_Bar.AddComponent<GraphicRaycaster>();
+                tutorial_item.overrideSorting = true;
+                tutorial_item.sortingOrder = 1;
+                break;
+            default:
+                Debug.Log("아직 구현안함");
+                dialogue.ONOFF(true);
+                break;
+        }
+    }
+
+    public void EndTutorial(int dialogue_Cnt)
+    {
+        Debug.Log(dialogue.cnt);
+        dialogue.isQuest = false;
+        switch (dialogue_Cnt)
+        {
+            case 11:
+                ui.item_Tutorial.SetActive(false);
+                Destroy(ui.item_Bar.GetComponent<GraphicRaycaster>());
+                Destroy(ui.item_Bar.GetComponent<Canvas>());
+                dialogue.ONOFF(true);
                 break;
         }
     }

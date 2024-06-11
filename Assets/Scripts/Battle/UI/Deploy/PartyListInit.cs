@@ -43,7 +43,7 @@ public class PartyListInit : MonoBehaviour
         {
             for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
             {
-                GameObject obj = Instantiate(party_Prefab, transform);
+                GameObject obj = Instantiate(BattleManager.Instance.party_List[i], transform);
                 UnitPlacement unit = obj.GetComponent<UnitPlacement>();
 
                 unit.InitList(BattleManager.Instance.party_List[i], BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite, GameMgr.playerData[i]);

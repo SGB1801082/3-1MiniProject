@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Battle(UI)")]
     public GameObject player_Statbar;
     public GameObject item_Bar;
     public GameObject party_List;
     public GameObject battleStart;
     public GameObject nextRoom;
+
+
+    [Header("BattleEnd_Popup")]
     public GameObject popup_Bg;
     public GameObject vic_Popup;
     public GameObject def_Popup;
+
+
+    [Header("Tutorial")]
+    public GameObject item_Tutorial;
 
     private void Start()
     {

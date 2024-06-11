@@ -13,7 +13,6 @@ public class UnitPlacement : MonoBehaviour
 
     private void Start()
     {
-        UnitPlacement[] unit = FindObjectsOfType<UnitPlacement>();
         deployTilemap = GameObject.FindGameObjectWithTag("Wait").GetComponent<Tilemap>();
     }
 
@@ -29,7 +28,6 @@ public class UnitPlacement : MonoBehaviour
     public void DeployUnit()
         {
             BoundsInt bounds = deployTilemap.cellBounds;
-            TileBase[] allTiles = deployTilemap.GetTilesBlock(bounds);
 
             foreach (Vector3Int position in bounds.allPositionsWithin)
             {
@@ -41,8 +39,7 @@ public class UnitPlacement : MonoBehaviour
                         GameObject obj = Instantiate(unitPrefab, worldPos, Quaternion.identity);
                         obj.GetComponent<Ally>().InitStat(data.playerIndex);
                         BattleManager.Instance.deploy_Player_List.Add(obj);
-                        gameObject.SetActive(false);
-                        
+                        gameObject.SetActive(false);                   
                         return; // 한 번에 하나의 유닛만 배치하도록 리턴합니다.
                     }
                 }
