@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class StatManager : MonoBehaviour
 {
-    public BaseEntity player;
+    public PlayerData player;
 
     [Header("Player_Stat")]
     public Slider hp;
@@ -20,56 +20,52 @@ public class StatManager : MonoBehaviour
 
     [Header("Image")]
     public Image player_Icon;
-    public GameObject entry_Check;
+    public GameObject deploy_Check;
     public GameObject dead_Check;
     bool isDeploy;
 
-    public void InitStat(BaseEntity player, Sprite icon)
+    public void InitStat(PlayerData player, Sprite icon, int level, string name)
     {
         this.player = player;
         this.player_Icon.sprite = icon;
-        isDeploy = true;
+        this.level_Text.text = level.ToString();
+        this.name_Text.text = name;
     }
 
-/*    private void Start()
-    {
-        UnitStat();
-    }*/
-/*
-    private void UnitStat()
-    {
-        foreach (GameObject obj in BattleManager.Instance.party_List)
+    /*    private void Start()
         {
-            BaseEntity entity = obj.GetComponent<BaseEntity>();
-            player = entity;
-            Debug.Log("정보 넣기 " + obj);
-            break;
-        }
-    }*/
-
-    private void DeployUnitCheck()
-    {
-        foreach (GameObject deploy in BattleManager.Instance.deploy_Player_List)
+            UnitStat();
+        }*/
+    /*
+        private void UnitStat()
         {
             foreach (GameObject obj in BattleManager.Instance.party_List)
             {
-                if (deploy.gameObject != obj.gameObject)
-                {
-                    isDeploy = false;
-                }
-                else
-                {
-                    isDeploy = true;
-                }
+                BaseEntity entity = obj.GetComponent<BaseEntity>();
+                player = entity;
+                Debug.Log("정보 넣기 " + obj);
+                break;
+            }
+        }*/
+
+    private void DeployUnitCheck()
+    {
+        isDeploy = false; // 초기화
+        foreach (GameObject deploy in BattleManager.Instance.deploy_Player_List)
+        {
+            Ally deploy_Ally = deploy.GetComponent<Ally>();
+            if (deploy_Ally.entity_index == player.playerIndex)
+            {
+                isDeploy = true;
+                break;
             }
         }
     }
 
-
     private void Update()
     {
         UpdateStatus();
-        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
+        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy)
         {
             DeployUnitCheck();
         }
@@ -77,28 +73,23 @@ public class StatManager : MonoBehaviour
 
     public void UpdateStatus()
     {
-        if (player != null && player.cur_Hp >= 0) 
+        if (player != null)
         {
-            hp.value = player.cur_Hp / player.max_Hp;
-            mp.value = player.cur_Mp / player.max_Mp;
-            dead_Check.SetActive(false);
-        }
+            // 실시간으로 HP, MP 업데이트
+            hp.value = player.cur_Player_Hp / player.max_Player_Hp;
+            mp.value = player.cur_Player_Mp / player.max_Player_Hp;
 
-        if (isDeploy && player != null && player.cur_Hp >= 0)
-        {
-            entry_Check.SetActive(false);
-        }
-        else
-        {
-            entry_Check.SetActive(true);
-        }
+            if (player.cur_Player_Hp > 0)
+            {
+                dead_Check.SetActive(false);
+            }
+            else
+            {
+                dead_Check.SetActive(true);
+            }
 
-
-        if (player != null && player.cur_Hp <= 0 && player._curstate == BaseEntity.State.Death)
-        {
-            entry_Check.SetActive(false);
-            dead_Check.SetActive(true);
+            // 배치 상태 업데이트
+            deploy_Check.SetActive(!isDeploy);
         }
     }
-
 }

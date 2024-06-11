@@ -30,6 +30,8 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
 
     public int playerIndex;
 
+    //public string partyName;
+
     public PlayerData(string name)
     {
         this.NAME = name;

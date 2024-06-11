@@ -9,25 +9,27 @@ public class Enemy : BaseEntity
         base.Update();
     }
 
-    public void InitStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange)
+    // 최대 체력, 최대 마나, 공격력, 공격속도, 사거리, 근접유무, 스킬유무
+    public void InitStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange, bool isMelee, bool able_Skill)
     {
-        float cur_hp = max_Hp;
-
         stat = new(
             max_Hp,
-            cur_hp,
             max_Mp,
             atkDmg,
             atkSpd,
-            atkRange
+            atkRange,
+            isMelee,
+            able_Skill
             );
 
         this.max_Hp = stat.max_Hp;
-        this.cur_Hp = stat.cur_hp;
+        this.cur_Hp = this.max_Hp;
         this.max_Mp = stat.max_Mp;
         this.cur_Mp = 0f;
         this.atkDmg = stat.atkDmg;
         SetAttackSpeed(stat.atkSpd);
         this.atkRange = stat.atkRange;
+        this.isMelee = stat.isMelee;
+        this.able_Skill = stat.able_Skill;
     }
 }

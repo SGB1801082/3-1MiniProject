@@ -4,33 +4,26 @@ using UnityEngine;
 using UnityEngine.U2D;
 using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class Hero : Ally
 {
     protected override void Start()
     {
         base.Start();
-        Debug.Log("Player 持失");
-        foreach (GameObject _player in BattleManager.Instance.party_List)
-        {
-            BaseEntity player_Stat = _player.GetComponent<BaseEntity>();
-
-            if (player_Stat.entity_index == GetComponent<BaseEntity>().entity_index)
-            {
-                InitStat(entity_index);
-            }
-        }
+        Debug.Log("Hero 持失");
+        job = JobClass.Hero;
     }
 
-    protected override void Update()
+    /*protected override void Update()
     {
         base.Update();
 
-        /*if (_curstate == State.Skill)
+        *//*if (_curstate == State.Skill)
         {
             Skill();
-        }*/
-    }
+        }*//*
+    }*/
 
 
     /*public void Skill()

@@ -7,10 +7,8 @@ public class Skeleton : Enemy
     protected override void Start()
     {
         base.Start();
-
-        InitStat(50, 0, 5, 1, 1.1f);
-        isMelee = true;
-        able_Skill = false;
+        // 최대 체력, 최대 마나, 공격력, 공격속도, 사거리, 근접유무, 스킬유무
+        InitStat(50, 0, 5, 1, 1.6f, true, false);
     }
 
     /*    protected override void Update()

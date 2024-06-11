@@ -7,7 +7,7 @@ public class PartyStatInit : MonoBehaviour
     public GameObject party_Stat_Prefab;
     private List<GameObject> stats = new List<GameObject>();
 
-    private void Awake()
+    private void Start()
     {
         for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
         {
@@ -15,10 +15,10 @@ public class PartyStatInit : MonoBehaviour
             StatManager stat_Obj = obj.GetComponent<StatManager>();
             stats.Add(obj);
 
-            BaseEntity player = BattleManager.Instance.party_List[i].GetComponent<BaseEntity>();
+            PlayerData data = GameMgr.playerData[i];
             Sprite sprite = BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite;
 
-            stat_Obj.InitStat(player, sprite);
+            stat_Obj.InitStat(data, sprite, data.player_level, data.GetPlayerName());
         }
     }
 }

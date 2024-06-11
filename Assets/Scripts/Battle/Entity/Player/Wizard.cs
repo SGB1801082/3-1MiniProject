@@ -10,26 +10,18 @@ public class Wizard : Ally
     {
         base.Start();
         Debug.Log("Wizard »ý¼º");
-        foreach (GameObject player in BattleManager.Instance.party_List)
-        {
-            BaseEntity player_Stat = player.GetComponent<BaseEntity>();
-
-            if (player_Stat.entity_index == GetComponent<BaseEntity>().entity_index)
-            {
-                InitStat(entity_index);
-            }
-        }
+        job = JobClass.Wizard;
     }
 
-    protected override void Update()
+    /*protected override void Update()
     {
         base.Update();
-        /*if (_curstate == State.Skill)
+        *//*if (_curstate == State.Skill)
         {
             Skill();
-        }*/
+        }*//*
         //cur_target = target;
-    }
+    }*/
 
 
     /*public void Skill()
