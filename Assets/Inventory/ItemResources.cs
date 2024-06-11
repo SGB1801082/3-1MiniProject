@@ -5,7 +5,8 @@ using UnityEngine;
 public class ItemResources : MonoBehaviour
 {
     public static ItemResources instance;
-    public List<Item> itemRS = new List<Item>();
+    public List<Item> itemRS = new();
+    public List<Sprite> iconRS = new();
 
     private void Awake()
     {
