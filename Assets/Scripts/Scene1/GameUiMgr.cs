@@ -16,6 +16,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     [SerializeField] private Image imgTalkPnel;// 대화창 표시유무를 위해 변수 선언
     public bool isActionTalk;// 대화창의 활성화 유무를 판별하기위한 변수
     public Image imgPortrait;// 초상화 이미지를 관리할 변수
+    public TextMeshProUGUI talkName;
     [Header("TalkMgr")]
     public TalkMgr talkMgr;// 대화 매니저를 변수로 선언하여 대화매니저의 함수에 접근 할 수 있게함.
     public int talkIndex;
@@ -37,8 +38,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public GameObject mainButton;// 클릭할 메인 버튼
     public GameObject[] subButtons;// 클릭하면 펼쳐질 서브버튼들.
     private bool areSubButtonsVisible = false;// 메인버튼을 클릭해서 얘가 true가 되면 서브버튼이 보여짐 
-    [SerializeField] private Image img_Portrait;
-    [SerializeField] private Sprite[] ary_sp_Portrait;
+    //[SerializeField] private Image img_Portrait;
+    //[SerializeField] private Sprite[] ary_sp_Portrait;
     [SerializeField] private GameObject objSubButtonFrame;
 
     [Header("VideoOption")]
@@ -560,17 +561,26 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             //show Portrait
             imgPortrait.sprite = talkMgr.GetPortrait(scanObj_ID, int.Parse(talkData.Split(':')[1]));
             imgPortrait.color = new Color(1, 1, 1, 1);// npc가 맞으면 초상화이미지 활성화
+            SetTalkName(imgPortrait.sprite);
         }
         else
         {
             //Debug.Log("else ContinueTalk // ToosTalkData: " + scanObj_ID); // 04 -23 Debug
             typeTextEffect.SetMsg(talkData);
             imgPortrait.color = new Color(1, 1, 1, 0);// npc가 아니면 초상화이미지 비활성화
+            talkName.gameObject.SetActive(false);
         }
 
         isActionTalk = true;
         talkIndex++;
     }
+    //06- 11 Add
+    private void SetTalkName(Sprite _sp)
+    {
+        talkName.gameObject.SetActive(true);
+        talkName.text = talkMgr.dictTalkName[_sp];
+    }
+
     public void GameSave()
     {
         if (menuSet.activeSelf)
@@ -1195,7 +1205,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                     _slot.partyData.isMelee
 
                     );
-                _pd.partySlotData = _slot.partyData;// 06-05 수정
+                //_pd.partySlotData = _slot.partyData;// 06-05 수정
 
                 GameMgr.playerData.Add(_pd);
 
@@ -1212,14 +1222,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //게임이 최초로 시작될때, lastDepatuar[0]에 PlayerPartyData를 가진 MoveInSlot[0]에 || PartyData를 Player[0]의 Data로 채워서 Slot을만들어 MoveInSlot에 Add하고 
         PartyData pd = new(playerPrefab, GameMgr.playerData[0].player_level)//개체 초기화 단순화 하는 코드 
         {
-            classIndex = 0,
+            classIndex = GameMgr.playerData[0].playerIndex,
             partyHp = GameMgr.playerData[0].max_Player_Hp,
             partyMp = GameMgr.playerData[0].max_Player_Mp,
             partyAtk = GameMgr.playerData[0].base_atk_Dmg,
             partyAtkSpd = GameMgr.playerData[0].atk_Speed,
             partyAtkRange = GameMgr.playerData[0].atk_Range
         };
-        GameMgr.playerData[0].partySlotData = pd;// 06-05 수정
+        //GameMgr.playerData[0].partySlotData = pd;// 06-05 수정
 
         poolMoveInSlot[0].partyData = pd;
         poolMoveInSlot[0].gameObject.SetActive(true);

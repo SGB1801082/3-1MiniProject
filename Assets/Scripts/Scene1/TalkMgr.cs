@@ -7,6 +7,8 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
     private Dictionary<int, string[]> dictTalkData;//오브젝트 id를 받으면 문장(대사)이 들어있는배열(대화)을 반환하는 변수
     private Dictionary<int, Sprite> dictPortraitSprite;// 초상화 데이터를 저장할 딕셔너리 <초상화에 해당하는 npc id, 해당초상화 이미지 << 초상화 스프라이트를 저장하는 배열의 요소가 들어갈 것>
     public Sprite[] aryPortraitSprite;// 초상화 스프라이트를 저장할 배열
+
+    public Dictionary<Sprite, string> dictTalkName = new();
     private void Awake()
     {
         dictTalkData = new Dictionary<int, string[]>(); // 초기화
@@ -36,7 +38,7 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
         });
         dictTalkData.Add(11 + 2000, new string[] { 
             "여기 기본 장비 4종을 지급해드렸으니 착용하고 다시 와주세요. :0", 
-            "(장비를 착용하고 다시 말을 걸자.) :0" // 여기까지는 정상구현 완료.
+            "(장비를 착용하고 다시 말을 걸자.) :1" // 여기까지는 정상구현 완료.
         });
 
 
@@ -86,9 +88,20 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
         dictPortraitSprite.Add(1000 + 3, aryPortraitSprite[3]);
 
         dictPortraitSprite.Add(2000 + 0, aryPortraitSprite[0]);// Idel
-        dictPortraitSprite.Add(2000 + 1, aryPortraitSprite[1]);
+        dictPortraitSprite.Add(2000 + 1, aryPortraitSprite[8]);
+
         dictPortraitSprite.Add(2000 + 2, aryPortraitSprite[2]);
         dictPortraitSprite.Add(2000 + 3, aryPortraitSprite[3]);
+    }
+    private void Start()
+    {
+        dictTalkName.Clear();
+
+        for (int i = 0; i < 4; i++)
+        {
+            dictTalkName.Add(aryPortraitSprite[i], "Luna");
+        }
+        dictTalkName.Add(aryPortraitSprite[8], "Player");//GameMgr.playerData[0].GetPlayerName()
     }
 
     public string GetTalk(int objectID, int talkDataIndex)// 지정된 대화 문장을 반환하는 함수
