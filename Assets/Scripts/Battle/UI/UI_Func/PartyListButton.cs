@@ -70,6 +70,7 @@ public class PartyListButton : MonoBehaviour
 
     private void OnEnable()
     {
+        isOpen = false;
         Clicked_Side();
     }
 
@@ -105,7 +106,7 @@ public class PartyListButton : MonoBehaviour
         obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_To;
 
         isOpen = true;
-        StopCoroutine(Open_Side_Co());
+        yield break;
     }
 
     private void Close_Side()
@@ -115,7 +116,6 @@ public class PartyListButton : MonoBehaviour
 
     private IEnumerator Close_Side_Co()
     {
-        Debug.Log("´ÝÈ÷´ÂÁß");
         float timer = 0;
         while (timer < f_Set_Timer)
         {
@@ -127,7 +127,7 @@ public class PartyListButton : MonoBehaviour
         obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_From;
 
         isOpen = false;
-        StopCoroutine(Close_Side_Co());
+        yield break;
     }
 
 

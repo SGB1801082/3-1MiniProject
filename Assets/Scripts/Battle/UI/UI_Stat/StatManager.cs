@@ -39,11 +39,9 @@ public class StatManager : MonoBehaviour
     
     private void UnitStat()
     {
-        foreach (GameObject obj in BattleManager.Instance.party_List)
+        foreach (PlayerData data in GameMgr.playerData)
         {
-            Ally players = obj.GetComponent<Ally>();
-                
-            if (players.entity_index == player.playerIndex)
+            if (data.playerIndex == player.playerIndex)
             {
                 UpdateStatus();
                 break;

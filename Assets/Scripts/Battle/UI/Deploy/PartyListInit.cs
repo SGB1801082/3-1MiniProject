@@ -43,12 +43,20 @@ public class PartyListInit : MonoBehaviour
         {
             for (int i = 0; i < BattleManager.Instance.party_List.Count; i++)
             {
-                GameObject obj = Instantiate(BattleManager.Instance.party_List[i], transform);
-                UnitPlacement unit = obj.GetComponent<UnitPlacement>();
+                if (GameMgr.playerData[i].cur_Player_Hp <= 0)
+                {
+                    Debug.Log("죽은 파티원은 생성되지 않음");
+                    continue;
+                }
+                else
+                {
+                    GameObject obj = Instantiate(party_Prefab, transform);
+                    UnitPlacement unit = obj.GetComponent<UnitPlacement>();
 
-                unit.InitList(BattleManager.Instance.party_List[i], BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite, GameMgr.playerData[i]);
+                    unit.InitList(BattleManager.Instance.party_List[i], BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite, GameMgr.playerData[i]);
 
-                party.Add(obj);
+                    party.Add(obj);
+                }
             }
         }
         

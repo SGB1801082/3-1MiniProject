@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -151,7 +149,7 @@ public class BattleManager : MonoBehaviour
         switch (dialogue_Cnt) 
         {
             case 11:
-                party_List[0].GetComponent<Ally>().cur_Hp -= 3;
+                GameMgr.playerData[0].cur_Player_Hp = 0;
                 ui.item_Tutorial.SetActive(true);
                 Canvas tutorial_item = ui.item_Bar.AddComponent<Canvas>();
                 ui.item_Bar.AddComponent<GraphicRaycaster>();

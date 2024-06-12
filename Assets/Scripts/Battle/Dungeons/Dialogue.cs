@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.Rendering;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,8 +23,9 @@ public class Dialogue : MonoBehaviour
     public GameObject dialogue_Bg;
 
     private bool isDialogue = false;
-    private bool text_Done = false;
+    [SerializeField] private bool text_Done = false;
     public bool isQuest = false;
+    [SerializeField] private bool isTyping = false;
     public int cnt = 0;
 
     [SerializeField] private dialogue[] dialogues;
@@ -58,31 +55,49 @@ public class Dialogue : MonoBehaviour
 
     public void NextDialogue()
     {
-        text_Done = false;
-        isQuest = dialogues[cnt].isQuest;
-        //첫번째 대사와 첫번째 cg부터 계속 다음 cg로 진행되면서 화면에 보이게 된다. 
-        StartCoroutine(Typing(dialogues[cnt].dialogue_Text));
-        dialog_Name.text = dialogues[cnt].dialogue_Name;
-        /*        if (dialogues[cnt].isPlayer)
-                {
-                    dialog_Name.text = GameMgr.playerData[0].GetPlayerName();
-                }
-                else
-                {
-                    dialog_Name.text = dialogues[cnt].dialogue_Name;
-                }*/
+        if (isTyping)
+        {
+            isTyping = false;
+        }
+        else if (cnt >= dialogues.Length && text_Done)
+        {
+            Debug.Log("대화종료");
+            ONOFF(false);
+        }
+        else
+        {
+            text_Done = false;
+            //첫번째 대사와 첫번째 cg부터 계속 다음 cg로 진행되면서 화면에 보이게 된다. 
+            StartCoroutine(Typing(dialogues[cnt].dialogue_Text));
+            isQuest = dialogues[cnt].isQuest;
+            dialog_Name.text = dialogues[cnt].dialogue_Name;
+            /*        if (dialogues[cnt].isPlayer)
+                    {
+                        dialog_Name.text = GameMgr.playerData[0].GetPlayerName();
+                    }
+                    else
+                    {
+                        dialog_Name.text = dialogues[cnt].dialogue_Name;
+                    }*/
 
-        dialog_Icon.sprite = dialogues[cnt].Icon;
-        cnt++; //다음 대사와 cg가 나오도록 
+            dialog_Icon.sprite = dialogues[cnt].Icon;
+            cnt++; //다음 대사와 cg가 나오도록 
+        }      
     }
-
     IEnumerator Typing(string text)
     {
         dialog_Text.text = "";
         bool isTag = false;
+        isTyping = true;
         string tagBuffer = "";
         foreach (char letter in text.ToCharArray())
         {
+            if (!isTyping)
+            {
+                TypingEnd();
+                yield break;
+            }
+
             if (letter == '<')
             {
                 isTag = true;
@@ -104,29 +119,38 @@ public class Dialogue : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
             }
         }
-
         text_Done = true;
+        isTyping = false;
         yield break;
     }
 
 
-    // Update is called once per frame
-    void Update()
+    private void TypingEnd()
+    {
+        dialog_Text.text = dialogues[cnt - 1].dialogue_Text;
+        text_Done = true;
+    }
+
+
+        // Update is called once per frame
+    private void Update()
     {
         //spacebar 누를 때마다 대사가 진행되도록. 
         if (isDialogue) //활성화가 되었을 때만 대사가 진행되도록
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
-                //대화의 끝을 알아야함.
-                if (cnt < dialogues.Length && text_Done && !isQuest) NextDialogue(); //다음 대사가 진행됨
-                else if (isQuest)
+                if (isQuest && text_Done)
                 {
+                    Debug.Log("튜토리얼 시작");
                     ONOFF(false);
-                    BattleManager.Instance.Tutorial(cnt);
+                    BattleManager.Instance.Tutorial(cnt); // 튜토리얼 시작
                 }
-                else if (cnt >= dialogues.Length) ONOFF(false); //대사가 끝남
-                
+                else
+                {
+                    NextDialogue();
+                }
+               
             }
         }
     }
