@@ -759,6 +759,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         if (nowSlot.wearChek)
         {
+            
             TakeOffItem(nowSlot);
             addEquipPanel.gameObject.SetActive(false);
             return;
@@ -849,6 +850,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 targetSlots[i].wearChek = true;
                 // 아이템 설정
                 targetSlots[i].item = clonedItem;
+
+                ApplyEquipPower(targetSlots[i].wearChek, nowSlot.item);// == ApplyEquipPower(targetSlots[i], clonedItem);
             }
         }
         // 사용한 아이템 제거 
@@ -857,6 +860,58 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         nowSlot = null;
     }
+    //06- 12
+    public void ApplyEquipPower(bool _onoff, Item _equip)
+    {
+        float equipPower;
+
+        if (_onoff == true)
+        {
+            equipPower = _equip.itemPower;
+            Debug.Log("장착: " + equipPower + _onoff);
+        }
+        else
+        {
+            equipPower = -1 * (_equip.itemPower);
+            Debug.Log("장착해제: " + equipPower + _onoff);
+        }
+
+        Debug.Log("Now EquipItem Power: " + _equip.itemPower);
+        switch (_equip.itemType)
+        {
+            case Item.ItemType.Equipment_Helmet:
+                Debug.Log("장착전 HP: " + GameMgr.playerData[0].max_Player_Hp);
+                GameMgr.playerData[0].max_Player_Hp += equipPower;
+
+                Debug.Log("장착후 HP: "+GameMgr.playerData[0].max_Player_Hp);
+                break;
+            case Item.ItemType.Equipment_Arrmor:
+                Debug.Log("장착전 Range: " + GameMgr.playerData[0].atk_Range);
+                GameMgr.playerData[0].atk_Range += equipPower;
+
+                Debug.Log("장착후 Range: " + GameMgr.playerData[0].atk_Range);
+                break;
+            case Item.ItemType.Equipment_Weapon:
+                Debug.Log("장착전 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
+                GameMgr.playerData[0].base_atk_Dmg += equipPower;
+
+                Debug.Log("장착후 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
+                break;
+            case Item.ItemType.Equipment_Boots:
+                Debug.Log("장착전 SPD: " + GameMgr.playerData[0].atk_Speed);
+                GameMgr.playerData[0].atk_Speed += equipPower;
+
+                Debug.Log("장착후 SPD: " + GameMgr.playerData[0].atk_Speed);
+                break;
+            /*case Item.ItemType.Consumables:
+                break;
+            case Item.ItemType.Ect:
+                break;*/
+            default:
+                break;
+        }
+    }
+
     public bool AllEquipChek()
     {
         int sum = 0;
@@ -938,10 +993,13 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Item livingItem = _Slot.item;
         livingItem = ItemResources.instance.itemRS[_Slot.item.itemCode];//매개변수로 넘겨받은 슬롯의 아이템 코드 값으로 새 아이템을 생성하여.
 
+        //일단 장착해제
+        _Slot.wearChek = false;//슬롯의 장비가 빠졌으니 fasle로 바꿔줌
+        ApplyEquipPower(_Slot.wearChek, nowSlot.item);
+
         //현재 슬롯의 아이템 지우기
         _Slot.item = new();
         _Slot.itemIcon.sprite = ItemResources.instance.iconRS[0];
-        _Slot.wearChek = false;//슬롯의 장비가 빠졌으니 fasle로 바꿔줌
         //_Slot.usability = true;//까먹을까봐 넣어둠 내가 클릭한 슬롯의 주소값을 참조하고있을(확실하진 않은데 그간 경험상 맞을거임) _Slot의 item들과 wearChek만 수정해주면되서 얘는 시작할때 건드려둔거 안 건드려도됨.
 
         //다시 장착할때 필요한 기본설정 초기화
