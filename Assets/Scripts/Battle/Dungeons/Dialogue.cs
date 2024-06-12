@@ -22,10 +22,11 @@ public class Dialogue : MonoBehaviour
     [SerializeField] private Image dialog_Icon;
     public GameObject dialogue_Bg;
 
+    public bool isTutorial = false;
     private bool isDialogue = false;
     [SerializeField] private bool text_Done = false;
-    public bool isQuest = false;
     [SerializeField] private bool isTyping = false;
+    private bool isQuest = false;
     public int cnt = 0;
 
     [SerializeField] private dialogue[] dialogues;
@@ -33,6 +34,7 @@ public class Dialogue : MonoBehaviour
     private void Start()
     {
         cnt = 0;
+        isTutorial = true;
         ONOFF(true); //대화가 시작됨
     }
 
@@ -41,7 +43,7 @@ public class Dialogue : MonoBehaviour
         dialogue_Box.SetActive(_flag);
         isDialogue = _flag;
 
-        if (!isQuest && _flag == false)
+        if (!dialogues[cnt].isQuest && _flag == false)
         {
             dialogue_Bg.SetActive(_flag);
         }
@@ -62,6 +64,7 @@ public class Dialogue : MonoBehaviour
         else if (cnt >= dialogues.Length && text_Done)
         {
             Debug.Log("대화종료");
+            isTutorial = false;
             ONOFF(false);
         }
         else
@@ -69,8 +72,8 @@ public class Dialogue : MonoBehaviour
             text_Done = false;
             //첫번째 대사와 첫번째 cg부터 계속 다음 cg로 진행되면서 화면에 보이게 된다. 
             StartCoroutine(Typing(dialogues[cnt].dialogue_Text));
-            isQuest = dialogues[cnt].isQuest;
             dialog_Name.text = dialogues[cnt].dialogue_Name;
+            isQuest = dialogues[cnt].isQuest;
             /*        if (dialogues[cnt].isPlayer)
                     {
                         dialog_Name.text = GameMgr.playerData[0].GetPlayerName();

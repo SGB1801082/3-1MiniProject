@@ -9,7 +9,6 @@ public class UIManager : MonoBehaviour
     public GameObject item_Bar;
     public GameObject party_List;
     public GameObject battleStart;
-    public GameObject nextRoom;
 
 
     [Header("BattleEnd_Popup")]
@@ -32,13 +31,8 @@ public class UIManager : MonoBehaviour
     {
         if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Rest || BattleManager.Instance._curphase == BattleManager.BattlePhase.End)
         {
-            nextRoom.SetActive(true);
             party_List.SetActive(false);
             battleStart.SetActive(false);
-        }
-        else
-        {
-            nextRoom.SetActive(false); 
         }
 
         if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)

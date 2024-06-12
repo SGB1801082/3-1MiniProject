@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class UnitPlacement : MonoBehaviour
     public Tilemap deployTilemap;
     public GameObject unitPrefab;
     public Image unit_Icon;
+    public Image class_Icon;
     PlayerData data;
 
     private void Start()
@@ -21,9 +23,8 @@ public class UnitPlacement : MonoBehaviour
         this.unitPrefab = unit;
         this.unit_Icon.sprite = icon;
         this.data = data;
+        this.class_Icon.sprite = unit.GetComponent<Ally>().class_Icon;
     }
-
-
 
     public void DeployUnit()
         {

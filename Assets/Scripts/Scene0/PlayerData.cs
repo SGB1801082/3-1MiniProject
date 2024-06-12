@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.Jobs.LowLevel.Unsafe;
 using UnityEngine;
 public class PlayerData //플레이어 데이터만을 저장하는 데이터 클래스
 {
@@ -24,6 +25,8 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
     public float base_atk_Dmg;
     public bool skill_Able;
     public bool isMelee;
+
+    public Ally.JobClass job;
 
     public List<Item> listInventory;
     public List<Item> listEquipment;
@@ -55,7 +58,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         listInventory = new List<Item>();
         listEquipment = new List<Item>();
     }
-    public PlayerData(int index, float hp, float mp, float atk_spd, float atk_range, float atkDmg, int lv, string name, bool skil_able, bool melee)
+    public PlayerData(int index, float hp, float mp, float atk_spd, float atk_range, float atkDmg, int lv, string name, bool skil_able, bool melee, Ally.JobClass job)
     {
         playerIndex = index;
 
@@ -73,6 +76,8 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
 
         skill_Able = skil_able;
         isMelee = melee;
+
+        this.job = job;
     }
 
     public string GetPlayerName()

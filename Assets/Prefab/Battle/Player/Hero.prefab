@@ -170,6 +170,7 @@ MonoBehaviour:
   player_Name: asdas
   level: 1
   job: 0
+  class_Icon: {fileID: 21300000, guid: 95052c6b62fb3de4695beaa99f842ac2, type: 3}
 --- !u!114 &7290721332234880372
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -148,8 +148,12 @@ public class BattleManager : MonoBehaviour
         Debug.Log(dialogue.cnt);
         switch (dialogue_Cnt) 
         {
+            case 7:
+                Debug.Log("기본적인 UI 이미지 띄우기");
+                dialogue.ONOFF(true);
+                break;
             case 11:
-                GameMgr.playerData[0].cur_Player_Hp = 0;
+                GameMgr.playerData[0].cur_Player_Hp -= 3;
                 ui.item_Tutorial.SetActive(true);
                 Canvas tutorial_item = ui.item_Bar.AddComponent<Canvas>();
                 ui.item_Bar.AddComponent<GraphicRaycaster>();
@@ -166,7 +170,6 @@ public class BattleManager : MonoBehaviour
     public void EndTutorial(int dialogue_Cnt)
     {
         Debug.Log(dialogue.cnt);
-        dialogue.isQuest = false;
         switch (dialogue_Cnt)
         {
             case 11:

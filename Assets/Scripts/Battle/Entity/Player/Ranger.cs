@@ -13,6 +13,17 @@ public class Ranger : Ally
         Debug.Log("Ranger »ý¼º");
     }
 
+
+    public override void RangeAttack(BaseEntity target)
+    {
+        base.RangeAttack(target);
+        GameObject obj_Arrow = BattleManager.Instance.pool.GetObject(0);
+        obj_Arrow.transform.position = transform.GetChild(0).position;
+        Arrow arrow = obj_Arrow.GetComponent<Arrow>();
+        arrow.Shoot(this, target);
+    }
+
+
     /*protected override void Update()
     {
         base.Update();

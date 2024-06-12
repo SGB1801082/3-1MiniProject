@@ -12,11 +12,13 @@ TagManager:
   - Wait
   - Battle
   - Deploy
+  - NextRoom
+  - InRoom
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - BG
   - Water
   - UI
   - Object

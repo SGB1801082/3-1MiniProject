@@ -1128,8 +1128,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                     _slot.partyData.strPartyName,
 
                     _slot.partyData.able_Skill,
-                    _slot.partyData.isMelee
+                    _slot.partyData.isMelee,
 
+                    _slot.partyData.jobType
                     );
 
                 GameMgr.playerData.Add(_pd);

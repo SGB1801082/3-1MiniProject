@@ -376,14 +376,10 @@ public class BaseEntity : MonoBehaviour
         Debug.Log(target.cur_Hp + " " + target.name);
     }
 
-    private void RangeAttack(BaseEntity target) 
+    public virtual void RangeAttack(BaseEntity target) 
     {
         Debug.Log("°ø°ÝÇÔ ( " + name + " -> " + target.name + " )");
         ani.SetTrigger("isAtk");
-        GameObject obj_Arrow = BattleManager.Instance.pool.GetObject(0);
-        obj_Arrow.transform.position = transform.GetChild(0).position;
-        Arrow arrow = obj_Arrow.GetComponent<Arrow>();
-        arrow.Shoot(this, target);
     }
 
     public void RangeHit(BaseEntity target)

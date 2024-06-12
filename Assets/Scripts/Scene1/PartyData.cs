@@ -63,37 +63,34 @@ public class PartyData
         {
             case Ally.JobClass.Ranger:
                 Debug.Log("Type Ranger, Generate Code: "+_Code);
-                partyHp = 20f + (0.01f* _Lvel);
+                partyHp = 20f;
                 partyMp = 5f;
-                partyAtk = 2f + (0.1f * _Lvel);
-                partyAtkSpd = 1.0f + (0.1f * _Lvel);
+                partyAtk = 2f;
+                partyAtkSpd = 1.0f;
                 partyAtkRange = 7f;
                 strPartyName = "Ranger";
-                type = "Ranger";
                 isMelee = false;//false 일때 원거리공격
                 able_Skill = false;
                 break;
             case Ally.JobClass.Wizard:
                 Debug.Log("Type wizard, Generate Code: " + _Code);
-                partyHp = 20f + (0.01f * _Lvel);
-                partyMp = 5f;
-                partyAtk = 2f + (0.1f * _Lvel);
-                partyAtkSpd = 1.0f + (0.1f * _Lvel);
+                partyHp = 15f;
+                partyMp = 3f;
+                partyAtk = 3f;
+                partyAtkSpd = 0.75f;
                 partyAtkRange = 7f;
                 strPartyName = "Wizard";
-                type = "wizard";
-                isMelee = true;
+                isMelee = false;
                 able_Skill = false;
                 break;
             case Ally.JobClass.Knight:
                 Debug.Log("Type 3, Generate Code: " + _Code);
-                partyHp = 20f + (0.01f * _Lvel);
+                partyHp = 30f;
                 partyMp = 5f;
-                partyAtk = 2f + (0.1f * _Lvel);
+                partyAtk = 2f;
                 partyAtkSpd = 1.0f;
-                partyAtkRange = 2f + (0.1f * _Lvel);
+                partyAtkRange = 1.1f;
                 strPartyName = "Knight";
-                type = "Knight";
                 isMelee = true;
                 able_Skill = false;
                 break;
