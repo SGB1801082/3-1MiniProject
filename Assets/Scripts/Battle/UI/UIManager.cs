@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     public GameObject item_Bar;
     public GameObject party_List;
     public GameObject battleStart;
+    public GameObject in_Portal;
+    public GameObject out_Portal;
 
 
     [Header("BattleEnd_Popup")]

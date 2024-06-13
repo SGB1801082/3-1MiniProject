@@ -31,10 +31,14 @@ public class Dialogue : MonoBehaviour
 
     [SerializeField] private dialogue[] dialogues;
 
+    private void Awake()
+    {
+        isTutorial = true;
+    }
+
     private void Start()
     {
         cnt = 0;
-        isTutorial = true;
         ONOFF(true); //대화가 시작됨
     }
 
@@ -43,12 +47,12 @@ public class Dialogue : MonoBehaviour
         dialogue_Box.SetActive(_flag);
         isDialogue = _flag;
 
-        if (!dialogues[cnt].isQuest && _flag == false)
+        if (cnt >= dialogues.Length)
         {
-            dialogue_Bg.SetActive(_flag);
+            dialogue_Bg.SetActive(false);
         }
         
-        if(_flag)
+        if(isDialogue && _flag)
         {
             dialogue_Bg.SetActive(_flag);
             NextDialogue();
@@ -66,6 +70,8 @@ public class Dialogue : MonoBehaviour
             Debug.Log("대화종료");
             isTutorial = false;
             ONOFF(false);
+            if (BattleManager.Instance.ui.in_Portal.activeSelf)
+                BattleManager.Instance.ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
         }
         else
         {

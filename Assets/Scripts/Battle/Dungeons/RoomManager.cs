@@ -67,7 +67,6 @@ public class RoomManager : MonoBehaviour
                         child.gameObject.SetActive(true);
                     }
                 }
-
             }
             else
             {
