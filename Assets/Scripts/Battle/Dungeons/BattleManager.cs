@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class BattleManager : MonoBehaviour
     public ObjectManager pool;
     public RoomManager room;
     public UIManager ui;
+    public Dialogue dialogue;
     public List<GameObject> party_List = new List<GameObject>();
     public List<GameObject> deploy_Player_List = new List<GameObject>();
     public List<GameObject> deploy_Enemy_List = new List<GameObject>();
@@ -125,19 +126,74 @@ public class BattleManager : MonoBehaviour
         switch (phase)
         {
             case BattlePhase.Start:
+                ui.in_Portal.SetActive(true);
+                ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
                 if (room.isMoveDone || isFirstEnter)
                 {
                     CheckRoom();
                     isFirstEnter = false;
                 }
+                
+                break;
+            case BattlePhase.Rest:
+                ui.out_Portal.SetActive(true);
+                ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+
+                if (!dialogue.isTutorial)
+                {
+                    ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
+                }
                 break;
             case BattlePhase.Deploy:
+                if (ui.in_Portal.activeSelf)
+                    ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
+
+                if (ui.out_Portal.activeSelf)
+                    ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
                 BattleReady();
                 break;
             case BattlePhase.Battle:
                 break;
             case BattlePhase.End:
                 StartCoroutine(EndBattle());
+                break;
+        }
+    }
+
+    public void Tutorial(int dialogue_Cnt)
+    {
+        Debug.Log(dialogue.cnt);
+        switch (dialogue_Cnt) 
+        {
+            case 7:
+                Debug.Log("기본적인 UI 이미지 띄우기");
+                dialogue.ONOFF(true);
+                break;
+            case 11:
+                GameMgr.playerData[0].cur_Player_Hp -= 3;
+                ui.item_Tutorial.SetActive(true);
+                Canvas tutorial_item = ui.item_Bar.AddComponent<Canvas>();
+                ui.item_Bar.AddComponent<GraphicRaycaster>();
+                tutorial_item.overrideSorting = true;
+                tutorial_item.sortingOrder = 1;
+                break;
+            default:
+                Debug.Log("아직 구현안함");
+                dialogue.ONOFF(true);
+                break;
+        }
+    }
+
+    public void EndTutorial(int dialogue_Cnt)
+    {
+        Debug.Log(dialogue.cnt);
+        switch (dialogue_Cnt)
+        {
+            case 11:
+                ui.item_Tutorial.SetActive(false);
+                Destroy(ui.item_Bar.GetComponent<GraphicRaycaster>());
+                Destroy(ui.item_Bar.GetComponent<Canvas>());
+                dialogue.ONOFF(true);
                 break;
         }
     }
@@ -155,7 +211,6 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log("배틀 시작");
             ChangePhase(BattlePhase.Battle);
-
             deploy_area = GameObject.FindGameObjectWithTag("Deploy");
             unit_deploy_area = GameObject.FindGameObjectWithTag("Wait");
             deploy_area.SetActive(false);
@@ -202,11 +257,15 @@ public class BattleManager : MonoBehaviour
                 Destroy(obj.gameObject);
             }
 
-            if (deploy_Player_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
+            if (deploy_Player_List.Count == 0)
             {
+                ui.popup_Bg.SetActive(true);
+                ui.def_Popup.SetActive(true);
             }
             else if (deploy_Enemy_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
             {
+                ui.popup_Bg.SetActive(true);
+                ui.vic_Popup.SetActive(true);
             }
 
             deploy_Player_List.Clear();
@@ -224,6 +283,7 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log("전투 방입니다.");
             ChangePhase(BattlePhase.Deploy);
+            
         }
         else
         {
@@ -235,7 +295,7 @@ public class BattleManager : MonoBehaviour
     public void ReturnToTown()
     {
         Debug.Log("마을로 이동");
-        SceneManager.LoadScene("Scene1");
+        SceneManager.LoadScene("Town");
     }
 
 }

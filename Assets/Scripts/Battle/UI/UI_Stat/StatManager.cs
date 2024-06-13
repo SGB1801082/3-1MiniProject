@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using TMPro;
+using Unity.Jobs.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,31 +23,52 @@ public class StatManager : MonoBehaviour
     public Image player_Icon;
     public GameObject deploy_Check;
     public GameObject dead_Check;
+    public List<Sprite> portrait_List = new List<Sprite>();
+
+
     bool isDeploy;
 
-    public void InitStat(PlayerData player, Sprite icon, int level, string name)
+    public void InitStat(PlayerData player, Ally.JobClass type, int level, string name)
     {
         this.player = player;
-        this.player_Icon.sprite = icon;
+
+        switch (type)
+        {
+            case Ally.JobClass.Hero:
+                this.player_Icon.sprite = portrait_List[0];
+                break;
+            case Ally.JobClass.Knight:
+                this.player_Icon.sprite = portrait_List[2];
+                break;
+            case Ally.JobClass.Ranger:
+                this.player_Icon.sprite = portrait_List[1];
+                break;
+            case Ally.JobClass.Wizard:
+                this.player_Icon.sprite = portrait_List[3];
+                break;
+            default:
+                break;
+        }
         this.level_Text.text = level.ToString();
         this.name_Text.text = name;
     }
 
-    /*    private void Start()
+    private void Start()
+    {
+        UnitStat();
+    }
+    
+    private void UnitStat()
+    {
+        foreach (PlayerData data in GameMgr.playerData)
         {
-            UnitStat();
-        }*/
-    /*
-        private void UnitStat()
-        {
-            foreach (GameObject obj in BattleManager.Instance.party_List)
+            if (data.playerIndex == player.playerIndex)
             {
-                BaseEntity entity = obj.GetComponent<BaseEntity>();
-                player = entity;
-                Debug.Log("정보 넣기 " + obj);
+                UpdateStatus();
                 break;
             }
-        }*/
+        }
+    }
 
     private void DeployUnitCheck()
     {
@@ -69,6 +91,9 @@ public class StatManager : MonoBehaviour
         {
             DeployUnitCheck();
         }
+
+        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Rest)
+            isDeploy = true;
     }
 
     public void UpdateStatus()

@@ -13,6 +13,16 @@ public class Wizard : Ally
         job = JobClass.Wizard;
     }
 
+    public override void RangeAttack(BaseEntity target)
+    {
+        base.RangeAttack(target);
+        GameObject obj_Arrow = BattleManager.Instance.pool.GetObject(2); // º¼Æ® ÇÁ¸®ÆÕ
+        obj_Arrow.transform.position = transform.GetChild(0).position;
+        Arrow arrow = obj_Arrow.GetComponent<Arrow>();
+        arrow.Shoot(this, target);
+    }
+
+
     /*protected override void Update()
     {
         base.Update();

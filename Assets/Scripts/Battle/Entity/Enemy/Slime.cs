@@ -8,7 +8,7 @@ public class Slime : Enemy
     {
         base.Start();
         // 최대 체력, 최대 마나, 공격력, 공격속도, 사거리, 근접유무, 스킬유무
-        InitStat(12, 0, 1, 1, 1.1f, true, false);
+        InitStat(12, 0, 1, 1, 1f, true, false);
     }
 
 /*    protected override void Update()

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyStatManager : MonoBehaviour
 {
-    public BaseEntity enemy;
+    public Enemy enemy;
     public Slider hp;
     public TMP_Text hp_Text;
     bool hp_Check = false;
@@ -15,7 +15,7 @@ public class EnemyStatManager : MonoBehaviour
 
     private void Start()
     {
-        enemy = GetComponent<BaseEntity>();
+        enemy = GetComponent<Enemy>();
         hp_Check = true;
     }
 

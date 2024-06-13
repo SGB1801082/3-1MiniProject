@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PartyListButton : MonoBehaviour
 {
@@ -63,6 +64,8 @@ public class PartyListButton : MonoBehaviour
     }*/
 
     public GameObject obj_Side;
+    public Sprite open_party;
+    public Sprite close_party;
     public Vector2 vec_From;
     public Vector2 vec_To;
     public float f_Set_Timer;
@@ -70,6 +73,7 @@ public class PartyListButton : MonoBehaviour
 
     private void OnEnable()
     {
+        isOpen = false;
         Clicked_Side();
     }
 
@@ -105,7 +109,8 @@ public class PartyListButton : MonoBehaviour
         obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_To;
 
         isOpen = true;
-        StopCoroutine(Open_Side_Co());
+        this.gameObject.GetComponent<Image>().sprite = close_party;
+        yield break;
     }
 
     private void Close_Side()
@@ -115,7 +120,6 @@ public class PartyListButton : MonoBehaviour
 
     private IEnumerator Close_Side_Co()
     {
-        Debug.Log("´ÝÈ÷´ÂÁß");
         float timer = 0;
         while (timer < f_Set_Timer)
         {
@@ -127,7 +131,8 @@ public class PartyListButton : MonoBehaviour
         obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_From;
 
         isOpen = false;
-        StopCoroutine(Close_Side_Co());
+        this.gameObject.GetComponent<Image>().sprite = open_party;
+        yield break;
     }
 
 

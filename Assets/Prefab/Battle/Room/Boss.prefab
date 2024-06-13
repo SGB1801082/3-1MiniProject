@@ -3882,7 +3882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6912212797854093243, guid: 9acc12db18ac13745a3652886906b50d, type: 3}
       propertyPath: m_Name
-      value: King_Slime
+      value: Skeleton
       objectReference: {fileID: 0}
     - target: {fileID: 6912212797854093243, guid: 9acc12db18ac13745a3652886906b50d, type: 3}
       propertyPath: m_TagString
