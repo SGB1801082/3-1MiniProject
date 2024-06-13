@@ -15,6 +15,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     [SerializeField] private Image imgTalkPnel;// 대화창 표시유무를 위해 변수 선언
     public bool isActionTalk;// 대화창의 활성화 유무를 판별하기위한 변수
     public Image imgPortrait;// 초상화 이미지를 관리할 변수
+    public TextMeshProUGUI talkName;
     [Header("TalkMgr")]
     public TalkMgr talkMgr;// 대화 매니저를 변수로 선언하여 대화매니저의 함수에 접근 할 수 있게함.
     public int talkIndex;
@@ -36,8 +37,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public GameObject mainButton;// 클릭할 메인 버튼
     public GameObject[] subButtons;// 클릭하면 펼쳐질 서브버튼들.
     private bool areSubButtonsVisible = false;// 메인버튼을 클릭해서 얘가 true가 되면 서브버튼이 보여짐 
-    [SerializeField] private Image img_Portrait;
-    [SerializeField] private Sprite[] ary_sp_Portrait;
+    //[SerializeField] private Image img_Portrait;
+    //[SerializeField] private Sprite[] ary_sp_Portrait;
     [SerializeField] private GameObject objSubButtonFrame;
     
     [Header("VideoOption")]
@@ -543,17 +544,26 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             //show Portrait
             imgPortrait.sprite = talkMgr.GetPortrait(scanObj_ID, int.Parse(talkData.Split(':')[1]));
             imgPortrait.color = new Color(1, 1, 1, 1);// npc가 맞으면 초상화이미지 활성화
+            SetTalkName(imgPortrait.sprite);
         }
         else
         {
             //Debug.Log("else ContinueTalk // ToosTalkData: " + scanObj_ID); // 04 -23 Debug
             typeTextEffect.SetMsg(talkData);
             imgPortrait.color = new Color(1, 1, 1, 0);// npc가 아니면 초상화이미지 비활성화
+            talkName.gameObject.SetActive(false);
         }
 
         isActionTalk = true;
         talkIndex++;
     }
+    //06- 11 Add
+    private void SetTalkName(Sprite _sp)
+    {
+        talkName.gameObject.SetActive(true);
+        talkName.text = talkMgr.dictTalkName[_sp];
+    }
+
     public void GameSave()
     {
         if (menuSet.activeSelf)
@@ -730,6 +740,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnYesButtonClick()
     {
+        if (nowSlot.wearChek)
+        {
+            
+            TakeOffItem(nowSlot);
+            addEquipPanel.gameObject.SetActive(false);
+            return;
+        }
+
         equipmnet = true;
         Debug.Log("AddEquip Name: " + nowSlot.item.itemName);
         Debug.Log("AddEquip Type: " + nowSlot.item.itemType);
@@ -810,6 +828,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 targetSlots[i].wearChek = true;
                 // 아이템 설정
                 targetSlots[i].item = clonedItem;
+
+                ApplyEquipPower(targetSlots[i].wearChek, nowSlot.item);// == ApplyEquipPower(targetSlots[i], clonedItem);
             }
         }
         // 사용한 아이템 제거 
@@ -820,6 +840,58 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         addEquipPanel.gameObject.SetActive(false);
     }
+    //06- 12
+    public void ApplyEquipPower(bool _onoff, Item _equip)
+    {
+        float equipPower;
+
+        if (_onoff == true)
+        {
+            equipPower = _equip.itemPower;
+            Debug.Log("장착: " + equipPower + _onoff);
+        }
+        else
+        {
+            equipPower = -1 * (_equip.itemPower);
+            Debug.Log("장착해제: " + equipPower + _onoff);
+        }
+
+        Debug.Log("Now EquipItem Power: " + _equip.itemPower);
+        switch (_equip.itemType)
+        {
+            case Item.ItemType.Equipment_Helmet:
+                Debug.Log("장착전 HP: " + GameMgr.playerData[0].max_Player_Hp);
+                GameMgr.playerData[0].max_Player_Hp += equipPower;
+
+                Debug.Log("장착후 HP: "+GameMgr.playerData[0].max_Player_Hp);
+                break;
+            case Item.ItemType.Equipment_Arrmor:
+                Debug.Log("장착전 Range: " + GameMgr.playerData[0].atk_Range);
+                GameMgr.playerData[0].atk_Range += equipPower;
+
+                Debug.Log("장착후 Range: " + GameMgr.playerData[0].atk_Range);
+                break;
+            case Item.ItemType.Equipment_Weapon:
+                Debug.Log("장착전 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
+                GameMgr.playerData[0].base_atk_Dmg += equipPower;
+
+                Debug.Log("장착후 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
+                break;
+            case Item.ItemType.Equipment_Boots:
+                Debug.Log("장착전 SPD: " + GameMgr.playerData[0].atk_Speed);
+                GameMgr.playerData[0].atk_Speed += equipPower;
+
+                Debug.Log("장착후 SPD: " + GameMgr.playerData[0].atk_Speed);
+                break;
+            /*case Item.ItemType.Consumables:
+                break;
+            case Item.ItemType.Ect:
+                break;*/
+            default:
+                break;
+        }
+    }
+
     public bool AllEquipChek()
     {
         int sum = 0;
@@ -892,6 +964,32 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
         // 사용한 아이템 제거 
         RedrawSlotUI();
+    }
+
+    //06-09 InventoryAdd
+    public void TakeOffItem(Slot _Slot)
+    {
+        Item livingItem = _Slot.item;
+        livingItem = ItemResources.instance.itemRS[_Slot.item.itemCode];//매개변수로 넘겨받은 슬롯의 아이템 코드 값으로 새 아이템을 생성하여.
+
+        //일단 장착해제
+        _Slot.wearChek = false;//슬롯의 장비가 빠졌으니 fasle로 바꿔줌
+        ApplyEquipPower(_Slot.wearChek, nowSlot.item);
+
+        //현재 슬롯의 아이템 지우기
+        _Slot.item = new();
+        _Slot.itemIcon.sprite = ItemResources.instance.iconRS[0];
+        //_Slot.usability = true;//까먹을까봐 넣어둠 내가 클릭한 슬롯의 주소값을 참조하고있을(확실하진 않은데 그간 경험상 맞을거임) _Slot의 item들과 wearChek만 수정해주면되서 얘는 시작할때 건드려둔거 안 건드려도됨.
+
+        //다시 장착할때 필요한 기본설정 초기화
+        _Slot.item.itemType = livingItem.itemType;
+        _Slot.GetComponent<Button>().interactable = false;
+
+        //인벤토리에 장착 해제한 아이템 추가 후 인벤토리 새로그리기
+        inventory.AddItem(livingItem);
+        RedrawSlotUI();
+
+        nowSlot = null;
     }
 
     //05-12 PartyPanel
@@ -1143,6 +1241,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
                     _slot.partyData.jobType
                     );
+                //_pd.partySlotData = _slot.partyData;// 06-05 수정
 
                 GameMgr.playerData.Add(_pd);
 

@@ -28,6 +28,8 @@ public class Item
     public bool isDraggable;
     //05-08
     public int itemCode;
+    //06
+    public float itemPower;
 
     public bool Use()
     {
