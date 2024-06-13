@@ -40,7 +40,8 @@ public class PartyData
     public GameObject obj_Data;
     public Ally player;
 
-    public Ally.JobClass jobType; 
+    public Ally.JobClass jobType;
+    public Sprite jobIcon;
     public PartyData(GameObject prefab, int _Lvel)
     {
         obj_Data = prefab;
@@ -53,6 +54,7 @@ public class PartyData
         cost = Random.Range(50 + _Lvel*10, 100+ _Lvel*50);
         Debug.Log("cost: "+cost);
         spPartyIcon = player.GetComponent<SpriteRenderer>().sprite;
+        jobIcon = player.class_Icon;
     }
 
 

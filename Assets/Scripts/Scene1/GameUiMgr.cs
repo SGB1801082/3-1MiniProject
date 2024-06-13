@@ -1031,12 +1031,15 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //05-23 고용리스트 텍스트 관리
         RefreshiEmploy();
 
+        //06-13 PartyAdd
+        OnClickCreateParty();//파티보드 초기화 될 때마다 목록 생성
+
         // 세이브된 기존의 파티 보드의 데이터가 존재한다면 해당 데이터를 슬롯에 추가해서 활성화, 이거는 다른곳으로 옮기는게 나을듯?
         /*foreach (var nowPartyBord in listPartyData)
         {
             CreatePartySlot(nowPartyBord);
         }*/
-        
+
     }
     public void CreatePartySlot(PartyData _partyData)
     {
@@ -1063,9 +1066,11 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         partySlot.gameObject.SetActive(true);//활성화
     }
 
-    public void OnClickCreateParty()//테스트용 모집가능파티원리스트 생성 메서드
+    public void OnClickCreateParty()// 모집가능파티원리스트 생성 메서드
     {
-        for (int i = 0; i < 16; i++)
+        int random = Random.Range(4, 17);
+
+        for (int i = 0; i < random; i++)
         {
             // 0부터 10 사이의 정수 난수 생성 (10은 포함되지 않음)
             int ran = Random.Range(1, 10);
@@ -1275,6 +1280,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         poolMoveInSlot[0].text_Name.text = "Player";
 
         poolMoveInSlot[0].text_Lv.text = GameMgr.playerData[0].player_level.ToString();
+        poolMoveInSlot[0].classIcon.sprite = playerPrefab.GetComponent<Ally>().class_Icon;
         //poolMoveInSlot[0].partyData.obj_Data.GetComponent<Ally>().Init(GameMgr.playerData[0].playerIndex, GameMgr.playerData[0]);
         listPartyData.Add(poolMoveInSlot[0].partyData);
         lastDeparture.Add(poolMoveInSlot[0]);

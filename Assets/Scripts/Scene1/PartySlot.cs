@@ -26,6 +26,8 @@ public class PartySlot : MonoBehaviour
 
     //05-22
     public Button btnMy;//상호작용을 막기위해 추가
+
+    public Image classIcon;
     public void Init(PartyData _data)// PartyData (_data, _Prefab) 으로할까.. 파티리소스Mgr만들어서 프리펩등록하고 아이콘 등록하는식으로...고민중
     {
         this.moveInChek = false;
@@ -43,6 +45,8 @@ public class PartySlot : MonoBehaviour
         this.text_Cost.text = intPartyCost.ToString();
 
         this.text_Lv.text = "Lv "+_data.level.ToString();
+
+        classIcon.sprite = _data.jobIcon;
     }
 
     public void OnClick()
