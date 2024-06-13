@@ -87,7 +87,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public Button btn_YesEquipAdd;
     public Button btn_NoEquipAdd;
     public bool equipmnet;
-
+    //Add
+    public TextMeshProUGUI textEquipPanel;
+    
+    
 
     [Header("ToolTip")]
     public GameObject tooltip;

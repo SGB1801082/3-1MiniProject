@@ -143,7 +143,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                     break;
                 default:
                     GameUiMgr.single.nowSlot = this;
-                    GameUiMgr.single.textEquipPanel.text = "장비를 장착 하시겠 습니까?";
+                    GameUiMgr.single.textEquipPanel.text = "장비를 장착 하시겠습니까?";
                     GameUiMgr.single.addEquipPanel.gameObject.SetActive(true);
 
 
