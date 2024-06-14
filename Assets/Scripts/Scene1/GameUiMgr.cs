@@ -16,6 +16,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public bool isActionTalk;// 대화창의 활성화 유무를 판별하기위한 변수
     public Image imgPortrait;// 초상화 이미지를 관리할 변수
     public TextMeshProUGUI talkName;
+    public GameObject objNpcInner;//06-15 Add
     [Header("TalkMgr")]
     public TalkMgr talkMgr;// 대화 매니저를 변수로 선언하여 대화매니저의 함수에 접근 할 수 있게함.
     public int talkIndex;
@@ -33,6 +34,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public Slider s_SN;
     public Slider s_EXP;
 
+    public TextMeshProUGUI tmp_PlayerRating;
     [Header("Button")]
     public GameObject mainButton;// 클릭할 메인 버튼
     public GameObject[] subButtons;// 클릭하면 펼쳐질 서브버튼들.
@@ -241,6 +243,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
     
         questDesc.text = questMgr.CheckQuest();
+        if (questMgr.questId < 30)
+        {
+            tmp_PlayerRating.text = "견습 모험가";
+        }
+        else if(questMgr.questId > 30)
+        {
+            tmp_PlayerRating.text = "9급 모험가";
+        }
 
         SetPlayerDatas();
 
@@ -476,10 +486,16 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         
         scanObject = scanObj;
         ObjectData objectData = scanObject.GetComponent<ObjectData>();// Ray가 스캔했을때  LayerMask가 Obejct인 오브젝트가 부착중인 ObecjtData를  Ray가 오브젝트를 스캔 했을 때만 추출해서 TossTalkData메서드의 매개변수로 사용함.
+        if (objectData.isNpc)
+        {
+            objNpcInner.SetActive(true);
+        }
+        else
+        {
+            objNpcInner.SetActive(false);
+        }
         TossTalkData(objectData.id, objectData.isNpc);
-
         //Debug.Log(objectData.id.ToString());// 04-23 Debug
-
         imgTalkPnel.gameObject.SetActive(isActionTalk);// isActionTalk의 true/false 상태를 따라가기때문에 이렇게 작성해주면 코드 깔끔해짐 
     }
 
