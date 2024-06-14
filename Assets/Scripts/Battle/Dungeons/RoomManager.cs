@@ -10,7 +10,6 @@ public class RoomManager : MonoBehaviour
     public Transform[] rooms;
     public List<GameObject> map_List;
     public int room_Count = 0;
-    public GameObject popup;
     public bool isMoveDone = false;
     public GameObject maps_Prefab;
     public Transform map_Pos;
@@ -86,13 +85,14 @@ public class RoomManager : MonoBehaviour
         }
         else
         {
+            BattleManager.Instance.ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
+            BattleManager.Instance.ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
             previousRoom = currentRoom;
             currentRoom = rooms[++room_Count];
             cur_Map = map_List[room_Count].transform;
             isMoveDone = false;
             StartCoroutine(MoveCamera());
         }
-        popup.SetActive(false);
     }
 
     private IEnumerator MoveCamera()

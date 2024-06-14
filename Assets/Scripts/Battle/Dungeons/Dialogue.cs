@@ -11,16 +11,16 @@ public class dialogue
     [TextArea] public string dialogue_Text;
     public bool isPlayer;
     public bool isQuest;
+    public int quest_cnt;
 }
 
 
 public class Dialogue : MonoBehaviour
 {
-    [SerializeField] private GameObject dialogue_Box;
     [SerializeField] private TMP_Text dialog_Text;
     [SerializeField] private TMP_Text dialog_Name;
     [SerializeField] private Image dialog_Icon;
-    public GameObject dialogue_Bg;
+    
 
     public bool isTutorial = false;
     private bool isDialogue = false;
@@ -40,22 +40,22 @@ public class Dialogue : MonoBehaviour
     {
         cnt = 0;
         ONOFF(true); //대화가 시작됨
+        NextDialogue();
     }
 
     public void ONOFF(bool _flag)
     {
-        dialogue_Box.SetActive(_flag);
+        BattleManager.Instance.ui.dialogue_Box.SetActive(_flag);
         isDialogue = _flag;
 
         if (cnt >= dialogues.Length)
         {
-            dialogue_Bg.SetActive(false);
+            BattleManager.Instance.ui.dialogue_Bg.SetActive(false);
         }
         
         if(isDialogue && _flag)
         {
-            dialogue_Bg.SetActive(_flag);
-            NextDialogue();
+            BattleManager.Instance.ui.dialogue_Bg.SetActive(_flag);
         }
     }
 
@@ -70,8 +70,6 @@ public class Dialogue : MonoBehaviour
             Debug.Log("대화종료");
             isTutorial = false;
             ONOFF(false);
-            if (BattleManager.Instance.ui.in_Portal.activeSelf)
-                BattleManager.Instance.ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
         }
         else
         {
@@ -140,7 +138,6 @@ public class Dialogue : MonoBehaviour
         text_Done = true;
     }
 
-
         // Update is called once per frame
     private void Update()
     {
@@ -152,8 +149,7 @@ public class Dialogue : MonoBehaviour
                 if (isQuest && text_Done)
                 {
                     Debug.Log("튜토리얼 시작");
-                    ONOFF(false);
-                    BattleManager.Instance.Tutorial(cnt); // 튜토리얼 시작
+                    BattleManager.Instance.tutorial.Tutorial(dialogues[cnt - 1].quest_cnt); // 튜토리얼 시작
                 }
                 else
                 {
