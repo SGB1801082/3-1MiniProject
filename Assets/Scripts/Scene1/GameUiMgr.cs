@@ -29,6 +29,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public TextMeshProUGUI tmp_PlayerName;
     public TextMeshProUGUI tmp_PlayerLevle;
     public TextMeshProUGUI tmp_PlayerGold;
+    public TextMeshProUGUI tmp_PlayerPartyTabGold;
 
     public Slider s_HP;
     public Slider s_SN;
@@ -196,6 +197,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     private void Start()
     {
         //06-14 BGM
+        AudioManager.single.PlayBgmVolumeChange(0.2f);
         AudioManager.single.PlayBgmChange(1);
 
         imgTalkPnel.gameObject.SetActive(false);// NPC대화창 시작할때 꺼줌
@@ -473,14 +475,19 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         s_HP.value = this.player_Cur_HP / this.player_Max_HP;
         s_SN.value = this.player_Cur_SN / this.player_Max_SN;
         s_EXP.value = this.player_Cur_EXP / this.player_Max_EXP;
-        tmp_PlayerGold.text = this.playerGold.ToString();
+        GoldChanger();
+    }
+    private void GoldChanger()
+    {
+        tmp_PlayerGold.text = GameMgr.playerData[0].player_Gold.ToString();
+        tmp_PlayerPartyTabGold.text = GameMgr.playerData[0].player_Gold.ToString();
 
-        if (playerGold <= 0)
+        if (GameMgr.playerData[0].player_Gold <= 0)
         {
             tmp_PlayerGold.text = "0";
+            tmp_PlayerPartyTabGold.text = "0";
         }
     }
-
     public void TalkAction(GameObject scanObj)
     {
         
@@ -1028,6 +1035,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void RefreshiPartyBord()
     {
+
         //활성화된 슬롯 비 활성화
         foreach (var _slot in poolPartySlot)
         {
@@ -1086,7 +1094,17 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnClickCreateParty()// 모집가능파티원리스트 생성 메서드
     {
-        int random = Random.Range(4, 17);
+        for (int i = 0; i < 3; i++)
+        {
+            int ran = Random.Range(1, 10);
+            PartyData newParty = new(objListPlayable[i], ran);
+
+            Debug.Log("Btn 각 직업별 파티 영입가능인원 생성 ");
+
+            CreatePartySlot(newParty);
+            listPartyData.Add(newParty);
+        }
+        int random = Random.Range(0, 14);
 
         for (int i = 0; i < random; i++)
         {
@@ -1100,7 +1118,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             listPartyData.Add(newParty);// 고용가능 파티원목록리스트를 저장, 여기에서 저장했으니까 씬 넘어갈때 Clier해서 비워줘야겠지??
         }
     }
-
+    
     /*public bool ClickedPartySlot(PartyData _partyData)
     {
         int activeCount = poolMoveInSlot.FindAll(s => s.gameObject.activeSelf).Count;
@@ -1207,10 +1225,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                     correspondingSlot.moveInChek = false;
                     correspondingSlot.btnMy.interactable = true;
                 }
-
                 _slot.ReSetPartySlot();
                 RefreshiEmploy();
             }
+        }
+
+        foreach(var _slot in poolPartySlot)
+        {
+            _slot.classIcon.gameObject.SetActive(true);
         }
     }
     public void RefreshiEmploy()
@@ -1235,12 +1257,16 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         PartyListInPlayer();
 
         int battleIndex = 1;
-        playerGold = 999;
-        if ((playerGold - partyPrice) < 0 )
+        Debug.Log("고용 전: 현재자금"+ GameMgr.playerData[0].player_Gold);
+        Debug.Log("파티원가격: " + partyPrice);
+        if ((GameMgr.playerData[0].player_Gold - partyPrice) < 0 )
         {
             Debug.Log("골드 부족");
             return; //버튼눌렀는데 골드가 부족하면 실행안됨
         }
+        GameMgr.playerData[0].player_Gold -= partyPrice;
+        GoldChanger();
+        Debug.Log("고용 완료: 현재자금" + GameMgr.playerData[0].player_Gold);
 
         foreach (PartySlot _slot in poolMoveInSlot)
         {
@@ -1277,7 +1303,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             
         }
     }
-
     public void PartyListInPlayer()
     {
         lastDeparture.Clear();

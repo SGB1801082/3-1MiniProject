@@ -24,7 +24,6 @@ public class AudioManager : MonoBehaviour
     public int channels;//다량의 효과음을 낼 수 있도록 채널 개수 변수 선언
     private int channelIndex;// 재생하고있는 채널의 인덱스값이 필요함
 
-
     public enum Sfx
     {
          
@@ -67,7 +66,6 @@ public class AudioManager : MonoBehaviour
             sfxPlayers[index].playOnAwake=false;
             sfxPlayers[index].volume = sfxVolume;
         }
-
 
     }
 

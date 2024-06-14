@@ -46,7 +46,7 @@ public class PartySlot : MonoBehaviour
 
         this.text_Lv.text = "Lv "+_data.level.ToString();
 
-        classIcon.sprite = _data.jobIcon;
+        this.classIcon.sprite = _data.jobIcon;
     }
 
     public void OnClick()
