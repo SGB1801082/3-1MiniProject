@@ -327,9 +327,10 @@ public class BaseEntity : MonoBehaviour
 
             if (target != null && isAttack)
             {
+                cur_atk_CoolTime = atk_CoolTime;
+
                 while (true)
                 {
-
                     if (target == null || target.cur_Hp <= 0 || this._curstate == State.Death)
                     {
                         // 공격 중지

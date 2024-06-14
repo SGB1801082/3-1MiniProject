@@ -25,6 +25,7 @@ public class AttackState : BaseState
         if (entity != null && entity.FindTarget() != null)
         {
             entity.StopCoroutine(entity.SetAttack());
+            entity.ani.ResetTrigger("isAtk");
         }
     }
 }
