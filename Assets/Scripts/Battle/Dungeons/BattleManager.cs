@@ -12,6 +12,7 @@ public class BattleManager : MonoBehaviour
     public RoomManager room;
     public UIManager ui;
     public Dialogue dialogue;
+    public TutorialManager tutorial;
     public List<GameObject> party_List = new List<GameObject>();
     public List<GameObject> deploy_Player_List = new List<GameObject>();
     public List<GameObject> deploy_Enemy_List = new List<GameObject>();
@@ -80,6 +81,7 @@ public class BattleManager : MonoBehaviour
         BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 몬스터와 플레이어를 찾음
         battleEnded = false;
 
+        ui.party_List.SetActive(true);
         deploy_area.SetActive(true);
         unit_deploy_area.SetActive(true);
 
@@ -126,8 +128,12 @@ public class BattleManager : MonoBehaviour
         switch (phase)
         {
             case BattlePhase.Start:
-                ui.in_Portal.SetActive(true);
-                ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
+                if (!ui.in_Portal.activeSelf)
+                {
+                    ui.in_Portal.SetActive(true);
+                    ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
+
                 if (room.isMoveDone || isFirstEnter)
                 {
                     CheckRoom();
@@ -136,64 +142,43 @@ public class BattleManager : MonoBehaviour
                 
                 break;
             case BattlePhase.Rest:
-                ui.out_Portal.SetActive(true);
-                ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+                if (!ui.out_Portal.activeSelf)
+                {
+                    ui.out_Portal.SetActive(true);
+                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
 
-                if (!dialogue.isTutorial)
+                /*if (!dialogue.isTutorial)
                 {
                     ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
-                }
+                }*/
                 break;
             case BattlePhase.Deploy:
-                if (ui.in_Portal.activeSelf)
-                    ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
+                if (dialogue.isTutorial)
+                {
+                    dialogue.ONOFF(true);
+                    dialogue.NextDialogue();
+                }
 
-                if (ui.out_Portal.activeSelf)
-                    ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
                 BattleReady();
                 break;
             case BattlePhase.Battle:
+                if (ui.in_Portal.activeSelf)
+                    ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
                 break;
             case BattlePhase.End:
+                if (!ui.in_Portal.activeSelf)
+                {
+                    ui.in_Portal.SetActive(true);
+                    ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
+
+                if (!ui.out_Portal.activeSelf)
+                {
+                    ui.out_Portal.SetActive(true);
+                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
                 StartCoroutine(EndBattle());
-                break;
-        }
-    }
-
-    public void Tutorial(int dialogue_Cnt)
-    {
-        Debug.Log(dialogue.cnt);
-        switch (dialogue_Cnt) 
-        {
-            case 7:
-                Debug.Log("기본적인 UI 이미지 띄우기");
-                dialogue.ONOFF(true);
-                break;
-            case 11:
-                GameMgr.playerData[0].cur_Player_Hp -= 3;
-                ui.item_Tutorial.SetActive(true);
-                Canvas tutorial_item = ui.item_Bar.AddComponent<Canvas>();
-                ui.item_Bar.AddComponent<GraphicRaycaster>();
-                tutorial_item.overrideSorting = true;
-                tutorial_item.sortingOrder = 1;
-                break;
-            default:
-                Debug.Log("아직 구현안함");
-                dialogue.ONOFF(true);
-                break;
-        }
-    }
-
-    public void EndTutorial(int dialogue_Cnt)
-    {
-        Debug.Log(dialogue.cnt);
-        switch (dialogue_Cnt)
-        {
-            case 11:
-                ui.item_Tutorial.SetActive(false);
-                Destroy(ui.item_Bar.GetComponent<GraphicRaycaster>());
-                Destroy(ui.item_Bar.GetComponent<Canvas>());
-                dialogue.ONOFF(true);
                 break;
         }
     }

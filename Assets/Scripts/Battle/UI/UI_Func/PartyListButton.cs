@@ -5,81 +5,26 @@ using UnityEngine.UI;
 
 public class PartyListButton : MonoBehaviour
 {
-    /*public GameObject targetObject; // 열고 닫을 대상 오브젝트
-    public float animationDuration = 1f; // 애니메이션 지속 시간
-    public float open = 200f; // 열린 상태에서의 높이
-    private Vector3 originalPosition; // 오브젝트의 원래 위치
-    private bool isOpen = false; // 열린 상태 여부
-    private Coroutine toggleCoroutine;
-    private bool isFirst = true;*/
-
-    /*private void Start()
-    {
-        originalPosition = targetObject.transform.position;
-    }
-
-    private void Update()
-    {
-        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy && isFirst)
-        {
-            Toggle();
-            isFirst = false;
-        }
-    }
-
-    public void Toggle()
-    {
-        if (toggleCoroutine != null)
-        {
-            return;
-        }
-        toggleCoroutine = StartCoroutine(ToggleAnimation());
-    }
-
-    private IEnumerator ToggleAnimation()
-    {
-        float elapsedTime = 0f;
-        Vector3 targetPosition;
-
-        if (isOpen)
-        {
-            targetPosition = originalPosition;
-        }
-        else
-        {
-            targetPosition = originalPosition + Vector3.right * open;
-        }
-
-        while (elapsedTime < animationDuration)
-        {
-            targetObject.transform.position = Vector3.Lerp(targetObject.transform.position, targetPosition, elapsedTime / animationDuration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        targetObject.transform.position = targetPosition;
-        isOpen = !isOpen;
-
-        toggleCoroutine = null;
-    }*/
-
     public GameObject obj_Side;
     public Sprite open_party;
     public Sprite close_party;
     public Vector2 vec_From;
     public Vector2 vec_To;
     public float f_Set_Timer;
-    bool isOpen = false;
+    [SerializeField] bool isOpen = false;
+    [SerializeField] bool isMove = false;
 
-    private void OnEnable()
+    private void Start()
     {
+        obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_From;
         isOpen = false;
-        Clicked_Side();
+        isMove = false;
     }
-
 
     public void Clicked_Side()
     {
+        if (isMove) return;
+
         if (!isOpen)
         {
             Open_Side();
@@ -97,6 +42,7 @@ public class PartyListButton : MonoBehaviour
 
     private IEnumerator Open_Side_Co()
     {
+        isMove = true;
         Debug.Log("열리는 중");
         float timer = 0;
         while (timer < f_Set_Timer)
@@ -110,6 +56,7 @@ public class PartyListButton : MonoBehaviour
 
         isOpen = true;
         this.gameObject.GetComponent<Image>().sprite = close_party;
+        isMove = false;
         yield break;
     }
 
@@ -120,6 +67,8 @@ public class PartyListButton : MonoBehaviour
 
     private IEnumerator Close_Side_Co()
     {
+        isMove = true;
+        Debug.Log("닫히는 중");
         float timer = 0;
         while (timer < f_Set_Timer)
         {
@@ -132,6 +81,7 @@ public class PartyListButton : MonoBehaviour
 
         isOpen = false;
         this.gameObject.GetComponent<Image>().sprite = open_party;
+        isMove = false;
         yield break;
     }
 

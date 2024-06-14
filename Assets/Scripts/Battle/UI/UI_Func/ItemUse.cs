@@ -58,11 +58,13 @@ public class ItemUse : MonoBehaviour
         }*/
 
         Debug.Log("수정 예정");
-        GameMgr.playerData[0].cur_Player_Hp += 0;
 
         if (BattleManager.Instance.dialogue.isTutorial)
         {
-            BattleManager.Instance.EndTutorial(BattleManager.Instance.dialogue.cnt);
+            BattleManager.Instance.tutorial.EndTutorial(6);
         }
+
+
+        //GameMgr.playerData[0].cur_Player_Hp += 0;
     }
 }

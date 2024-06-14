@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("Battle(UI)")]
     public GameObject player_Statbar;
+    public GameObject mini_Map;
     public GameObject item_Bar;
     public GameObject party_List;
     public GameObject battleStart;
@@ -21,6 +22,13 @@ public class UIManager : MonoBehaviour
 
     [Header("Tutorial")]
     public GameObject item_Tutorial;
+    public GameObject ui_Tutorial_Rest;
+    public GameObject ui_Tutorial_Deploy;
+
+
+    [Header("Dialogue")]
+    public GameObject dialogue_Box;
+    public GameObject dialogue_Bg;
 
     private void Start()
     {
@@ -44,7 +52,6 @@ public class UIManager : MonoBehaviour
 
         if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy)
         {
-            party_List.SetActive(true);
             battleStart.SetActive(true);
         }
         else

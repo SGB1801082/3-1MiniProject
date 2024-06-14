@@ -11,6 +11,7 @@ public class UnitPlacement : MonoBehaviour
     public GameObject unitPrefab;
     public Image unit_Icon;
     public Image class_Icon;
+    public bool isDeploy_Tutorial;
     PlayerData data;
 
     private void Start()
@@ -40,7 +41,13 @@ public class UnitPlacement : MonoBehaviour
                         GameObject obj = Instantiate(unitPrefab, worldPos, Quaternion.identity);
                         obj.GetComponent<Ally>().InitStat(data.playerIndex);
                         BattleManager.Instance.deploy_Player_List.Add(obj);
-                        gameObject.SetActive(false);                   
+                        gameObject.SetActive(false);
+                    
+                    if (BattleManager.Instance.dialogue.isTutorial)
+                    {
+                        BattleManager.Instance.tutorial.EndTutorial(14);
+                    }
+
                         return; // 한 번에 하나의 유닛만 배치하도록 리턴합니다.
                     }
                 }

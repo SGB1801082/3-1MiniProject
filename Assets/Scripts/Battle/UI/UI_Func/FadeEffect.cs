@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class FadeEffect : MonoBehaviour
 {
     Image fadeImg; // fade에 쓸 이미지
-    float fadeTime = 1.5f; //화면이 변할 시간
+    float fadeTime = 0.3f; //화면이 변할 시간
     public bool fadeout;
     public bool fadein;
 
