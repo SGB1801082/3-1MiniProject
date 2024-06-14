@@ -6,15 +6,18 @@ public class Highlight : MonoBehaviour
 {
     public float activationDistance = 0.5f; // 활성화 거리
     [SerializeField] private List<GameObject> highlights = new List<GameObject>();
+    DeployInit deploy;
+
+    private void Awake()
+    {
+       deploy = gameObject.transform.parent.GetComponent<DeployInit>();
+    }
 
     private void Start()
     {
-        GameObject[] highlight = GameObject.FindGameObjectsWithTag("Highlight");
-
-        foreach (GameObject high in highlight) 
+        foreach (GameObject high in deploy.highlight)
         {
             highlights.Add(high);
-            high.SetActive(false);
         }
     }
 
@@ -63,49 +66,4 @@ public class Highlight : MonoBehaviour
             highlight.SetActive(active);
         }
     }
-
-
-    /*public float activationDistance = 0.5f; // 활성화 거리
-
-
-    private void Update()
-    {
-        // 가장 가까운 플레이어 찾기
-        GameObject closestPlayer = FindClosestPlayer();
-
-        // 활성화 거리 내에 있을 경우에만 해당 하이라이트를 활성화
-        if (closestPlayer != null)
-        {
-            foreach (Transform childTransform in transform)
-            {
-                if (Vector3.Distance(childTransform.position, closestPlayer.transform.position) <= activationDistance)
-                {
-                    childTransform.gameObject.SetActive(true);
-                }
-                else
-                {
-                    childTransform.gameObject.SetActive(false);
-                }
-            }
-        }
-    }
-
-    private GameObject FindClosestPlayer()
-    {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject closestPlayer = null;
-        float minDistance = float.MaxValue;
-
-        foreach (GameObject player in players)
-        {
-            float distance = Vector3.Distance(transform.position, player.transform.position);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closestPlayer = player;
-            }
-        }
-
-        return closestPlayer;
-    }*/
 }

@@ -15,6 +15,7 @@ public class TutorialManager : MonoBehaviour
                 BattleManager.Instance.ui.ui_Tutorial_Rest.SetActive(true);
 
                 Canvas in_Portal = BattleManager.Instance.ui.in_Portal.AddComponent<Canvas>();
+                in_Portal.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 in_Portal.overrideSorting = true;
                 in_Portal.sortingOrder = 1;
 
@@ -29,6 +30,7 @@ public class TutorialManager : MonoBehaviour
                 EndTutorial(quest_cnt - 1);
 
                 Canvas out_Portal = BattleManager.Instance.ui.out_Portal.AddComponent<Canvas>();
+                out_Portal.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 out_Portal.overrideSorting = true;
                 out_Portal.sortingOrder = 1;
 
@@ -44,6 +46,7 @@ public class TutorialManager : MonoBehaviour
                 EndTutorial(quest_cnt - 1);
 
                 Canvas stat_Bar = BattleManager.Instance.ui.player_Statbar.AddComponent<Canvas>();
+                stat_Bar.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 stat_Bar.overrideSorting = true;
                 stat_Bar.sortingOrder = 1;
 
@@ -59,6 +62,7 @@ public class TutorialManager : MonoBehaviour
                 EndTutorial(quest_cnt - 1);
 
                 Canvas mini_Map = BattleManager.Instance.ui.mini_Map.AddComponent<Canvas>();
+                mini_Map.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 mini_Map.overrideSorting = true;
                 mini_Map.sortingOrder = 1;
 
@@ -74,6 +78,7 @@ public class TutorialManager : MonoBehaviour
                 EndTutorial(quest_cnt - 1);
 
                 Canvas item_Bar = BattleManager.Instance.ui.item_Bar.AddComponent<Canvas>();
+                item_Bar.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 item_Bar.overrideSorting = true;
                 item_Bar.sortingOrder = 1;
                 
@@ -95,6 +100,7 @@ public class TutorialManager : MonoBehaviour
                 Debug.Log("아이템 사용 튜토리얼");
 
                 Canvas item_Bar_Use = BattleManager.Instance.ui.item_Bar.AddComponent<Canvas>();
+                item_Bar_Use.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 item_Bar_Use.overrideSorting = true;
                 item_Bar_Use.sortingOrder = 1;
                 BattleManager.Instance.ui.item_Bar.AddComponent<GraphicRaycaster>();
@@ -111,6 +117,7 @@ public class TutorialManager : MonoBehaviour
                 BattleManager.Instance.ui.ui_Tutorial_Deploy.SetActive(true);
 
                 Canvas party_List = BattleManager.Instance.ui.party_List.AddComponent<Canvas>();
+                party_List.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 party_List.overrideSorting = true;
                 party_List.sortingOrder = 1;
 
@@ -148,6 +155,7 @@ public class TutorialManager : MonoBehaviour
                 BattleManager.Instance.ui.dialogue_Box.transform.position = new Vector3(BattleManager.Instance.ui.dialogue_Box.transform.position.x, 410f, 0);
 
                 Canvas battle_Start = BattleManager.Instance.ui.battleStart.AddComponent<Canvas>();
+                battle_Start.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 battle_Start.overrideSorting = true;
                 battle_Start.sortingOrder = 1;
 
@@ -166,6 +174,7 @@ public class TutorialManager : MonoBehaviour
 
                 Canvas party_List_Deploy = BattleManager.Instance.ui.party_List.AddComponent<Canvas>();
                 BattleManager.Instance.ui.party_List.AddComponent<GraphicRaycaster>();
+                party_List_Deploy.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 party_List_Deploy.overrideSorting = true;
                 party_List_Deploy.sortingOrder = 1;
 
