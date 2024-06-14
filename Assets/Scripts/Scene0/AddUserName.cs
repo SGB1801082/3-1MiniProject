@@ -10,6 +10,7 @@ public class AddUserName : MonoBehaviour
     [SerializeField] private TMP_InputField field_InputPlayerName;
     public string playerName;
 
+    public BtnAddUserNameSoundEvent hoverSoundEv;
     // Btn Start
     [SerializeField] private Button btnStart;
 
@@ -21,6 +22,7 @@ public class AddUserName : MonoBehaviour
 
     private void OnInputValueChanged(string field_InputPlayerName)
     {
+        
         /*if (string.IsNullOrEmpty(field_InputPlayerName))
         {
             btnStart.interactable = false;
@@ -34,6 +36,17 @@ public class AddUserName : MonoBehaviour
         playerName =field_InputPlayerName;
         btnStart.interactable = !string.IsNullOrEmpty(field_InputPlayerName);
 
+        //06-14 Add Text IO Event Sound
+        AudioManager.single.PlaySfxChange(0);
+
+        if (!string.IsNullOrEmpty(playerName))
+        {
+            hoverSoundEv.ishover = true;
+        }
+        else
+        {
+            hoverSoundEv.ishover = false;
+        }
     }
     private string RemoveUnderLine(string inputText)
     {
@@ -49,8 +62,10 @@ public class AddUserName : MonoBehaviour
             btnStart.interactable = false;
             return;
         }
+
         GameMgr.single.OnSelectPlayer(playerName);
 
+        hoverSoundEv.ishover = false;
     }
 
 }

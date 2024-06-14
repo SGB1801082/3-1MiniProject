@@ -25,6 +25,7 @@ public class TitleBtnsSprite : MonoBehaviour, IPointerEnterHandler, IPointerUpHa
             if (isPointerOver == true)
             {
                 img.sprite = mainMenuMgr.TitleBtnSprites[2];// 클릭
+                AudioManager.single.PlaySfxChange(0);
             }
             else
             {
@@ -43,6 +44,7 @@ public class TitleBtnsSprite : MonoBehaviour, IPointerEnterHandler, IPointerUpHa
     {
         isPointerOver = true;
         img.sprite = mainMenuMgr.TitleBtnSprites[1];//호버
+        AudioManager.single.PlaySfxChange(1);
     }
 
     public void OnPointerUp(PointerEventData eventData)
