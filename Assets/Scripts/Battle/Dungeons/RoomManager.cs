@@ -14,6 +14,7 @@ public class RoomManager : MonoBehaviour
     public GameObject maps_Prefab;
     public Transform map_Pos;
     public Camera map_Camera;
+    public Camera map_Big_Camera;
 
     Transform cur_Map;
     public Transform currentRoom;
@@ -23,7 +24,7 @@ public class RoomManager : MonoBehaviour
     void Awake()
     {
         map_List = new List<GameObject>();
-
+        isMoveDone = true;
         // 초기 방 설정
         currentRoom = rooms[room_Count];
 
@@ -85,18 +86,22 @@ public class RoomManager : MonoBehaviour
         }
         else
         {
-            BattleManager.Instance.ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
-            BattleManager.Instance.ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
-            previousRoom = currentRoom;
-            currentRoom = rooms[++room_Count];
-            cur_Map = map_List[room_Count].transform;
-            isMoveDone = false;
-            StartCoroutine(MoveCamera());
+            if (isMoveDone)
+            {
+                isMoveDone = false;
+                BattleManager.Instance.ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
+                BattleManager.Instance.ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
+                previousRoom = currentRoom;
+                currentRoom = rooms[++room_Count];
+                cur_Map = map_List[room_Count].transform;
+                StartCoroutine(MoveCamera());
+            }
         }
     }
 
     private IEnumerator MoveCamera()
     {
+        
         Vector3 targetPosition = new Vector3(currentRoom.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
         Vector3 targetMap = new Vector3(cur_Map.position.x, cur_Map.position.y, map_Camera.transform.position.z);
 
@@ -189,6 +194,14 @@ public class RoomManager : MonoBehaviour
 
 
         isMoveDone = true;
+
+        if (BattleManager.Instance.dialogue.isTutorial)
+        {
+            BattleManager.Instance.dialogue.ONOFF(true);
+            BattleManager.Instance.dialogue.NextDialogue();
+        }
+
+
         // 상태 변경
         BattleManager.Instance.ChangePhase(BattleManager.BattlePhase.Start);
         

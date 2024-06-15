@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : BaseEntity
 {
+    public float exp_Cnt;
+
     protected override void Update()
     {
         base.Update();

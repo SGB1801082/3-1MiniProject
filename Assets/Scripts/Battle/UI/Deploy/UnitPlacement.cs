@@ -11,7 +11,6 @@ public class UnitPlacement : MonoBehaviour
     public GameObject unitPrefab;
     public Image unit_Icon;
     public Image class_Icon;
-    public bool isDeploy_Tutorial;
     PlayerData data;
 
     private void Start()
@@ -43,7 +42,7 @@ public class UnitPlacement : MonoBehaviour
                         BattleManager.Instance.deploy_Player_List.Add(obj);
                         gameObject.SetActive(false);
                     
-                    if (BattleManager.Instance.dialogue.isTutorial)
+                    if (BattleManager.Instance.dialogue.isTutorial && BattleManager.Instance.tutorial.isDeploy_Tutorial)
                     {
                         BattleManager.Instance.tutorial.EndTutorial(14);
                     }

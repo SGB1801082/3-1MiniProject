@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -20,6 +22,7 @@ public class BattleManager : MonoBehaviour
     public GameObject unit_deploy_area;
     public bool isFirstEnter;
     private bool battleEnded = false;
+    public float exp_Cnt;
 
     public static BattleManager Instance
     {
@@ -78,36 +81,29 @@ public class BattleManager : MonoBehaviour
 
     public void BattleReady()
     {
-        BaseEntity[] entity = FindObjectsOfType<BaseEntity>(); // 몬스터와 플레이어를 찾음
+        Enemy[] entity = FindObjectsOfType<Enemy>(); // 몬스터를 찾음
         battleEnded = false;
 
         ui.party_List.SetActive(true);
         deploy_area.SetActive(true);
         unit_deploy_area.SetActive(true);
 
-        GameObject[] enemy_Obj = GameObject.FindGameObjectsWithTag("Enemy");
-
-        if (enemy_Obj != null)
-        {
-            foreach (GameObject obj in enemy_Obj)
-            {
-                deploy_Enemy_List.Add(obj);
-            }
-        }
-
-        foreach (BaseEntity obj in entity)
+        foreach (Enemy obj in entity)
         {
             NavMeshAgent nav = obj.GetComponent<NavMeshAgent>();
-            EntityDrag drag = obj.GetComponent<EntityDrag>();
+
+            if (obj.gameObject != null)
+            {
+                deploy_Enemy_List.Add(obj.gameObject);
+            }
 
             if (nav != null)
             {
                 nav.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
             }
-            if (drag != null)
-            {
-                drag.enabled = true;
-            }
+
+            exp_Cnt += obj.exp_Cnt;
+            Debug.Log("얻을 수 있는 경험치 : " + exp_Cnt);
         }
     }
 
@@ -154,12 +150,6 @@ public class BattleManager : MonoBehaviour
                 }*/
                 break;
             case BattlePhase.Deploy:
-                if (dialogue.isTutorial)
-                {
-                    dialogue.ONOFF(true);
-                    dialogue.NextDialogue();
-                }
-
                 BattleReady();
                 break;
             case BattlePhase.Battle:
@@ -167,18 +157,7 @@ public class BattleManager : MonoBehaviour
                     ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
                 break;
             case BattlePhase.End:
-                if (!ui.in_Portal.activeSelf)
-                {
-                    ui.in_Portal.SetActive(true);
-                    ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
-                }
-
-                if (!ui.out_Portal.activeSelf)
-                {
-                    ui.out_Portal.SetActive(true);
-                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
-                }
-                StartCoroutine(EndBattle());
+                EndBattle();
                 break;
         }
     }
@@ -218,17 +197,18 @@ public class BattleManager : MonoBehaviour
                     {
                         drag.enabled = false;
                     }
-
-                    /*Ally ally = obj as Ally;
-                    ally.RefreshCurrentHP();*/
                 }
             }
         }
     }
 
-    private IEnumerator EndBattle()
+
+
+
+
+
+    private void EndBattle()
     {
-        yield return new WaitForSeconds(2f);
 
         if (_curphase == BattlePhase.End && !battleEnded)
         {
@@ -240,24 +220,64 @@ public class BattleManager : MonoBehaviour
                 if (ally != null)
                     ally.UpdateCurrentHPToSingle();
                 Destroy(obj.gameObject);
+                
+                foreach (Transform arrow_Obj in pool.obj_Parent)
+                {
+                    Destroy(arrow_Obj.gameObject);
+                }
+
+                pool.Poolclear();
             }
 
             if (deploy_Player_List.Count == 0)
             {
-                ui.popup_Bg.SetActive(true);
-                ui.def_Popup.SetActive(true);
+                ui.OpenPopup(ui.def_Popup);
             }
             else if (deploy_Enemy_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
             {
-                ui.popup_Bg.SetActive(true);
-                ui.vic_Popup.SetActive(true);
+                if (!ui.out_Portal.activeSelf)
+                {
+                    ui.out_Portal.SetActive(true);
+                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
+
+                ui.OpenPopup(ui.vic_Popup);
+                ui.next_Room_Popup.GetComponent<TitleInit>().Init("마을로 돌아가시겠습니까?");
+            }
+            else if (deploy_Enemy_List.Count == 0)
+            {
+                if (!ui.in_Portal.activeSelf)
+                {
+                    ui.in_Portal.SetActive(true);
+                    ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
+                if (!ui.out_Portal.activeSelf)
+                {
+                    ui.out_Portal.SetActive(true);
+                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
+
+                ui.OpenPopup(ui.reward_Popup);
+
+                Debug.Log("얻은 경험치 : " + exp_Cnt);
+                int ran_Gold = Random.Range(50, 301);
+                RewardPopupInit popup = ui.reward_Popup.GetComponent<RewardPopupInit>();
+                popup.Init("전투 승리", false);
+                GameObject gold_Obj = Instantiate(ui.reward_Prefab, popup.inner_Main);
+                gold_Obj.GetComponent<RewardInit>().Init(ui.reward_Icons[0], ran_Gold + " Gold");
+
+                GameObject exp_Obj = Instantiate(ui.reward_Prefab, popup.inner_Main);
+                exp_Obj.GetComponent<RewardInit>().Init(ui.reward_Icons[1], exp_Cnt + " Exp");
+
+                GameMgr.playerData[0].player_Gold += ran_Gold;
+                GameMgr.playerData[0].player_cur_Exp += exp_Cnt;
             }
 
             deploy_Player_List.Clear();
             deploy_Enemy_List.Clear();
         }
 
-
+        exp_Cnt = 0;
         battleEnded = true;
     }
 
@@ -281,6 +301,17 @@ public class BattleManager : MonoBehaviour
     {
         Debug.Log("마을로 이동");
         SceneManager.LoadScene("Town");
+    }
+
+    public void DestroyRewardPopup()
+    {
+        RewardPopupInit popup = ui.reward_Popup.GetComponent<RewardPopupInit>();
+        
+        foreach (Transform child in popup.inner_Main.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        
     }
 
 }

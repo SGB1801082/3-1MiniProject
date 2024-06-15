@@ -148,6 +148,11 @@ public class BaseEntity : MonoBehaviour
 
             _stateManager.UpdateState();
 
+            if (_curstate != State.Death)
+            {
+                cur_atk_CoolTime += Time.deltaTime;
+            }
+
             // 현재 체력이 0이 되면 Death 상태로 변하고 상태창도 죽은 것으로 표시
             if (cur_Hp <= 0)
             {
@@ -240,6 +245,12 @@ public class BaseEntity : MonoBehaviour
                 FindTarget();
             }
         }
+        else
+        {
+            Debug.Log("타겟 없음");
+            ChangeState(State.Idle);
+            yield break;
+        }
         
     }
 
@@ -255,11 +266,17 @@ public class BaseEntity : MonoBehaviour
     public void MoveToTarget()
     {
         Transform target = FindTarget().transform;
-        if(target != null) 
+        if(target != null && _curstate != State.Death) 
         {
             agent.isStopped = false;
             agent.SetDestination(target.position);
             SetMovementPriority(true);
+        }
+        else if (target == null & _curstate != State.Death)
+        {
+            agent.ResetPath();
+            StopMove();
+            return;
         }
         else
         {
@@ -349,7 +366,6 @@ public class BaseEntity : MonoBehaviour
                             RangeAttack(target);
                         }
                     }
-                    cur_atk_CoolTime += Time.deltaTime;
                     yield return null;
                 }
             }

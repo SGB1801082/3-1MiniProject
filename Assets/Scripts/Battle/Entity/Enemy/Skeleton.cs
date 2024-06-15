@@ -8,7 +8,9 @@ public class Skeleton : Enemy
     {
         base.Start();
         // 최대 체력, 최대 마나, 공격력, 공격속도, 사거리, 근접유무, 스킬유무
-        InitStat(50, 0, 5, 1, 1.3f, true, false);
+        InitStat(80, 0, 5, 0.75f, 1.3f, true, false);
+
+        exp_Cnt = 30;
     }
 
     /*    protected override void Update()

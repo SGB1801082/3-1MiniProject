@@ -59,7 +59,7 @@ public class ItemUse : MonoBehaviour
 
         Debug.Log("수정 예정");
 
-        if (BattleManager.Instance.dialogue.isTutorial)
+        if (BattleManager.Instance.dialogue.isTutorial && BattleManager.Instance.tutorial.isItem_Tutorial)
         {
             BattleManager.Instance.tutorial.EndTutorial(6);
         }

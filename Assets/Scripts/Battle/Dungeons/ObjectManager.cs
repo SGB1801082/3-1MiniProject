@@ -47,4 +47,12 @@ public class ObjectManager : MonoBehaviour
         return select;
     }
     
+    public void Poolclear()
+    {
+        foreach (List<GameObject> item in pools)
+        {
+            item.Clear();
+        }
+    }
+
 }

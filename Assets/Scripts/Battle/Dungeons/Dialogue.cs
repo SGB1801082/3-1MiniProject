@@ -76,17 +76,15 @@ public class Dialogue : MonoBehaviour
             text_Done = false;
             //첫번째 대사와 첫번째 cg부터 계속 다음 cg로 진행되면서 화면에 보이게 된다. 
             StartCoroutine(Typing(dialogues[cnt].dialogue_Text));
-            dialog_Name.text = dialogues[cnt].dialogue_Name;
             isQuest = dialogues[cnt].isQuest;
-            /*        if (dialogues[cnt].isPlayer)
-                    {
-                        dialog_Name.text = GameMgr.playerData[0].GetPlayerName();
-                    }
-                    else
-                    {
-                        dialog_Name.text = dialogues[cnt].dialogue_Name;
-                    }*/
-
+            if (dialogues[cnt].isPlayer)
+            {
+               dialog_Name.text = GameMgr.playerData[0].GetPlayerName();
+            }
+            else
+            {
+               dialog_Name.text = dialogues[cnt].dialogue_Name;
+            }
             dialog_Icon.sprite = dialogues[cnt].Icon;
             cnt++; //다음 대사와 cg가 나오도록 
         }      
