@@ -5,12 +5,21 @@ public class ButtonSoundEvent : MonoBehaviour, IPointerEnterHandler, IPointerDow
 {
     public virtual void OnPointerEnter(PointerEventData eventData)// Hover Event
     {
-        AudioManager.single.PlaySfxChange(1);
+        if (AudioManager.single.GetSfxPlayer(0).isPlaying)
+        {
+            return;
+        }
+
+        AudioManager.single.PlaySfxClipChange(1);
         Debug.Log(gameObject.name + "is Hover");
     }
     public virtual void OnPointerDown(PointerEventData eventData)// Click Event
     {
-        AudioManager.single.PlaySfxChange(0);
+        if (AudioManager.single.GetBgmPlayer().isPlaying)
+        {
+            return;
+        }
+        AudioManager.single.PlaySfxClipChange(0);
         Debug.Log(gameObject.name + "is Click");
     }
 

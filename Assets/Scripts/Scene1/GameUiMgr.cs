@@ -197,8 +197,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     private void Start()
     {
         //06-14 BGM
-        AudioManager.single.PlayBgmVolumeChange(0.2f);
-        AudioManager.single.PlayBgmChange(1);
+        AudioManager.single.PlayBgmClipChange(1);
 
         imgTalkPnel.gameObject.SetActive(false);// NPC대화창 시작할때 꺼줌
         objSubButtonFrame.SetActive(true);//서브버튼 목록 시작할때 켜줌
