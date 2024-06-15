@@ -769,7 +769,11 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         if (nowSlot.wearChek)
         {
-            
+            if (AllEquipChek() && questMgr.questId == 20)
+            {
+                questMgr.questActionIndex = 0;
+            }
+            //장착해제 Sound
             TakeOffItem(nowSlot);
             addEquipPanel.gameObject.SetActive(false);
             return;
@@ -780,7 +784,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("AddEquip Type: " + nowSlot.item.itemType);
 
         WearEquipment();
-        if (AllEquipChek())
+        if (AllEquipChek() && questMgr.questId == 20)
         {
             questMgr.questActionIndex = 1;
         }

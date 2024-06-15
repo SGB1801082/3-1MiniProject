@@ -97,11 +97,8 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
     {
         dictTalkName.Clear();
 
-        for (int i = 0; i < 4; i++)
-        {
-            dictTalkName.Add(aryPortraitSprite[i], "Luna");
-        }
-        dictTalkName.Add(aryPortraitSprite[8], "Player");//GameMgr.playerData[0].GetPlayerName()
+        dictTalkName.Add(aryPortraitSprite[0], "접수원");
+        dictTalkName.Add(aryPortraitSprite[8], GameMgr.playerData[0].GetPlayerName());//GameMgr.playerData[0].GetPlayerName()
     }
 
     public string GetTalk(int objectID, int talkDataIndex)// 지정된 대화 문장을 반환하는 함수
