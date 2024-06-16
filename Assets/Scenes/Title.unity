@@ -4153,6 +4153,12 @@ MonoBehaviour:
   sfxClips:
   - {fileID: 8300000, guid: 0d13b56ada0e38c4b86f0501431ceb71, type: 3}
   - {fileID: 8300000, guid: a057a90aec16875428d2733b2f2a3032, type: 3}
+  - {fileID: 8300000, guid: a693b4d27f5e66b4aa4269584b2a0a0b, type: 3}
+  - {fileID: 8300000, guid: 27fc46845a5f0b84f9f81f601b981e0f, type: 3}
+  - {fileID: 8300000, guid: e17cf7a576c092d4e8286079610e4471, type: 3}
+  - {fileID: 8300000, guid: 2a4e175ed1a40bd41bec9b0786410fd5, type: 3}
+  - {fileID: 8300000, guid: fe5ffdf493824474db11387e79ed8f93, type: 3}
+  - {fileID: 8300000, guid: e5f988c16ac40434e859d6b0d2100851, type: 3}
   sfxVolume: 0.7
   channels: 10
 --- !u!4 &1750171242

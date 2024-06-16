@@ -51,7 +51,7 @@ public class PartySlot : MonoBehaviour
 
     public void OnClick()
     {
-
+        AudioManager.single.PlaySfxClipChange(0);
         if (moveInChek == true)
         {
             GameUiMgr.single.RestorePartySlot(this.partySlotIndex);

@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("#BGM")]
     public AudioClip[] bgmClips;// 배경음으로 사용될 음성파일 에셋을 담아둘 변수
-    public AudioSource bgmPlayer;// 배경음성을 출력하는데 필요한 변수, private로 쓰고싶은데 왜인지안되서 일단이걸로
+    [HideInInspector] public AudioSource bgmPlayer;// 배경음성을 출력하는데 필요한 변수, private로 쓰고싶은데 왜인지안되서 일단이걸로
     
     public float bgmVolume;//배경음 크기를 조절할 변수
 

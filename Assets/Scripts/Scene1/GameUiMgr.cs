@@ -153,8 +153,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 // PoolMoveInSlot에 PartyData가 있을경우 여기에 담아서 고용완료 목록에 추가되어 Battle씬의 PartyList가 얘를 참조하게됨 || 슬롯이가지고있는 PartyData에 포함된 Prefab을 가져가는형식
     public List<PartySlot> lastDeparture;
 
+    public GameObject blockedPartyBord;
+
     //06-16 던전입장용변수
     public bool isDungeon = false;
+
+    public bool uiEventCk = true;
     private void Awake()
     {
         single = this;
@@ -332,10 +336,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             if (menuSet.activeSelf)
             {
                 menuSet.SetActive(false);
+                uiEventCk = true;
             }
             else
             {
                 menuSet.SetActive(true);
+                uiEventCk = false;
             }
         }
 
@@ -355,6 +361,21 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             ActiveParty();
         }
+
+        //Ui Event Action
+        if (!uiEventCk)
+        {
+            if (panelPartyBoard.activeSelf)
+            {
+                panelPartyBoard.SetActive(false);
+            }
+            else if (activeInventory == true)
+            {
+                inventory_panel.SetActive(false);
+            }
+        }
+
+
     }
     #region MinimapMethod
     private void ChangeRanderTextur()
@@ -537,6 +558,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }*/
 
             isActionTalk = false;
+            uiEventCk = true;//06-16 Add
+
             talkIndex = 0;
             questDesc.text = questMgr.CheckQuest(scanObj_ID);
                 /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
@@ -568,6 +591,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
 
         isActionTalk = true;
+        uiEventCk = false;
         talkIndex++;
     }
     //06- 11 Add
@@ -683,6 +707,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public void ActiveInventory()
     {
         activeInventory = !activeInventory;
+        if (activeInventory)
+        {
+            AudioManager.single.PlaySfxClipChange(6);
+        }
         inventory_panel.SetActive(activeInventory);
         if (activeInventory == false)
         {
@@ -757,6 +785,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("Run SFX sound index: 0");
         if (isDungeon)
         {
+            AudioManager.single.PlaySfxClipChange(4);
             Debug.Log("던전 입장");
             GameSave();
             SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
@@ -767,6 +796,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         if (nowSlot.wearChek)
         {
             //장착해제 Sound
+            AudioManager.single.PlaySfxClipChange(2);
+            Debug.Log("Run SoundEffect: Equip On/Off");
+
             TakeOffItem(nowSlot);
             addEquipPanel.gameObject.SetActive(false);
 
@@ -779,6 +811,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("AddEquip Type: " + nowSlot.item.itemType);
 
         WearEquipment();
+        AudioManager.single.PlaySfxClipChange(2);
+        Debug.Log("Run SoundEffect: Equip On/Off");
         if (AllEquipChek() && questMgr.questId == 20)
         {
             questMgr.questActionIndex = 1;
@@ -1036,6 +1070,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         if (panelPartyBoard.activeSelf == false)
         {
             panelPartyBoard.SetActive(true);
+            AudioManager.single.PlaySfxClipChange(6);
         }
         else
         {
@@ -1045,7 +1080,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void RefreshiPartyBord()
     {
-
+        blockedPartyBord.SetActive(false);
         //활성화된 슬롯 비 활성화
         foreach (var _slot in poolPartySlot)
         {
@@ -1272,8 +1307,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         if ((GameMgr.playerData[0].player_Gold - partyPrice) < 0 )
         {
             Debug.Log("골드 부족");
+            AudioManager.single.PlaySfxClipChange(7);
             return; //버튼눌렀는데 골드가 부족하면 실행안됨
         }
+        //06-16 
+        blockedPartyBord.SetActive(true);
+        AudioManager.single.PlaySfxClipChange(3);
         GameMgr.playerData[0].player_Gold -= partyPrice;
         GoldChanger();
         Debug.Log("고용 완료: 현재자금" + GameMgr.playerData[0].player_Gold);
