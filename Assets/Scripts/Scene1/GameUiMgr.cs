@@ -29,6 +29,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public TextMeshProUGUI tmp_PlayerName;
     public TextMeshProUGUI tmp_PlayerLevle;
     public TextMeshProUGUI tmp_PlayerGold;
+    public TextMeshProUGUI tmp_PlayerPartyTabGold;
 
     public Slider s_HP;
     public Slider s_SN;
@@ -63,7 +64,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     //MenuSet
     [Header("Mnue Set")]
-    public GameObject menuSet;
+    //public GameObject menuSet;
 
     [Header("Player Options")]
     public GameObject player;
@@ -148,9 +149,16 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public TextMeshProUGUI textPartyCount;
     public TextMeshProUGUI textPartyPrice;
     public int partyPrice;
-
+    
 // PoolMoveInSlot에 PartyData가 있을경우 여기에 담아서 고용완료 목록에 추가되어 Battle씬의 PartyList가 얘를 참조하게됨 || 슬롯이가지고있는 PartyData에 포함된 Prefab을 가져가는형식
-    public List<PartySlot> lastDeparture; 
+    public List<PartySlot> lastDeparture;
+
+    public GameObject blockedPartyBord;
+
+    //06-16 던전입장용변수
+    public bool isDungeon = false;
+
+    public bool uiEventCk = true;
     private void Awake()
     {
         single = this;
@@ -196,7 +204,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     private void Start()
     {
         //06-14 BGM
-        AudioManager.single.PlayBgmChange(1);
+        AudioManager.single.PlayBgmClipChange(1);
 
         imgTalkPnel.gameObject.SetActive(false);// NPC대화창 시작할때 꺼줌
         objSubButtonFrame.SetActive(true);//서브버튼 목록 시작할때 켜줌
@@ -325,18 +333,40 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         // Sub Menu Set
         if (Input.GetButtonDown("Cancel") )
         {
-            if (menuSet.activeSelf)
+            /*if (menuSet.activeSelf)
             {
                 menuSet.SetActive(false);
+                uiEventCk = true;
             }
             else
-            {
-                menuSet.SetActive(true);
+            {*/
+            ToggleSubButtons();
+
+                if (inventory_panel.activeSelf)
+                {
+                    ActiveInventory();
+                    if (objSubButtonFrame.activeSelf)
+                    {
+                        ToggleSubButtons();
+                    }
+                }else if (panelPartyBoard.activeSelf)
+                {
+                    ActiveParty();
+                    if(objSubButtonFrame.activeSelf)
+                    {
+                        ToggleSubButtons();
+                    }
             }
+/*                else
+                {
+                    menuSet.SetActive(true);
+                    uiEventCk = false;
+                }
+            }*/
         }
 
         //Inventory
-        if (Input.GetKeyDown(KeyCode.I) && questMgr.questId >= 20)
+        if (Input.GetKeyDown(KeyCode.I))
         {
             ActiveInventory();
         }
@@ -351,6 +381,21 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             ActiveParty();
         }
+
+        //Ui Event Action
+        if (!uiEventCk)
+        {
+            if (panelPartyBoard.activeSelf)
+            {
+                panelPartyBoard.SetActive(false);
+            }
+            else if (activeInventory == true)
+            {
+                inventory_panel.SetActive(false);
+            }
+        }
+
+
     }
     #region MinimapMethod
     private void ChangeRanderTextur()
@@ -473,14 +518,19 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         s_HP.value = this.player_Cur_HP / this.player_Max_HP;
         s_SN.value = this.player_Cur_SN / this.player_Max_SN;
         s_EXP.value = this.player_Cur_EXP / this.player_Max_EXP;
-        tmp_PlayerGold.text = this.playerGold.ToString();
+        GoldChanger();
+    }
+    private void GoldChanger()
+    {
+        tmp_PlayerGold.text = GameMgr.playerData[0].player_Gold.ToString();
+        tmp_PlayerPartyTabGold.text = GameMgr.playerData[0].player_Gold.ToString();
 
-        if (playerGold <= 0)
+        if (GameMgr.playerData[0].player_Gold <= 0)
         {
             tmp_PlayerGold.text = "0";
+            tmp_PlayerPartyTabGold.text = "0";
         }
     }
-
     public void TalkAction(GameObject scanObj)
     {
         
@@ -528,25 +578,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }*/
 
             isActionTalk = false;
+            uiEventCk = true;//06-16 Add
+
             talkIndex = 0;
             questDesc.text = questMgr.CheckQuest(scanObj_ID);
-
-            if (scanObj_ID == 8000)
-            {
-                Debug.Log("8000 실행");
-                if (questMgr.questId >= 30)
-                {
-                    Debug.Log("던전 입장");
-                    SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
-                    GameSave();
-                }
-                else
-                {
-                    // ToDo: CallBack Img.SetActive(true);
-                    Debug.Log("튜토리얼 던전에 진입 할 수 없습니다.");
-                    return;
-                }
-            }
                 /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
                 {
                     questMgr.receptionist[0].SetActive(false);
@@ -576,6 +611,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
 
         isActionTalk = true;
+        uiEventCk = false;
         talkIndex++;
     }
     //06- 11 Add
@@ -587,10 +623,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void GameSave()
     {
-        if (menuSet.activeSelf)
+        /*if (menuSet.activeSelf)
         {
             menuSet.SetActive(false);
-        }
+        }*/
 
         List<Item> saveInventoryItem = new();
         List<Item> saveWearItem = new();
@@ -690,14 +726,25 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     }
     public void ActiveInventory()
     {
-        activeInventory = !activeInventory;
-        inventory_panel.SetActive(activeInventory);
-        if (activeInventory == false)
+        if (questMgr.questId >= 20)
         {
-            for (int i = 0; i < inventory.items.Count; i++)
+            activeInventory = !activeInventory;
+            if (activeInventory)
             {
-                tooltip.SetActive(false);
+                AudioManager.single.PlaySfxClipChange(6);
             }
+            inventory_panel.SetActive(activeInventory);
+            if (activeInventory == false)
+            {
+                for (int i = 0; i < inventory.items.Count; i++)
+                {
+                    tooltip.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("퀘스트ID가 20미만");
         }
     }
     public void SetupTooltip(string _name, string _title, string _desc, Sprite _img)
@@ -761,11 +808,28 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnYesButtonClick()
     {
+        AudioManager.single.PlaySfxClipChange(0);
+        Debug.Log("Run SFX sound index: 0");
+        if (isDungeon)
+        {
+            AudioManager.single.PlaySfxClipChange(4);
+            Debug.Log("던전 입장");
+            GameSave();
+            SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
+            isDungeon = false;
+            return;
+        }
+
         if (nowSlot.wearChek)
         {
-            
+            //장착해제 Sound
+            AudioManager.single.PlaySfxClipChange(2);
+            Debug.Log("Run SoundEffect: Equip On/Off");
+
             TakeOffItem(nowSlot);
             addEquipPanel.gameObject.SetActive(false);
+
+            AllEquipChek();
             return;
         }
 
@@ -774,13 +838,18 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("AddEquip Type: " + nowSlot.item.itemType);
 
         WearEquipment();
-        if (AllEquipChek())
+        AudioManager.single.PlaySfxClipChange(2);
+        Debug.Log("Run SoundEffect: Equip On/Off");
+        if (AllEquipChek() && questMgr.questId == 20)
         {
             questMgr.questActionIndex = 1;
         }
     }
     public void OnNoButtonClick()
     {
+        AudioManager.single.PlaySfxClipChange(0);
+        Debug.Log("Run SFX sound index: 0");
+
         equipmnet = false;
         addEquipPanel.gameObject.SetActive(false);
     }
@@ -936,6 +1005,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }
             return false;
         }
+        else
+        {
+            Receptionist_0();
+        }
         return false;
     }
 
@@ -948,6 +1021,11 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         questMgr.receptionist[0].SetActive(false);
         questMgr.receptionist[1].SetActive(true);
+    }
+    private void Receptionist_0()
+    {
+        questMgr.receptionist[0].SetActive(true);
+        questMgr.receptionist[1].SetActive(false);
     }
     public void LoadInventory(List<Item> _items)
     {
@@ -1019,6 +1097,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         if (panelPartyBoard.activeSelf == false)
         {
             panelPartyBoard.SetActive(true);
+            AudioManager.single.PlaySfxClipChange(6);
         }
         else
         {
@@ -1028,6 +1107,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void RefreshiPartyBord()
     {
+        blockedPartyBord.SetActive(false);
         //활성화된 슬롯 비 활성화
         foreach (var _slot in poolPartySlot)
         {
@@ -1086,7 +1166,17 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnClickCreateParty()// 모집가능파티원리스트 생성 메서드
     {
-        int random = Random.Range(4, 17);
+        for (int i = 0; i < 3; i++)
+        {
+            int ran = Random.Range(1, 10);
+            PartyData newParty = new(objListPlayable[i], ran);
+
+            Debug.Log("Btn 각 직업별 파티 영입가능인원 생성 ");
+
+            CreatePartySlot(newParty);
+            listPartyData.Add(newParty);
+        }
+        int random = Random.Range(0, 14);
 
         for (int i = 0; i < random; i++)
         {
@@ -1100,7 +1190,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             listPartyData.Add(newParty);// 고용가능 파티원목록리스트를 저장, 여기에서 저장했으니까 씬 넘어갈때 Clier해서 비워줘야겠지??
         }
     }
-
+    
     /*public bool ClickedPartySlot(PartyData _partyData)
     {
         int activeCount = poolMoveInSlot.FindAll(s => s.gameObject.activeSelf).Count;
@@ -1207,10 +1297,14 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                     correspondingSlot.moveInChek = false;
                     correspondingSlot.btnMy.interactable = true;
                 }
-
                 _slot.ReSetPartySlot();
                 RefreshiEmploy();
             }
+        }
+
+        foreach(var _slot in poolPartySlot)
+        {
+            _slot.classIcon.gameObject.SetActive(true);
         }
     }
     public void RefreshiEmploy()
@@ -1235,12 +1329,20 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         PartyListInPlayer();
 
         int battleIndex = 1;
-        playerGold = 999;
-        if ((playerGold - partyPrice) < 0 )
+        Debug.Log("고용 전: 현재자금"+ GameMgr.playerData[0].player_Gold);
+        Debug.Log("파티원가격: " + partyPrice);
+        if ((GameMgr.playerData[0].player_Gold - partyPrice) < 0 )
         {
             Debug.Log("골드 부족");
+            AudioManager.single.PlaySfxClipChange(7);
             return; //버튼눌렀는데 골드가 부족하면 실행안됨
         }
+        //06-16 
+        blockedPartyBord.SetActive(true);
+        AudioManager.single.PlaySfxClipChange(3);
+        GameMgr.playerData[0].player_Gold -= partyPrice;
+        GoldChanger();
+        Debug.Log("고용 완료: 현재자금" + GameMgr.playerData[0].player_Gold);
 
         foreach (PartySlot _slot in poolMoveInSlot)
         {
@@ -1277,7 +1379,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             
         }
     }
-
     public void PartyListInPlayer()
     {
         lastDeparture.Clear();

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +17,9 @@ public class VideoOption : MonoBehaviour
 
     private string compareRate;
 
+    [Header("#Sound Sliders")]
+    public Slider bgmSlider;
+    public Slider sfxSlider;
     public void InitUI()
     {
         DefaultCompareRate();
@@ -61,9 +66,39 @@ public class VideoOption : MonoBehaviour
         btnFullScreen.isOn = Screen.fullScreenMode.Equals(FullScreenMode.FullScreenWindow) ? true : false ;
     }
 
+    private void ChangeBGMVolume(float value)
+    {
+        bgmSlider.value = value;
+    }
+    private void ChangeSFXVolume(float value)
+    {
+        sfxSlider.value = value;
+    }
+    private void SetSliderComponent()
+    {
+        bgmSlider.onValueChanged.AddListener(ChangeBGMVolume);
+        sfxSlider.onValueChanged.AddListener(ChangeSFXVolume);
+
+        bgmSlider.minValue = 0.0f;
+        bgmSlider.maxValue = 1.5f;
+
+        sfxSlider.minValue = 0.0f;
+        sfxSlider.maxValue = 1.5f;
+
+        bgmSlider.value = AudioManager.single.bgmPlayer.volume;
+        sfxSlider.value = AudioManager.single.GetSfxPlayer(0).volume;
+    }
+
+    public void ComitSliderVolume()
+    {
+        AudioManager.single.PlayBgmVolumeChange(bgmSlider.value);
+        AudioManager.single.PlaySfxVolumeChange(0, sfxSlider.value);
+    }
+
     private void Start()
     {
         InitUI();
+        SetSliderComponent();
     }
     private void Update()
     {
@@ -93,6 +128,7 @@ public class VideoOption : MonoBehaviour
             );
         */
 
+
         // 03-15 [94 - 105] 버튼을 클릭하면 현재 선택된 옵션을 저장하고 실행함. 다른 씬에서 지금 저장된 옵션에 접근할수있다면 데이터만 뽑아와서 적용시킬 수 있을듯?
         int width = resolutions[resolutionNum].width;
         int height = resolutions[resolutionNum].height;
@@ -105,6 +141,9 @@ public class VideoOption : MonoBehaviour
         PlayerPrefs.Save();
 
         Screen.SetResolution(width, height, screenMode);
+
+        //06-15 Add
+        ComitSliderVolume();
     }
     private string DefaultCompareRate()
     {

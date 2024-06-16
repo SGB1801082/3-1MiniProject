@@ -37,7 +37,7 @@ public class AddUserName : MonoBehaviour
         btnStart.interactable = !string.IsNullOrEmpty(field_InputPlayerName);
 
         //06-14 Add Text IO Event Sound
-        AudioManager.single.PlaySfxChange(0);
+        AudioManager.single.PlaySfxClipChange(0);
 
         if (!string.IsNullOrEmpty(playerName))
         {
