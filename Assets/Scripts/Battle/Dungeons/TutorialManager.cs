@@ -197,6 +197,10 @@ public class TutorialManager : MonoBehaviour
                 EndTutorial(quest_cnt);
                 break;
             case 17:
+                if(BattleManager.Instance.ui.out_Portal.activeSelf)
+                {
+                    BattleManager.Instance.ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
+                }
                 BoxOpen[] box = FindObjectsOfType<BoxOpen>();
                 foreach (BoxOpen boxs in box)
                 {

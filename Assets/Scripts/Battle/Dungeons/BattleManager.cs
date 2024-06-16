@@ -71,6 +71,7 @@ public class BattleManager : MonoBehaviour
             party_List.Add(GameUiMgr.single.lastDeparture[i].partyData.obj_Data);
         }
 
+        
     }
 
   
@@ -239,20 +240,17 @@ public class BattleManager : MonoBehaviour
             }
             else if (deploy_Enemy_List.Count == 0)
             {
-                if (room.rooms.Length - 1 != room.room_Count)
+                if (!ui.in_Portal.activeSelf)
                 {
-                    if (!ui.in_Portal.activeSelf)
-                    {
-                        ui.in_Portal.SetActive(true);
-                        ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
-                    }
-                    if (!ui.out_Portal.activeSelf)
-                    {
-                        ui.out_Portal.SetActive(true);
-                        ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
-                    }
+                    ui.in_Portal.SetActive(true);
+                    ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
                 }
-                
+                if (!ui.out_Portal.activeSelf)
+                {
+                    ui.out_Portal.SetActive(true);
+                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
+
                 ui.OpenPopup(ui.reward_Popup);
 
                 Debug.Log("얻은 경험치 : " + exp_Cnt);
@@ -273,18 +271,25 @@ public class BattleManager : MonoBehaviour
                 GameMgr.playerData[0].player_cur_Exp += exp_Cnt;
             }
 
+
             if (deploy_Enemy_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
             {
+                if (ui.in_Portal.activeSelf)
+                {
+                    ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
+                }
                 if (!ui.out_Portal.activeSelf)
                 {
                     ui.out_Portal.SetActive(true);
                     ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
                 }
 
-                Destroy(ui.out_Portal.GetComponent<Button>());                
-                Button toTown = ui.out_Portal.AddComponent<Button>();
-                toTown.onClick.AddListener(() => TotalReward());
+
+                Debug.Log("버튼 생성");
+                DestroyImmediate(ui.out_Portal.GetComponent<Button>());
+                ui.out_Portal.AddComponent<Button>().onClick.AddListener(() => TotalReward());
             }
+
 
 
             deploy_Player_List.Clear();
@@ -294,6 +299,7 @@ public class BattleManager : MonoBehaviour
         exp_Cnt = 0;
         battleEnded = true;
     }
+
 
     public void TotalReward()
     {
