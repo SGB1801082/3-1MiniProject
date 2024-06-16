@@ -64,7 +64,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     //MenuSet
     [Header("Mnue Set")]
-    public GameObject menuSet;
+    //public GameObject menuSet;
 
     [Header("Player Options")]
     public GameObject player;
@@ -149,7 +149,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public TextMeshProUGUI textPartyCount;
     public TextMeshProUGUI textPartyPrice;
     public int partyPrice;
-
+    
 // PoolMoveInSlot에 PartyData가 있을경우 여기에 담아서 고용완료 목록에 추가되어 Battle씬의 PartyList가 얘를 참조하게됨 || 슬롯이가지고있는 PartyData에 포함된 Prefab을 가져가는형식
     public List<PartySlot> lastDeparture;
 
@@ -333,20 +333,40 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         // Sub Menu Set
         if (Input.GetButtonDown("Cancel") )
         {
-            if (menuSet.activeSelf)
+            /*if (menuSet.activeSelf)
             {
                 menuSet.SetActive(false);
                 uiEventCk = true;
             }
             else
-            {
-                menuSet.SetActive(true);
-                uiEventCk = false;
+            {*/
+            ToggleSubButtons();
+
+                if (inventory_panel.activeSelf)
+                {
+                    ActiveInventory();
+                    if (objSubButtonFrame.activeSelf)
+                    {
+                        ToggleSubButtons();
+                    }
+                }else if (panelPartyBoard.activeSelf)
+                {
+                    ActiveParty();
+                    if(objSubButtonFrame.activeSelf)
+                    {
+                        ToggleSubButtons();
+                    }
             }
+/*                else
+                {
+                    menuSet.SetActive(true);
+                    uiEventCk = false;
+                }
+            }*/
         }
 
         //Inventory
-        if (Input.GetKeyDown(KeyCode.I) && questMgr.questId >= 20)
+        if (Input.GetKeyDown(KeyCode.I))
         {
             ActiveInventory();
         }
@@ -603,10 +623,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void GameSave()
     {
-        if (menuSet.activeSelf)
+        /*if (menuSet.activeSelf)
         {
             menuSet.SetActive(false);
-        }
+        }*/
 
         List<Item> saveInventoryItem = new();
         List<Item> saveWearItem = new();
@@ -706,18 +726,25 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     }
     public void ActiveInventory()
     {
-        activeInventory = !activeInventory;
-        if (activeInventory)
+        if (questMgr.questId >= 20)
         {
-            AudioManager.single.PlaySfxClipChange(6);
-        }
-        inventory_panel.SetActive(activeInventory);
-        if (activeInventory == false)
-        {
-            for (int i = 0; i < inventory.items.Count; i++)
+            activeInventory = !activeInventory;
+            if (activeInventory)
             {
-                tooltip.SetActive(false);
+                AudioManager.single.PlaySfxClipChange(6);
             }
+            inventory_panel.SetActive(activeInventory);
+            if (activeInventory == false)
+            {
+                for (int i = 0; i < inventory.items.Count; i++)
+                {
+                    tooltip.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("퀘스트ID가 20미만");
         }
     }
     public void SetupTooltip(string _name, string _title, string _desc, Sprite _img)
