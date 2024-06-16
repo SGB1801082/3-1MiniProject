@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public GameObject out_Portal;
     public GameObject banner;
     public GameObject next_Room_Popup;
+    public GameObject item_Use_UI;
 
 
     [Header("Battle_Popup")]
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour
     public GameObject reward_Prefab;
     public GameObject vic_Popup;
     public GameObject def_Popup;
+    public GameObject alert_Popup;
 
 
     [Header("Tutorial")]
@@ -115,7 +117,6 @@ public class UIManager : MonoBehaviour
                     BattleManager.Instance.dialogue.ONOFF(true);
                     BattleManager.Instance.dialogue.NextDialogue();
                 }
-                
             }
         }
 

@@ -46,10 +46,15 @@ public class BoxOpen : MonoBehaviour
             reward.Init("»óÀÚ", true);
             if (BattleManager.Instance.dialogue.isTutorial)
                 BattleManager.Instance.ui.ui_Tutorial_Box.SetActive(false);
+
             int gold = Random.Range(10, 101);
+
             GameObject gold_Obj = Instantiate(BattleManager.Instance.ui.reward_Prefab, reward.inner_Main);
             gold_Obj.GetComponent<RewardInit>().Init(BattleManager.Instance.ui.reward_Icons[0], gold + " Gold");
+
+            BattleManager.Instance.total_Gold += gold;
             GameMgr.playerData[0].player_Gold += gold;
+
             gameObject.SetActive(false);
             return;
         }

@@ -103,6 +103,7 @@ public class TutorialManager : MonoBehaviour
             case 6:
                 Debug.Log("아이템 사용 튜토리얼");
 
+                GameMgr.playerData[0].cur_Player_Hp -= 5;
                 isItem_Tutorial = true;
                 Canvas item_Bar_Use = BattleManager.Instance.ui.item_Bar.AddComponent<Canvas>();
                 item_Bar_Use.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
@@ -279,7 +280,6 @@ public class TutorialManager : MonoBehaviour
             case 6:
                 Debug.Log("아이템 튜토리얼 끝");
                 isItem_Tutorial = false;
-
                 Destroy(BattleManager.Instance.ui.item_Bar.GetComponent<GraphicRaycaster>());
                 Destroy(BattleManager.Instance.ui.item_Bar.GetComponent<Canvas>());
 

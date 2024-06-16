@@ -23,6 +23,8 @@ public class BattleManager : MonoBehaviour
     public bool isFirstEnter;
     private bool battleEnded = false;
     public float exp_Cnt;
+    public int total_Gold;
+    public float total_Exp;
 
     public static BattleManager Instance
     {
@@ -101,9 +103,6 @@ public class BattleManager : MonoBehaviour
             {
                 nav.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
             }
-
-            exp_Cnt += obj.exp_Cnt;
-            Debug.Log("얻을 수 있는 경험치 : " + exp_Cnt);
         }
     }
 
@@ -198,29 +197,32 @@ public class BattleManager : MonoBehaviour
                         drag.enabled = false;
                     }
                 }
+
+
+                foreach (GameObject enemy in deploy_Enemy_List)
+                {
+                    float enemy_Exp = enemy.GetComponent<Enemy>().exp_Cnt;
+
+                    exp_Cnt += enemy_Exp;
+                    Debug.Log("얻을 수 있는 경험치 량 : " + exp_Cnt);
+                }
             }
         }
     }
 
-
-
-
-
-
     private void EndBattle()
     {
-
         if (_curphase == BattlePhase.End && !battleEnded)
         {
             BaseEntity[] unit = FindObjectsOfType<BaseEntity>();
-            
+
             foreach (BaseEntity obj in unit)
             {
                 Ally ally = obj as Ally;
                 if (ally != null)
                     ally.UpdateCurrentHPToSingle();
                 Destroy(obj.gameObject);
-                
+
                 foreach (Transform arrow_Obj in pool.obj_Parent)
                 {
                     Destroy(arrow_Obj.gameObject);
@@ -240,9 +242,6 @@ public class BattleManager : MonoBehaviour
                     ui.out_Portal.SetActive(true);
                     ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
                 }
-
-                ui.OpenPopup(ui.vic_Popup);
-                ui.next_Room_Popup.GetComponent<TitleInit>().Init("마을로 돌아가시겠습니까?");
             }
             else if (deploy_Enemy_List.Count == 0)
             {
@@ -263,11 +262,15 @@ public class BattleManager : MonoBehaviour
                 int ran_Gold = Random.Range(50, 301);
                 RewardPopupInit popup = ui.reward_Popup.GetComponent<RewardPopupInit>();
                 popup.Init("전투 승리", false);
+
+
                 GameObject gold_Obj = Instantiate(ui.reward_Prefab, popup.inner_Main);
                 gold_Obj.GetComponent<RewardInit>().Init(ui.reward_Icons[0], ran_Gold + " Gold");
+                total_Gold += ran_Gold;
 
                 GameObject exp_Obj = Instantiate(ui.reward_Prefab, popup.inner_Main);
                 exp_Obj.GetComponent<RewardInit>().Init(ui.reward_Icons[1], exp_Cnt + " Exp");
+                total_Exp += exp_Cnt;
 
                 GameMgr.playerData[0].player_Gold += ran_Gold;
                 GameMgr.playerData[0].player_cur_Exp += exp_Cnt;
@@ -279,6 +282,31 @@ public class BattleManager : MonoBehaviour
 
         exp_Cnt = 0;
         battleEnded = true;
+    }
+
+    public void TotalReward()
+    {
+        if (_curphase == BattlePhase.End)
+        {
+            if (deploy_Enemy_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
+            {
+                if (!ui.out_Portal.activeSelf)
+                {
+                    ui.out_Portal.SetActive(true);
+                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
+
+                ui.OpenPopup(ui.vic_Popup);
+                RewardPopupInit popup = ui.vic_Popup.GetComponent<RewardPopupInit>();
+                GameObject gold_Obj = Instantiate(ui.reward_Prefab, popup.inner_Main);
+                gold_Obj.GetComponent<RewardInit>().Init(ui.reward_Icons[0], total_Gold + " Gold");
+
+                GameObject exp_Obj = Instantiate(ui.reward_Prefab, popup.inner_Main);
+                exp_Obj.GetComponent<RewardInit>().Init(ui.reward_Icons[1], total_Exp + " Exp");
+
+                ui.next_Room_Popup.GetComponent<TitleInit>().Init("마을로 돌아가시겠습니까?");
+            }
+        }
     }
 
 
@@ -300,6 +328,10 @@ public class BattleManager : MonoBehaviour
     public void ReturnToTown()
     {
         Debug.Log("마을로 이동");
+
+        total_Gold = 0;
+        total_Exp = 0;
+
         SceneManager.LoadScene("Town");
     }
 

@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemUse : MonoBehaviour
 {
-    Ally[] player;
+    StatManager[] party_stat;
     public TMP_Text item_Cnt_Text;
     [SerializeField] int item_Cnt;
 
@@ -16,55 +19,86 @@ public class ItemUse : MonoBehaviour
         item_Cnt_Text.text = item_Cnt.ToString();
     }
 
-    public void Postion()
+    public void ShowPostionUI ()
     {
-        /*List<GameObject> obj = BattleManager.Instance.party_List;
+        party_stat = GameObject.FindObjectsOfType(typeof(StatManager)) as StatManager[];
 
-        player = new Ally[obj.Length];
 
-        for (int i = 0; i < obj.Length; i++)
+        if (item_Cnt != 0)
         {
-            player[i] = obj[i].GetComponent<Ally>();
-        }*/
+            Canvas statbar = BattleManager.Instance.ui.player_Statbar.AddComponent<Canvas>();
+            BattleManager.Instance.ui.player_Statbar.AddComponent<GraphicRaycaster>();
+            statbar.overrideSorting = true;
+            statbar.sortingOrder = 1;
+            statbar.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
 
-        /*if (item_Cnt != 0)
-        {
-            foreach (Ally player_Obj in player)
+
+            if (BattleManager.Instance.dialogue.isTutorial && BattleManager.Instance.tutorial.isItem_Tutorial)
             {
-                if (player_Obj.max_Hp > (player_Obj.cur_Hp + 3f))
-                {
-                    player_Obj.cur_Hp += 3f;
-                }
-                else
-                {
-                    player_Obj.cur_Hp = player_Obj.max_Hp;
-                }
-                
+                BattleManager.Instance.ui.item_Tutorial.SetActive(false);
             }
-            item_Cnt--;
-            item_Cnt_Text.text = item_Cnt.ToString();
+            BattleManager.Instance.ui.item_Use_UI.SetActive(true);
 
-            if (BattleManager.Instance.dialogue.isQuest)
+            
+            foreach (StatManager stat in party_stat)
             {
-                BattleManager.Instance.EndTutorial(BattleManager.Instance.dialogue.cnt);
+                Button membnt = stat.gameObject.GetComponent<Button>();
+                Debug.Log(membnt.gameObject.name);
+                membnt.onClick.AddListener(() => Postion(stat));
             }
-
-            Debug.Log("아군 전체 각 최대 체력 3 만큼 회복");
         }
         else
         {
-            Debug.Log("포션이 부족합니다");
+            BattleManager.Instance.ui.OpenPopup(BattleManager.Instance.ui.alert_Popup);
+            BattleManager.Instance.ui.alert_Popup.GetComponent<TitleInit>().Init("사용 할 아이템의 갯수가 부족합니다.");
             return;
-        }*/
-
-        Debug.Log("수정 예정");
-
-        if (BattleManager.Instance.dialogue.isTutorial && BattleManager.Instance.tutorial.isItem_Tutorial)
-        {
-            BattleManager.Instance.tutorial.EndTutorial(6);
         }
+        
+    }
 
 
-        //GameMgr.playerData[0].cur_Player_Hp += 0;
+    private void Postion(StatManager player)
+    {
+        if (!player.isDead)
+        {
+            if ((player.player.cur_Player_Hp + 5f) <= player.player.max_Player_Hp)
+            {
+                player.player.cur_Player_Hp += 5f;
+            }
+            else
+            {
+                player.player.cur_Player_Hp = player.player.max_Player_Hp;
+            }
+
+            item_Cnt -= 1;
+            item_Cnt_Text.text = item_Cnt.ToString();
+
+            HidePostionUI();
+
+
+            if (BattleManager.Instance.dialogue.isTutorial && BattleManager.Instance.tutorial.isItem_Tutorial)
+            {
+                BattleManager.Instance.tutorial.EndTutorial(6);
+            }
+
+        }
+        else
+        {
+            BattleManager.Instance.ui.OpenPopup(BattleManager.Instance.ui.alert_Popup);
+            BattleManager.Instance.ui.alert_Popup.GetComponent<TitleInit>().Init("죽은 파티원에게는 사용 할 수 없습니다.");
+            return;
+        }
+    }
+
+    private void HidePostionUI()
+    {
+        Destroy(BattleManager.Instance.ui.player_Statbar.GetComponent<GraphicRaycaster>());
+        Destroy(BattleManager.Instance.ui.player_Statbar.GetComponent<Canvas>());
+        foreach (StatManager stat in party_stat)
+        {
+            Button membnt = stat.gameObject.GetComponent<Button>();
+            membnt.enabled = false;
+        }
+        BattleManager.Instance.ui.item_Use_UI.SetActive(false);
     }
 }
