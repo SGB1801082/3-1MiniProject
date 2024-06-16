@@ -8595,8 +8595,6 @@ MonoBehaviour:
   popup_Title: {fileID: 0}
   inner_Main: {fileID: 1096086839}
   isBox: 0
-  total_Gold: {fileID: 0}
-  total_Exp: {fileID: 0}
 --- !u!1 &1546956014
 GameObject:
   m_ObjectHideFlags: 0
@@ -11737,8 +11735,6 @@ MonoBehaviour:
   popup_Title: {fileID: 8691731497905395762}
   inner_Main: {fileID: 6339519216326254067}
   isBox: 0
-  total_Gold: {fileID: 0}
-  total_Exp: {fileID: 0}
 --- !u!1 &2692314314689830847
 GameObject:
   m_ObjectHideFlags: 0

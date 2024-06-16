@@ -28,7 +28,7 @@ public class Ally : BaseEntity
     protected override void Update()
     {
         base.Update();
-        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
+        if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy || BattleManager.Instance._curphase == BattleManager.BattlePhase.Battle)
         {
             UpdateCurrentHPToSingle();
         }
@@ -36,8 +36,9 @@ public class Ally : BaseEntity
 
     public void UpdateCurrentHPToSingle()
     {
-        GameMgr.playerData[entity_index].cur_Player_Hp = cur_Hp;
+        GameMgr.playerData[entity_index].cur_Player_Hp = cur_Hp; 
     }
+
 
     /*public void Init(int index, PlayerData player)
     {

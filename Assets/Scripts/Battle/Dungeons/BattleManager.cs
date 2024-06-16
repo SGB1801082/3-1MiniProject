@@ -235,27 +235,22 @@ public class BattleManager : MonoBehaviour
             {
                 ui.OpenPopup(ui.def_Popup);
             }
-            else if (deploy_Enemy_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
-            {
-                if (!ui.out_Portal.activeSelf)
-                {
-                    ui.out_Portal.SetActive(true);
-                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
-                }
-            }
             else if (deploy_Enemy_List.Count == 0)
             {
-                if (!ui.in_Portal.activeSelf)
+                if (room.rooms.Length - 1 != room.room_Count)
                 {
-                    ui.in_Portal.SetActive(true);
-                    ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
+                    if (!ui.in_Portal.activeSelf)
+                    {
+                        ui.in_Portal.SetActive(true);
+                        ui.in_Portal.GetComponent<FadeEffect>().fadeout = true;
+                    }
+                    if (!ui.out_Portal.activeSelf)
+                    {
+                        ui.out_Portal.SetActive(true);
+                        ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+                    }
                 }
-                if (!ui.out_Portal.activeSelf)
-                {
-                    ui.out_Portal.SetActive(true);
-                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
-                }
-
+                
                 ui.OpenPopup(ui.reward_Popup);
 
                 Debug.Log("얻은 경험치 : " + exp_Cnt);
@@ -276,6 +271,16 @@ public class BattleManager : MonoBehaviour
                 GameMgr.playerData[0].player_cur_Exp += exp_Cnt;
             }
 
+            if (deploy_Enemy_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
+            {
+                if (!ui.out_Portal.activeSelf)
+                {
+                    ui.out_Portal.SetActive(true);
+                    ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
+                }
+            }
+
+
             deploy_Player_List.Clear();
             deploy_Enemy_List.Clear();
         }
@@ -288,6 +293,7 @@ public class BattleManager : MonoBehaviour
     {
         if (_curphase == BattlePhase.End)
         {
+            Debug.Log("실행됨");
             if (deploy_Enemy_List.Count == 0 && (room.rooms.Length - 1 == room.room_Count))
             {
                 if (!ui.out_Portal.activeSelf)

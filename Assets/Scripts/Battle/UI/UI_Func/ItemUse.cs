@@ -42,7 +42,7 @@ public class ItemUse : MonoBehaviour
             
             foreach (StatManager stat in party_stat)
             {
-                Button membnt = stat.gameObject.GetComponent<Button>();
+                Button membnt = stat.gameObject.AddComponent<Button>();
                 Debug.Log(membnt.gameObject.name);
                 membnt.onClick.AddListener(() => Postion(stat));
             }
@@ -61,15 +61,54 @@ public class ItemUse : MonoBehaviour
     {
         if (!player.isDead)
         {
-            if ((player.player.cur_Player_Hp + 5f) <= player.player.max_Player_Hp)
+            foreach (PlayerData player_index in GameMgr.playerData)
             {
-                player.player.cur_Player_Hp += 5f;
-            }
-            else
-            {
-                player.player.cur_Player_Hp = player.player.max_Player_Hp;
-            }
+                if (player.player.playerIndex == player_index.playerIndex)
+                {
+                    if ((player.player.cur_Player_Hp + 5f) <= player.player.max_Player_Hp)
+                    {
+                        if (player.isDeploy && BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy)
+                        {
+                            foreach (GameObject ally in BattleManager.Instance.deploy_Player_List)
+                            {
+                                Ally ally_player = ally.GetComponent<Ally>();
 
+                                if (player_index.playerIndex == ally_player.entity_index)
+                                {
+                                    ally_player.cur_Hp += 5f;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            player_index.cur_Player_Hp += 5f;
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (player.isDeploy && BattleManager.Instance._curphase == BattleManager.BattlePhase.Deploy)
+                        {
+                            foreach (GameObject ally in BattleManager.Instance.deploy_Player_List)
+                            {
+                                Ally ally_player = ally.GetComponent<Ally>();
+
+                                if (player_index.playerIndex == ally_player.entity_index)
+                                {
+                                    ally_player.cur_Hp = player_index.max_Player_Hp;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            player_index.cur_Player_Hp = player_index.max_Player_Hp;
+                        }
+                    }
+                }
+            }
+            
             item_Cnt -= 1;
             item_Cnt_Text.text = item_Cnt.ToString();
 
@@ -97,7 +136,7 @@ public class ItemUse : MonoBehaviour
         foreach (StatManager stat in party_stat)
         {
             Button membnt = stat.gameObject.GetComponent<Button>();
-            membnt.enabled = false;
+            Destroy(membnt);
         }
         BattleManager.Instance.ui.item_Use_UI.SetActive(false);
     }
