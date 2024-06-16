@@ -278,6 +278,13 @@ public class BattleManager : MonoBehaviour
                     ui.out_Portal.SetActive(true);
                     ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
                 }
+
+                Button toTown = ui.out_Portal.GetComponent<Button>();
+                //toTown.onClick.RemoveAllListeners();
+                //Debug.Log("리스너 제거됨");
+                toTown.onClick.AddListener(() => TotalReward());
+
+                Debug.Log("현재 리스너 수: " + toTown.onClick.GetPersistentEventCount());
             }
 
 
@@ -304,13 +311,17 @@ public class BattleManager : MonoBehaviour
 
                 ui.OpenPopup(ui.vic_Popup);
                 RewardPopupInit popup = ui.vic_Popup.GetComponent<RewardPopupInit>();
+
+                foreach (Transform child in popup.inner_Main.transform)
+                {
+                    Destroy(child.gameObject);
+                }
+
                 GameObject gold_Obj = Instantiate(ui.reward_Prefab, popup.inner_Main);
                 gold_Obj.GetComponent<RewardInit>().Init(ui.reward_Icons[0], total_Gold + " Gold");
 
                 GameObject exp_Obj = Instantiate(ui.reward_Prefab, popup.inner_Main);
                 exp_Obj.GetComponent<RewardInit>().Init(ui.reward_Icons[1], total_Exp + " Exp");
-
-                ui.next_Room_Popup.GetComponent<TitleInit>().Init("마을로 돌아가시겠습니까?");
             }
         }
     }

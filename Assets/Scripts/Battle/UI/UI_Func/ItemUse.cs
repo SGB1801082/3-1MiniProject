@@ -80,11 +80,17 @@ public class ItemUse : MonoBehaviour
                                 }
                             }
                         }
-                        else
+                        else if (player.isDeploy && player.isDeploy && BattleManager.Instance._curphase == BattleManager.BattlePhase.Rest)
                         {
                             player_index.cur_Player_Hp += 5f;
                         }
-                        
+                        else
+                        {
+                            BattleManager.Instance.ui.OpenPopup(BattleManager.Instance.ui.alert_Popup);
+                            BattleManager.Instance.ui.alert_Popup.GetComponent<TitleInit>().Init("현재 방이 휴식방이 아니거나 배치되지 않은 파티원입니다.");
+                            HidePostionUI();
+                            return;
+                        }
                     }
                     else
                     {
@@ -101,9 +107,16 @@ public class ItemUse : MonoBehaviour
                                 }
                             }
                         }
-                        else
+                        else if (player.isDeploy && player.isDeploy && BattleManager.Instance._curphase == BattleManager.BattlePhase.Rest)
                         {
                             player_index.cur_Player_Hp = player_index.max_Player_Hp;
+                        }
+                        else
+                        {
+                            BattleManager.Instance.ui.OpenPopup(BattleManager.Instance.ui.alert_Popup);
+                            BattleManager.Instance.ui.alert_Popup.GetComponent<TitleInit>().Init("현재 방이 휴식방이 아니거나 \n배치되지 않은 파티원입니다.");
+                            HidePostionUI();
+                            return;
                         }
                     }
                 }
@@ -125,6 +138,7 @@ public class ItemUse : MonoBehaviour
         {
             BattleManager.Instance.ui.OpenPopup(BattleManager.Instance.ui.alert_Popup);
             BattleManager.Instance.ui.alert_Popup.GetComponent<TitleInit>().Init("죽은 파티원에게는 사용 할 수 없습니다.");
+            HidePostionUI();
             return;
         }
     }

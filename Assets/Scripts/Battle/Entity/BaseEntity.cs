@@ -265,11 +265,13 @@ public class BaseEntity : MonoBehaviour
     // 타겟으로 향해 이동하는 메서드 ( NavMeshPlus 이용 )
     public void MoveToTarget()
     {
-        Transform target = FindTarget().transform;
-        if(target != null && _curstate != State.Death) 
+        Collider2D target = FindTarget().GetComponent<Collider2D>();
+        if (target != null && _curstate != State.Death) 
         {
+            Vector3 targetPosition = target.transform.TransformPoint(target.offset);
+
             agent.isStopped = false;
-            agent.SetDestination(target.position);
+            agent.SetDestination(targetPosition);
             SetMovementPriority(true);
         }
         else if (target == null & _curstate != State.Death)
@@ -299,39 +301,54 @@ public class BaseEntity : MonoBehaviour
     // 공격 사거리에 오면 논리형으로 True or False 반환하는 메서드
     public bool IsAttack(float range)
     {
-        Transform target = FindTarget().transform;
+        //Transform target = FindTarget().transform;
 
-        Vector2 tVec = (Vector2)(target.position - transform.position);
+        Collider2D target = FindTarget().GetComponent<Collider2D>();
+        Collider2D my = GetComponent<Collider2D>();
+        Vector3 targetPosition = target.transform.TransformPoint(target.offset);
+        Vector3 myPosition = my.transform.TransformPoint(my.offset);
+
+        //Vector2 tVec = (Vector2)(target.position - transform.position);
+        Vector2 tVec = (Vector2)(targetPosition - myPosition);
         float tDis = tVec.sqrMagnitude;
-        float targetRadius = target.GetComponent<NavMeshAgent>().radius;
+        //float targetRadius = target.GetComponent<NavMeshAgent>().radius;
 
 
-        if (isMelee)
+        /*if (isMelee)
+         {
+             //float meleeRange_Value = range + targetRadius;
+             //float meleeRange = meleeRange_Value * meleeRange_Value;
+             if (tDis <= range * range)
+             {
+                 isAttack = true;
+             }
+             else
+             {
+                 isAttack = false;
+             }
+         }
+         else
+         {
+             if (tDis <= range * range)
+             {
+                 isAttack = true;
+             }
+             else
+             {
+                 isAttack = false;
+             }
+         }*/
+
+        if (tDis <= range * range)
         {
-            float meleeRange_Value = range + targetRadius;
-            float meleeRange = meleeRange_Value * meleeRange_Value;
-
-            if (tDis <= meleeRange)
-            {
-                isAttack = true;
-            }
-            else
-            {
-                isAttack = false;
-            }
+            isAttack = true;
         }
         else
         {
-            if (tDis <= range * range)
-            {
-                isAttack = true;
-            }
-            else
-            {
-                isAttack = false;
-            }
+            isAttack = false;
         }
-        
+
+
 
         return isAttack;
     }

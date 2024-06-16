@@ -21,10 +21,14 @@ public class Arrow : MonoBehaviour
             // TODO : 이동
             // Todo : 타겟 위치와 내 위치에 따른 Angle 조정
 
-            Vector2 direction = (target.transform.position - transform.position).normalized;
+            Collider2D target_Col = target.GetComponent<Collider2D>();
+
+            Vector3 target_Pos = target_Col.transform.TransformPoint(target_Col.offset);
+
+            Vector2 direction = (target_Pos - transform.position).normalized;
             transform.right = direction;
 
-            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, Time.deltaTime * speed);
+            transform.position = Vector2.MoveTowards(transform.position, target_Pos, Time.deltaTime * speed);
         }
         else
         {

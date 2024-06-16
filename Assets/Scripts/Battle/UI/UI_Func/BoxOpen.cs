@@ -38,6 +38,12 @@ public class BoxOpen : MonoBehaviour
          
             BattleManager.Instance.room.currentRoom.gameObject.tag = "Battle";
             BattleManager.Instance.CheckRoom();
+
+            if (BattleManager.Instance.ui.out_Portal.activeSelf)
+            {
+                BattleManager.Instance.ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
+            }
+
         }
         else
         {
