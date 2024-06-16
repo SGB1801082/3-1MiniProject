@@ -86,6 +86,9 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerUp(PointerEventData eventData)//Click ItemSlot
     {
+        AudioManager.single.PlaySfxClipChange(0);
+        Debug.Log("Run SFX sound index: 0");
+
         if (this.usability == true  && this.wearChek == false)//인벤토리 좌측의 장착아이템 목록이면서, 장비를 장착 중이 아닐때 상호작용불가능하게함.
         {
             return;

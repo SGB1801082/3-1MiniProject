@@ -105,6 +105,24 @@ public class PlayerAction : MonoBehaviour
                 else
                     return;
             }
+            else if (obj.id == 8000)
+            {
+                Debug.Log("8000 실행");
+                if (GameUiMgr.single.questMgr.questId >= 30)
+                {
+                    GameUiMgr.single.isDungeon = true;
+                    GameUiMgr.single.textEquipPanel.text = "던전에 입장하시겠습니까?";//OK버튼 클릭했을때 다른효과가 나와야하는데 생각조금 더 해봐야함
+                    GameUiMgr.single.addEquipPanel.gameObject.SetActive(true);
+                    return;
+                }
+                else
+                {
+                    // ToDo: CallBack Img.SetActive(true);
+                    Debug.Log("튜토리얼 던전에 진입할 수 없습니다.");
+                    return;
+                }
+            }
+
             gUiMgr.TalkAction(scanRayObjcet);// Ray로 상호작용한 Object의 정보를 twonMgr로 넘겨서 그곳에 있는 대화창에 정보를 출력하게 함.
         }
 

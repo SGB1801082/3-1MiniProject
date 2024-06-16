@@ -151,7 +151,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public int partyPrice;
 
 // PoolMoveInSlot에 PartyData가 있을경우 여기에 담아서 고용완료 목록에 추가되어 Battle씬의 PartyList가 얘를 참조하게됨 || 슬롯이가지고있는 PartyData에 포함된 Prefab을 가져가는형식
-    public List<PartySlot> lastDeparture; 
+    public List<PartySlot> lastDeparture;
+
+    //06-16 던전입장용변수
+    public bool isDungeon = false;
     private void Awake()
     {
         single = this;
@@ -536,23 +539,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             isActionTalk = false;
             talkIndex = 0;
             questDesc.text = questMgr.CheckQuest(scanObj_ID);
-
-            if (scanObj_ID == 8000)
-            {
-                Debug.Log("8000 실행");
-                if (questMgr.questId >= 30)
-                {
-                    Debug.Log("던전 입장");
-                    SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
-                    GameSave();
-                }
-                else
-                {
-                    // ToDo: CallBack Img.SetActive(true);
-                    Debug.Log("튜토리얼 던전에 진입 할 수 없습니다.");
-                    return;
-                }
-            }
                 /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
                 {
                     questMgr.receptionist[0].SetActive(false);
@@ -767,15 +753,24 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnYesButtonClick()
     {
+        AudioManager.single.PlaySfxClipChange(0);
+        Debug.Log("Run SFX sound index: 0");
+        if (isDungeon)
+        {
+            Debug.Log("던전 입장");
+            GameSave();
+            SceneManager.LoadScene("Battle");//아니면여기에 던전에입장하시겠습니까? 예, 아니오, Wall, 값을 넣고 던져서 예누르면 wall로 텔포,아니오누르면 그냥 retrun하게하는식으로하면~ 야매 맵이동구현 뚝딲
+            isDungeon = false;
+            return;
+        }
+
         if (nowSlot.wearChek)
         {
-            if (AllEquipChek() && questMgr.questId == 20)
-            {
-                questMgr.questActionIndex = 0;
-            }
             //장착해제 Sound
             TakeOffItem(nowSlot);
             addEquipPanel.gameObject.SetActive(false);
+
+            AllEquipChek();
             return;
         }
 
@@ -791,6 +786,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     }
     public void OnNoButtonClick()
     {
+        AudioManager.single.PlaySfxClipChange(0);
+        Debug.Log("Run SFX sound index: 0");
+
         equipmnet = false;
         addEquipPanel.gameObject.SetActive(false);
     }
@@ -946,6 +944,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }
             return false;
         }
+        else
+        {
+            Receptionist_0();
+        }
         return false;
     }
 
@@ -958,6 +960,11 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         questMgr.receptionist[0].SetActive(false);
         questMgr.receptionist[1].SetActive(true);
+    }
+    private void Receptionist_0()
+    {
+        questMgr.receptionist[0].SetActive(true);
+        questMgr.receptionist[1].SetActive(false);
     }
     public void LoadInventory(List<Item> _items)
     {
