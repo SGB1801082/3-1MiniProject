@@ -523,24 +523,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log(questMgr.questId);
         Debug.Log(questMgr.questActionIndex);
 
-        inventory.items = GameMgr.playerData[0].listInventory;
-
-        foreach (Item _item in GameMgr.playerData[0].listEquipment)
-        {
-            inventory.items.Add(_item);
-        }
-/*        foreach (Item _item in GameMgr.playerData[0].listEquipment)
-        {
-
-            nowSlot = new();
-            nowSlot.itemIcon.sprite = _item.itemImage;
-            nowSlot.slotnum = inventory.items.Count;
-
-            nowSlot.item = _item;
-            WearEquipment();
-        }*/
-
-        RedrawSlotUI();
+        LoadInventory(GameMgr.playerData[0].listInventory);
+        LoadEquipment(GameMgr.playerData[0].listEquipment);
 
     }
 
@@ -1066,12 +1050,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         Debug.Log("튜토리얼 던전 클리어");
         Receptionist_1();
     }
-    private void Receptionist_1()
+    public void Receptionist_1()
     {
         questMgr.receptionist[0].SetActive(false);
         questMgr.receptionist[1].SetActive(true);
     }
-    private void Receptionist_0()
+    public void Receptionist_0()
     {
         questMgr.receptionist[0].SetActive(true);
         questMgr.receptionist[1].SetActive(false);
@@ -1088,7 +1072,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     }
     public void LoadEquipment(List<Item> _items)
     {
-        if (_items == null || _items.Count == 0 || _items.Count != targetSlots.Length)
+        //if (_items == null || _items.Count == 0 || _items.Count != targetSlots.Length)
+        if (_items == null || _items.Count == 0)
         {
             // 만약 _items 리스트가 null이거나 비어있거나 targetSlots과의 길이가 일치하지 않으면 로드를 진행하지 않고 종료합니다.
             Debug.Log("exeption");
