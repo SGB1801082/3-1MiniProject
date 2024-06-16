@@ -10,12 +10,10 @@ public class DeployInit : MonoBehaviour
     public GameObject spritePrefab; // 배치할 스프라이트 프리팹
     public GameObject deloy_obj; // 클론이 생성 될 빈 개체
     public List<GameObject> highlight = new List<GameObject>();
-    Tilemap wall;
 
     private void Awake()
     {
         tilemap = GetComponent<Tilemap>();
-        wall = GameObject.FindGameObjectWithTag("Wall").GetComponent<Tilemap>();
         PlaceSpritesInTilemap();
     }
 
@@ -33,7 +31,7 @@ public class DeployInit : MonoBehaviour
                 Vector3Int cellPos = new Vector3Int(x, y, 0);
 
                 // 현재 셀에 타일이 있는지 확인
-                if (tilemap.HasTile(cellPos) && !wall.HasTile(cellPos))
+                if (tilemap.HasTile(cellPos))
                 {
                     // 현재 셀의 월드 좌표 계산
                     Vector3 cellWorldPos = tilemap.GetCellCenterWorld(cellPos);
