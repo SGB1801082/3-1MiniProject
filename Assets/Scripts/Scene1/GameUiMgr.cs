@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -245,11 +246,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         if (GameMgr.single.LoadChecker() == true)
         {
-            GameLoad();
+            //GameLoad();
+            LoadGameValues();
             Debug.Log("Load Success");
             Debug.Log(GameMgr.playerData[0].GetPlayerName());
         }
-    
+
         questDesc.text = questMgr.CheckQuest();
         if (questMgr.questId < 30)
         {
@@ -513,6 +515,53 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         s_EXP.value = this.player_Cur_EXP / this.player_Max_EXP;
 
     }
+    private void LoadGameValues()//06-16 Add
+    {
+        questMgr.questId = GameMgr.playerData[0].playerQuestID;
+        questMgr.questActionIndex = GameMgr.playerData[0].playerQuestIndex;
+
+        Debug.Log(questMgr.questId);
+        Debug.Log(questMgr.questActionIndex);
+
+        inventory.items = GameMgr.playerData[0].listInventory;
+
+        foreach (Item _item in GameMgr.playerData[0].listEquipment)
+        {
+            inventory.items.Add(_item);
+        }
+/*        foreach (Item _item in GameMgr.playerData[0].listEquipment)
+        {
+
+            nowSlot = new();
+            nowSlot.itemIcon.sprite = _item.itemImage;
+            nowSlot.slotnum = inventory.items.Count;
+
+            nowSlot.item = _item;
+            WearEquipment();
+        }*/
+
+        RedrawSlotUI();
+
+    }
+
+    public void GameSave()
+    {
+        GameMgr.playerData[0].listInventory.Clear();
+        GameMgr.playerData[0].listInventory = inventory.items;
+        
+        GameMgr.playerData[0].listEquipment.Clear();
+        foreach (Slot _slot in targetSlots)
+        {
+            if (_slot.wearChek)
+            {
+                GameMgr.playerData[0].listEquipment.Add(_slot.item);
+            }
+        }
+        GameMgr.playerData[0].playerQuestID = questMgr.questId;
+        GameMgr.playerData[0].playerQuestIndex = questMgr.questActionIndex;
+
+    }
+
     public void SliderChange()
     {
         s_HP.value = this.player_Cur_HP / this.player_Max_HP;
@@ -621,12 +670,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         talkName.text = talkMgr.dictTalkName[_sp];
     }
 
-    public void GameSave()
+/*    public void GameSave()
     {
-        /*if (menuSet.activeSelf)
+        *//*if (menuSet.activeSelf)
         {
             menuSet.SetActive(false);
-        }*/
+        }*//*
 
         List<Item> saveInventoryItem = new();
         List<Item> saveWearItem = new();
@@ -648,7 +697,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         SaveSystem.Save(gameSaveData, "save");
 
         //  Player DayCount, Player Inventory, Player Desc (Stat, Name, Job, Gold ... ect)
-    }
+    }*/
     public void GameLoad()
     {
         SaveData loadData = SaveSystem.Load("save");
