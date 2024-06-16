@@ -149,6 +149,8 @@ public class BattleManager : MonoBehaviour
                 }*/
                 break;
             case BattlePhase.Deploy:
+                if (ui.out_Portal.activeSelf)
+                    ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
                 BattleReady();
                 break;
             case BattlePhase.Battle:
@@ -279,12 +281,9 @@ public class BattleManager : MonoBehaviour
                     ui.out_Portal.GetComponent<FadeEffect>().fadeout = true;
                 }
 
-                Button toTown = ui.out_Portal.GetComponent<Button>();
-                //toTown.onClick.RemoveAllListeners();
-                //Debug.Log("리스너 제거됨");
+                Destroy(ui.out_Portal.GetComponent<Button>());                
+                Button toTown = ui.out_Portal.AddComponent<Button>();
                 toTown.onClick.AddListener(() => TotalReward());
-
-                Debug.Log("현재 리스너 수: " + toTown.onClick.GetPersistentEventCount());
             }
 
 
