@@ -36,4 +36,16 @@ public class Enemy : BaseEntity
         this.able_Skill = stat.able_Skill;
         exp_Cnt = stat.exp;
     }
+
+    public void AttackSound(int index)
+    {
+        AudioManager.single.EnemySound(index, index, 1);
+    }
+
+
+    public void DieSound(int index)
+    {
+        AudioManager.single.EnemySound(index, index, 0);
+    }
+
 }

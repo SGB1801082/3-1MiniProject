@@ -65,7 +65,7 @@ public class PartyData
         {
             case Ally.JobClass.Ranger:
                 Debug.Log("Type Ranger, Generate Code: "+_Code);
-                partyHp = 20f;
+                partyHp = 15f;
                 partyMp = 5f;
                 partyAtk = 2f;
                 partyAtkSpd = 1.0f;
@@ -87,7 +87,7 @@ public class PartyData
                 break;
             case Ally.JobClass.Knight:
                 Debug.Log("Type 3, Generate Code: " + _Code);
-                partyHp = 30f;
+                partyHp = 50f;
                 partyMp = 5f;
                 partyAtk = 2f;
                 partyAtkSpd = 1.0f;

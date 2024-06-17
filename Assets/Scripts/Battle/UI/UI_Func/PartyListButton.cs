@@ -11,13 +11,12 @@ public class PartyListButton : MonoBehaviour
     public Vector2 vec_From;
     public Vector2 vec_To;
     public float f_Set_Timer;
-    [SerializeField] bool isOpen = false;
+    public bool isOpen = false;
     [SerializeField] bool isMove = false;
 
     private void Start()
     {
         obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_From;
-        isOpen = false;
         isMove = false;
     }
 
@@ -35,7 +34,7 @@ public class PartyListButton : MonoBehaviour
         }
     }
 
-    private void Open_Side()
+    public void Open_Side()
     {
         StartCoroutine(Open_Side_Co());
     }
@@ -60,7 +59,7 @@ public class PartyListButton : MonoBehaviour
         yield break;
     }
 
-    private void Close_Side()
+    public void Close_Side()
     {
         StartCoroutine(Close_Side_Co());
     }

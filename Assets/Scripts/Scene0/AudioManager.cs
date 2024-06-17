@@ -16,6 +16,8 @@ public class AudioManager : MonoBehaviour
 
     [Header("#SFX")]
     public AudioClip[] sfxClips;// 효과음으로 사용될 음성파일 에셋 배열
+
+    //public AudioClip[] 
     private AudioSource[] sfxPlayers;
 
     public float sfxVolume;// 효과음 크기를 조절할 변수
@@ -24,10 +26,98 @@ public class AudioManager : MonoBehaviour
     public int channels;//다량의 효과음을 낼 수 있도록 채널 개수 변수 선언
     private int channelIndex;// 재생하고있는 채널의 인덱스값이 필요함
 
+    [Header("#Playerble SFX")]//0 = Die, 1 = Atk
+    public AudioClip[] hero_sfxClip;// hero
+    public AudioClip[] ranger_sfxClip;// ranger
+    public AudioClip[] wizard_sfxClip;// wizard
+    public AudioClip[] knight_sfxClip;// knight
+
+
+    [Header("#Enemy SFX")]
+    public AudioClip[] slime_sfxClip;// slime
+    public AudioClip[] gobline_sfxClip;// gobline
+    public AudioClip[] mimic_sfxClip;// mimic
+    public AudioClip[] skelletone_sfxClip;
+
     public enum Sfx
     {
          
     }
+
+    public void EnemySound(int partyIndex, int _enemyIndex, int sfx_Index)
+    {
+        // sfx_Index : 0 Die, 1 Attack
+
+/*        if (sfx_Index != 0)
+        {
+            PlaySfxVolumeChange(partyIndex, 0.2f);
+        }
+        else
+        {
+            PlaySfxVolumeChange(partyIndex, 0.5f);
+        }*/
+        
+
+        switch (_enemyIndex)
+        {
+            case 0:
+                sfxPlayers[partyIndex].clip = slime_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 1:
+                sfxPlayers[partyIndex].clip = gobline_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 2:
+                sfxPlayers[partyIndex].clip = mimic_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 3:
+                sfxPlayers[partyIndex].clip = skelletone_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void PlayerSound(int partyIndex, int _enemyIndex, int sfx_Index)
+    {
+        // sfx_Index : 0 Die, 1 Attack
+
+/*        if (sfx_Index != 0)
+        {
+            PlaySfxVolumeChange(partyIndex, 0.2f);
+        }
+        else
+        {
+            PlaySfxVolumeChange(partyIndex, 0.5f);
+        }*/
+
+        switch (_enemyIndex)
+        {
+            case 0:
+                sfxPlayers[partyIndex].clip = hero_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 1:
+                sfxPlayers[partyIndex].clip = ranger_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 2:
+                sfxPlayers[partyIndex].clip = wizard_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 3:
+                sfxPlayers[partyIndex].clip = knight_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            default:
+                break;
+        }
+    }
+
+
 
     void Awake()
     {

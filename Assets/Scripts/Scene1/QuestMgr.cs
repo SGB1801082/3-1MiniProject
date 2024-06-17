@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class QuestMgr : MonoBehaviour
@@ -21,7 +22,6 @@ public class QuestMgr : MonoBehaviour
 
     //04-26 Quest Potion Ev
     private bool oneTimeEv = true;
-
     private void Awake()
     {
         dict_questList = new Dictionary<int, QuestData>();
@@ -33,16 +33,16 @@ public class QuestMgr : MonoBehaviour
         }
         questIcons[0].SetActive(true);
     }
-    private void GenerateQuestData() 
-    { 
+    private void GenerateQuestData()
+    {
         dict_questList.Add(0, new QuestData("모험의 시작", new int[] { 1000 }));
         // Add메서드로 questID, questData를 데이터사전(= dict_questList)에 저장. 구조체 매개변수 생성자의 int배열에는 첫 마을 방문 퀘스트에 연관된 npcID를 입력
         dict_questList.Add(10, new QuestData("모험가 길드 직원에게 말을 걸어보자", new int[] { 1000, 2000 }));
         dict_questList.Add(20, new QuestData("장비를 착용하고 다시 말을 걸어보자", new int[] { 1000, 2000 }));
 
-        dict_questList.Add(30, new QuestData("모의전투에서 승리하자", new int[] { 1000, 2000 }));
-
-        dict_questList.Add(40, new QuestData("체력이 줄었다. 받은 물약을 먹자.", new int[] { 1000, 2000 }));
+        dict_questList.Add(30, new QuestData("파티원을 모집하자", new int[] { 1000, 2000 }));
+        //dict_questList.Add(40, new QuestData("체력이 줄었다. 받은 물약을 먹자.", new int[] { 1000, 2000 }));
+        dict_questList.Add(40, new QuestData("모의 전투에서 승리하자", new int[] { 1000, 2000 }));
         dict_questList.Add(50, new QuestData("모험가 등록 완료", new int[] { 1000, 2000 }));
 
         //dict_questList.Add(30, new QuestData("마을의 전설 듣기 퀘스트 클리어!", new int[] { 10000, 4000 }));
@@ -66,7 +66,7 @@ public class QuestMgr : MonoBehaviour
         ControlQuestObejct();
 
         //Talk Complete & Next Quest
-        if (questActionIndex == dict_questList[questId].npcId.Length )
+        if (questActionIndex == dict_questList[questId].npcId.Length)
         {
             NextQuest();
         }
@@ -97,6 +97,7 @@ public class QuestMgr : MonoBehaviour
                 }
                 if (questActionIndex == 1)
                 {
+                    GameUiMgr.single.tmp_PlayerRating.text = "견습 모험가";
                     questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[1];
 
                     receptionist[0].SetActive(false);
@@ -125,6 +126,8 @@ public class QuestMgr : MonoBehaviour
                 {
                     Debug.Log("Case 21");
                     GameUiMgr.single.AllEquipChek();
+                    questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[0];
+
                 }
                 else if (questActionIndex == 2)
                 {
@@ -138,7 +141,7 @@ public class QuestMgr : MonoBehaviour
                 {
                     Debug.Log("Case 30");
                 }
-                if(questActionIndex == 1)
+                if (questActionIndex == 1)
                 {
                     Debug.Log("Case31");
                 }
@@ -150,34 +153,64 @@ public class QuestMgr : MonoBehaviour
                 }
                 break;
             case 40:// Using Potion Event
-                Item questItem2;
                 if (questActionIndex == 0)
                 {
                     Debug.Log("Case 40");
                 }
                 if (questActionIndex == 1)
                 {
-                    if (oneTimeEv == true)
-                    {
-                        questItem2 = ItemResources.instance.itemRS[6];
-                        Inventory.single.AddItem(questItem2);
-                        GameUiMgr.single.slots[questItem2.itemIndex].wearChek = true;
-
-                        Debug.Log(questItem2.itemName);
-                        oneTimeEv = false;
-                    }
+                    //questActionIndex++;
                     Debug.Log("Case 41");
                 }
                 else if (questActionIndex == 2)
                 {
-                    Debug.Log("Case 42");
+                    GameMgr.single.IsGameLoad(true);
+                    GameUiMgr.single.GameSave();
+                    SceneManager.LoadScene("Title");
+                    
                     receptionist[0].SetActive(true);
                     receptionist[1].SetActive(false);
 
                 }
                 break;
+            case 50:
+                if (questActionIndex == 0)
+                {
+                    Debug.Log("Case 50");
+                }
+
+                if (questActionIndex == 1)
+                {
+                    GameUiMgr.single.GameSave();
+                    SceneManager.LoadScene("Title");
+                    Debug.Log("Case 51");
+                }
+                break;
         }
     }
+    /*    Item questItem2;
+    if (questActionIndex == 0){Debug.Log("Case 40");}
+    if (questActionIndex == 1)
+    {
+        if (oneTimeEv == true)
+        {
+            questItem2 = ItemResources.instance.itemRS[6];
+            Inventory.single.AddItem(questItem2);
+            GameUiMgr.single.slots[questItem2.itemIndex].wearChek = true;
+
+            Debug.Log(questItem2.itemName);
+            oneTimeEv = false;
+        }
+        Debug.Log("Case 41");
+    }
+    else if (questActionIndex == 2)
+    {
+        Debug.Log("Case 42");
+        receptionist[0].SetActive(true);
+        receptionist[1].SetActive(false);
+
+    }
+    break;*/
 
     public void TutorialEquip()
     {

@@ -79,23 +79,16 @@ public class RoomManager : MonoBehaviour
 
     public void ChangeRoom()
     {
-        // 새로운 방으로 변경
-        if ((rooms.Length - 1) == room_Count) 
+        if (isMoveDone)
         {
-            SceneManager.LoadScene("Town");
-        }
-        else
-        {
-            if (isMoveDone)
-            {
-                isMoveDone = false;
-                BattleManager.Instance.ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
-                BattleManager.Instance.ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
-                previousRoom = currentRoom;
-                currentRoom = rooms[++room_Count];
-                cur_Map = map_List[room_Count].transform;
-                StartCoroutine(MoveCamera());
-            }
+            AudioManager.single.PlaySfxClipChange(4);
+            isMoveDone = false;
+            BattleManager.Instance.ui.in_Portal.GetComponent<FadeEffect>().fadein = true;
+            BattleManager.Instance.ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
+            previousRoom = currentRoom;
+            currentRoom = rooms[++room_Count];
+            cur_Map = map_List[room_Count].transform;
+            StartCoroutine(MoveCamera());
         }
     }
 

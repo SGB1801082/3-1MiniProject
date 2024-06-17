@@ -85,4 +85,17 @@ public class Ally : BaseEntity
         isMelee = stat.isMelee;
         able_Skill = stat.able_Skill;
     }
+
+
+    public void AttackSound(int index)
+    {
+        AudioManager.single.PlayerSound(index, index, 1);
+    }
+
+    public void DieSound(int index)
+    {
+        AudioManager.single.EnemySound(index, index, 0);
+    }
+
+
 }

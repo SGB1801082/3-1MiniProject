@@ -33,12 +33,15 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
 
     public int playerIndex = 0;
 
+    public int playerQuestID;
+    public int playerQuestIndex;
+
     //public PartyData partySlotData = null;// Hero.cs ... 에서 동일개체인지 확인하려고 추가한 변수..의미가없는거같기도하고
     public PlayerData(string name)
     {
         playerIndex = 0;
         this.NAME = name;
-        max_Player_Hp = 30f;
+        max_Player_Hp = 40f;
         cur_Player_Hp = max_Player_Hp;
         max_Player_Mp = 5f;
         cur_Player_Mp = 0f;
@@ -54,6 +57,9 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         
         skill_Able = false;
         isMelee = true;
+
+        playerQuestID = 0;
+        playerQuestIndex = 0;
 
         listInventory = new List<Item>();
         listEquipment = new List<Item>();
@@ -85,6 +91,27 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         return this.NAME;
     }
 
+    public void GetPlayerExp(float _exp)
+    {
+        Debug.Log("얻은 경험치: " + _exp);
+        if ((this.player_max_Exp - this.player_cur_Exp) <= _exp )//내가 레벨업까지 필요로하는 경험치의 양 보다. 지금 집어먹은 경험치의 양이 클때.
+        {
+            _exp -= (this.player_max_Exp - this.player_cur_Exp); //2
+
+            player_level++;
+            this.player_max_Exp *= 2;
+            this.player_cur_Exp = 0;
+            Debug.Log("계산 후 경험치: "+_exp);
+
+            GetPlayerExp(_exp);
+        }
+        else
+        {
+            this.player_cur_Exp += _exp;
+        }
+
+    }
+
 }
 [System.Serializable]
 public class SaveData
@@ -113,7 +140,11 @@ public class SaveData
     public List<Item> listInven;
     public List<Item> listEquip;
 
-    public SaveData(string name, int level, int gold, int qID, int qActID, float max_hp, float cur_hp, float max_sn, float cur_sn, float max_mp, float cur_mp, float a_spd, float a_range, float a_dmg, float max_exp, float cur_exp, List<Item> _invenItem, List<Item> _invenEquip)
+    public SaveData(string name, int level, int gold, int qID, int qActID, 
+        float max_hp, float cur_hp, float max_sn, float cur_sn, float max_mp, float cur_mp, 
+        float a_spd, float a_range, float a_dmg, 
+        float max_exp, float cur_exp, 
+        List<Item> _invenItem, List<Item> _invenEquip)
     {
         //this.pd = pd;
         this.playerName = name;
