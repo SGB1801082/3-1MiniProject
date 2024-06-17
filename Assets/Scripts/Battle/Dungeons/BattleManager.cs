@@ -54,6 +54,7 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
+
         if (instance == null)
         {
             instance = this;
@@ -88,6 +89,7 @@ public class BattleManager : MonoBehaviour
 
         if (!ui.party_List.activeSelf)
             ui.party_List.SetActive(true);
+
         Enemy[] entity = FindObjectsOfType<Enemy>(); // 몬스터를 찾음
         battleEnded = false;
 
@@ -174,17 +176,19 @@ public class BattleManager : MonoBehaviour
         if (ui.party_List.activeSelf)
             ui.party_List.SetActive(false);
 
-        ui.OpenPopup(ui.battle_Start_Banner);
-        yield return StartCoroutine(ui.StartBanner(ui.battle_Start_Banner));
-        yield return new WaitForSeconds(0.15f);
-
         if (deploy_Player_List.Count == 0)
         {
-            Debug.Log("하나 이상의 플레이어를 배치하세요");
+            ui.OpenPopup(ui.alert_Popup);
+            ui.alert_Popup.GetComponent<TitleInit>().Init("최소 한명의 파티원을 배치를 해야 합니다.");
             yield break;
         }
         else
         {
+
+            ui.OpenPopup(ui.battle_Start_Banner);
+            yield return StartCoroutine(ui.StartBanner(ui.battle_Start_Banner));
+            yield return new WaitForSeconds(0.15f);
+
             Debug.Log("배틀 시작");
             ChangePhase(BattlePhase.Battle);
             deploy_area = GameObject.FindGameObjectWithTag("Deploy");
@@ -351,6 +355,7 @@ public class BattleManager : MonoBehaviour
     {
         if (room.currentRoom.tag == "Battle")
         {
+
             Debug.Log("전투 방입니다.");
 
             if ( (room.rooms.Length-1) == room.room_Count )
@@ -363,7 +368,6 @@ public class BattleManager : MonoBehaviour
             }
 
             ChangePhase(BattlePhase.Deploy);
-            
         }
         else
         {
@@ -383,6 +387,15 @@ public class BattleManager : MonoBehaviour
         GameMgr.playerData[0].cur_Player_Hp = GameMgr.playerData[0].max_Player_Hp;
 
         GameUiMgr.single.GameSave();
+
+        StartCoroutine(ReturnToTownFadeOut());
+    }
+
+    public IEnumerator ReturnToTownFadeOut()
+    {
+        FadeInEffect fade = ui.fade_Bg.GetComponent<FadeInEffect>();
+
+        yield return fade.StartCoroutine(fade.FadeOut());
 
         SceneManager.LoadScene("Town");
     }

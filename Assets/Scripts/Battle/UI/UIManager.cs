@@ -14,9 +14,9 @@ public class UIManager : MonoBehaviour
     public GameObject battleStart;
     public GameObject in_Portal;
     public GameObject out_Portal;
-    
     public GameObject next_Room_Popup;
     public GameObject item_Use_UI;
+    public GameObject fade_Bg;
 
     [Header("Banner")]
     public GameObject def_Banner;

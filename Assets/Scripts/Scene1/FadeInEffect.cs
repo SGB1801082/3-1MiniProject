@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class FadeInEffect : MonoBehaviour
 {
     public Image fadeImage; // 페이드 효과를 적용할 이미지
-    public float fadeDuration = 1.0f; // 페이드 시간
+    public float fadeDuration = 1.5f; // 페이드 시간
 
     private Coroutine currentCoroutine;
 
@@ -33,7 +33,7 @@ public class FadeInEffect : MonoBehaviour
         currentCoroutine = StartCoroutine(FadeOut());
     }
 
-    IEnumerator FadeIn()
+    public IEnumerator FadeIn()
     {
         Color color = fadeImage.color;
         float startAlpha = 1.0f;
@@ -54,7 +54,7 @@ public class FadeInEffect : MonoBehaviour
         fadeImage.gameObject.SetActive(false); // 페이드 이미지 비활성화
     }
 
-    IEnumerator FadeOut()
+    public IEnumerator FadeOut()
     {
         fadeImage.gameObject.SetActive(true); // 페이드 이미지 활성화
         Color color = fadeImage.color;
