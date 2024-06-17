@@ -66,6 +66,12 @@ public class BattleManager : MonoBehaviour
         {
             party_List.Add(GameUiMgr.single.lastDeparture[i].partyData.obj_Data);
         }
+
+        if (GameUiMgr.single.questMgr.questId == 40)
+        {
+            Debug.Log("NOW QUESTID 40 GOLD: "+ GameMgr.playerData[0].player_Gold);
+            GameMgr.playerData[0].player_Gold = 1500;
+        }
     }
 
     private void Start()
@@ -364,7 +370,8 @@ public class BattleManager : MonoBehaviour
 
         GameMgr.playerData[0].cur_Player_Sn -= 5;
         GameMgr.playerData[0].cur_Player_Hp = GameMgr.playerData[0].max_Player_Hp;
-        //GameUiMgr.single.GameSave();
+
+        GameUiMgr.single.GameSave();
 
         SceneManager.LoadScene("Town");
     }

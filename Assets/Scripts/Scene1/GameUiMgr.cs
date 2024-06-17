@@ -760,7 +760,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     }
     public void OffVideoOption_S1()
     {
-        videoOption_S1.gameObject.SetActive(false);
+        //videoOption_S1.gameObject.SetActive(false);
     }
     public void ActiveInventory()
     {

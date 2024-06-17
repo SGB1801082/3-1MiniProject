@@ -16,6 +16,8 @@ public class AudioManager : MonoBehaviour
 
     [Header("#SFX")]
     public AudioClip[] sfxClips;// 효과음으로 사용될 음성파일 에셋 배열
+
+    //public AudioClip[] 
     private AudioSource[] sfxPlayers;
 
     public float sfxVolume;// 효과음 크기를 조절할 변수
