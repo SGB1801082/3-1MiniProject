@@ -385,7 +385,7 @@ public class BattleManager : MonoBehaviour
         GameMgr.playerData[0].cur_Player_Sn -= 5;
         GameMgr.playerData[0].cur_Player_Hp = GameMgr.playerData[0].max_Player_Hp;
 
-        GameMgr.single.IsGameLoad(true);
+        //GameMgr.single.IsGameLoad(true);
         GameUiMgr.single.GameSave();
 
         StartCoroutine(ReturnToTownFadeOut());
