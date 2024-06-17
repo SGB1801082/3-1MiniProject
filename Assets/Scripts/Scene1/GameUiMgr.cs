@@ -257,24 +257,15 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         btn_NoEquipAdd.onClick.AddListener(OnNoButtonClick);
 
         questDesc.text = questMgr.CheckQuest();
-        if (questMgr.questId < 30)
-        {
-            tmp_PlayerRating.text = "견습 모험가";
-        }
-        else if(questMgr.questId > 30)
-        {
-            tmp_PlayerRating.text = "9급 모험가";
-        }
 
         SetPlayerDatas();
 
         SliderChange();
 
         //if dungeonClear Ck == true
-        if (questMgr.questId == 30)
+        if (questMgr.questId == 40 && questMgr.questActionIndex == 1)
         {
-            Receptionist_1();
-            Debug.Log("Run Method: Recep_1");
+            TutorialDungeonClear();
         }
         //Tooltip
         canvaseWidth = canvas_Tooltip.GetComponent<CanvasScaler>().referenceResolution.x * 0.5f;
@@ -1062,8 +1053,10 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void TutorialDungeonClear()
     {
+
         Debug.Log("튜토리얼 던전 클리어");
         Receptionist_1();
+        Debug.Log("Run Method: Recep_1");
     }
     public void Receptionist_1()
     {

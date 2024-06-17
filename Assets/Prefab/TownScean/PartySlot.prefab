@@ -425,7 +425,7 @@ MonoBehaviour:
   text_Name: {fileID: 4238654067606309811}
   text_Cost: {fileID: 1179501502286088930}
   text_Lv: {fileID: 6442532235095362508}
-  block: {fileID: 8077818926938356640}
+  block: {fileID: 3757276062548061946}
   moveInChek: 0
   btnMy: {fileID: 745642899796233482}
   classIcon: {fileID: 2856872341887052123}
