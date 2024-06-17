@@ -26,6 +26,19 @@ public class AudioManager : MonoBehaviour
     public int channels;//다량의 효과음을 낼 수 있도록 채널 개수 변수 선언
     private int channelIndex;// 재생하고있는 채널의 인덱스값이 필요함
 
+    [Header("#Playerble SFX")]//0 = Die, 1 = Atk
+    public AudioClip[] hero_sfxClip;// hero
+    public AudioClip[] ranger_sfxClip;// ranger
+    public AudioClip[] wizard_sfxClip;// wizard
+    public AudioClip[] knight_sfxClip;// knight
+
+
+    [Header("#Enemy SFX")]
+    public AudioClip[] slime_sfxClip;// slime
+    public AudioClip[] gobline_sfxClip;// gobline
+    public AudioClip[] mimic_sfxClip;// mimic
+    public AudioClip[] skelletone_sfxClip;
+
     public enum Sfx
     {
          

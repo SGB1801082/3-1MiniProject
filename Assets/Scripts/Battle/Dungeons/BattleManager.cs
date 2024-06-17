@@ -77,6 +77,7 @@ public class BattleManager : MonoBehaviour
     private void Start()
     {
         ChangePhase(BattlePhase.Start); // 방 체크
+        AudioManager.single.PlayBgmClipChange(2);
     }
 
     public IEnumerator BattleReady() // 전투 방일 시 실행되는 메서드
@@ -351,6 +352,16 @@ public class BattleManager : MonoBehaviour
         if (room.currentRoom.tag == "Battle")
         {
             Debug.Log("전투 방입니다.");
+
+            if ( (room.rooms.Length-1) == room.room_Count )
+            {
+                AudioManager.single.PlayBgmClipChange(3);
+            }
+            else
+            {
+                AudioManager.single.PlayBgmClipChange(2);
+            }
+
             ChangePhase(BattlePhase.Deploy);
             
         }
