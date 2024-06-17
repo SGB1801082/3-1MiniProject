@@ -18,10 +18,11 @@ public class UIManager : MonoBehaviour
     public GameObject next_Room_Popup;
     public GameObject item_Use_UI;
 
-    [Header("Reward")]
+    [Header("Banner")]
     public GameObject def_Banner;
     public GameObject vic_Banner;
     public GameObject battle_Start_Banner;
+    public GameObject battle_Ready_Banner;
 
 
     [Header("Battle_Popup")]
@@ -76,7 +77,6 @@ public class UIManager : MonoBehaviour
     {
         if (BattleManager.Instance._curphase == BattleManager.BattlePhase.Rest || BattleManager.Instance._curphase == BattleManager.BattlePhase.End)
         {
-            party_List.SetActive(false);
             battleStart.SetActive(false);
         }
 
@@ -91,7 +91,6 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            party_List.SetActive(false);
             battleStart.SetActive(false);
         }
 
