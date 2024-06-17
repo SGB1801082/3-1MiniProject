@@ -160,9 +160,16 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public bool isDungeon = false;
 
     public bool uiEventCk = true;
+
     private void Awake()
     {
         single = this;
+/*
+        if (firstLoad && GameMgr.single.LoadChecker() == true)
+        {
+            GameLoad();
+            firstLoad = false;
+        }*/
     }
     public void AddItemTest()
     {
@@ -204,6 +211,19 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     private void Start()
     {
+        //03-31 Start Inventory - try.4
+        inventory = Inventory.single;
+        
+        inventory_panel.SetActive(activeInventory);
+        inventory.onSlotCountChange += SlotChange;
+        slots = slotHolder.GetComponentsInChildren<Slot>();
+        inventory.onChangeItem += RedrawSlotUI;
+
+        if (GameMgr.single.LoadChecker() == true)
+        {
+            GameLoad();
+        }
+        
         //06-14 BGM
         AudioManager.single.PlayBgmClipChange(1);
 
@@ -221,14 +241,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         DescCheck = true;
 
 
-        //03-31 Start Inventory - try.4
-        inventory = Inventory.single;
-
-        inventory_panel.SetActive(activeInventory);
-        inventory.onSlotCountChange += SlotChange;
-        slots = slotHolder.GetComponentsInChildren<Slot>();
-        inventory.onChangeItem += RedrawSlotUI;
-
         AddSlot();//인벤토리 칸 세팅할때 나는 설정 안 만져서 그런지 이걸로 인벤토리 한번 활성화 시켜주지않으면 이상하게 동작하는거 확인.
 
         EquipSlotSetting();// 씬 실행 시 각 장비 슬롯에 해당하는 아이템 타입을 직접 지정해줌
@@ -243,14 +255,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         // No 버튼에 클릭 이벤트 리스너 추가
         btn_NoEquipAdd.onClick.AddListener(OnNoButtonClick);
-
-        if (GameMgr.single.LoadChecker() == true)
-        {
-            //GameLoad();
-            LoadGameValues();
-            Debug.Log("Load Success");
-            Debug.Log(GameMgr.playerData[0].GetPlayerName());
-        }
 
         questDesc.text = questMgr.CheckQuest();
         if (questMgr.questId < 30)
@@ -521,7 +525,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         s_EXP.value = this.player_Cur_EXP / this.player_Max_EXP;
 
     }
-    private void LoadGameValues()//06-16 Add
+    /*private void LoadGameValues()//06-16 Add
     {
         questMgr.questId = GameMgr.playerData[0].playerQuestID;
         questMgr.questActionIndex = GameMgr.playerData[0].playerQuestIndex;
@@ -532,9 +536,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         LoadInventory(GameMgr.playerData[0].listInventory);
         LoadEquipment(GameMgr.playerData[0].listEquipment);
 
-    }
+    }*/
 
-    public void GameSave()
+    /*public void GameSave()
     {
         GameMgr.playerData[0].listInventory.Clear();
         GameMgr.playerData[0].listInventory = inventory.items;
@@ -550,7 +554,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         GameMgr.playerData[0].playerQuestID = questMgr.questId;
         GameMgr.playerData[0].playerQuestIndex = questMgr.questActionIndex;
 
-    }
+    }*/
 
     public void SliderChange()
     {
@@ -660,12 +664,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         talkName.text = talkMgr.dictTalkName[_sp];
     }
 
-/*    public void GameSave()
+    public void GameSave()
     {
-        *//*if (menuSet.activeSelf)
+        /*if (menuSet.activeSelf)
         {
             menuSet.SetActive(false);
-        }*//*
+        }*/
 
         List<Item> saveInventoryItem = new();
         List<Item> saveWearItem = new();
@@ -683,17 +687,22 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }
         }
 
-        SaveData gameSaveData = new SaveData(GameMgr.playerData[0].GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, player_Max_EXP, player_Cur_EXP, saveInventoryItem, saveWearItem);
+        SaveData gameSaveData = new SaveData(GameMgr.playerData[0].GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, 
+            player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, 
+            player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, 
+            player_Max_EXP, player_Cur_EXP, 
+            saveInventoryItem, saveWearItem);
         SaveSystem.Save(gameSaveData, "save");
 
         //  Player DayCount, Player Inventory, Player Desc (Stat, Name, Job, Gold ... ect)
-    }*/
+    }
     public void GameLoad()
     {
         SaveData loadData = SaveSystem.Load("save");
 
         //Load Player Data => save_001.x, save_001.y, save_001.questId, save_001.QuestActionIndex 
 
+        GameMgr.playerData.Clear();
         GameMgr.single.OnSelectPlayer(loadData.playerName);
 
         /*Vector3 lodingPosition = new Vector3(loadData.playerX, loadData.playerY);
@@ -1377,7 +1386,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             AudioManager.single.PlaySfxClipChange(7);
             return; //버튼눌렀는데 골드가 부족하면 실행안됨
         }
-        //06-16 
+        //06-16
+        if (questMgr.questId == 30 && questMgr.questActionIndex == 1)
+        {
+            Receptionist_1();
+        }
+
         blockedPartyBord.SetActive(true);
         AudioManager.single.PlaySfxClipChange(3);
         GameMgr.playerData[0].player_Gold -= partyPrice;

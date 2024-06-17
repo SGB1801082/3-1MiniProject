@@ -41,7 +41,7 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
     {
         playerIndex = 0;
         this.NAME = name;
-        max_Player_Hp = 30f;
+        max_Player_Hp = 40f;
         cur_Player_Hp = max_Player_Hp;
         max_Player_Mp = 5f;
         cur_Player_Mp = 0f;
@@ -119,7 +119,11 @@ public class SaveData
     public List<Item> listInven;
     public List<Item> listEquip;
 
-    public SaveData(string name, int level, int gold, int qID, int qActID, float max_hp, float cur_hp, float max_sn, float cur_sn, float max_mp, float cur_mp, float a_spd, float a_range, float a_dmg, float max_exp, float cur_exp, List<Item> _invenItem, List<Item> _invenEquip)
+    public SaveData(string name, int level, int gold, int qID, int qActID, 
+        float max_hp, float cur_hp, float max_sn, float cur_sn, float max_mp, float cur_mp, 
+        float a_spd, float a_range, float a_dmg, 
+        float max_exp, float cur_exp, 
+        List<Item> _invenItem, List<Item> _invenEquip)
     {
         //this.pd = pd;
         this.playerName = name;
