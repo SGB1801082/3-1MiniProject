@@ -266,6 +266,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         SliderChange();
 
+        //if dungeonClear Ck == true
+        if (questMgr.questId == 30)
+        {
+            Receptionist_1();
+            Debug.Log("Run Method: Recep_1");
+        }
         //Tooltip
         canvaseWidth = canvas_Tooltip.GetComponent<CanvasScaler>().referenceResolution.x * 0.5f;
     }

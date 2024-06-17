@@ -20,8 +20,8 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
     {
         //Talk Data - NPC A: 1000, NPC B: 2000, BOX: 100, 
         //dictTalkData.Add(1000, new string[] { "안녕! :0", "이 곳에 처음 왔구나?:1", "개쩌는 김치피자탕수육을 만들어 주렴:2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
-        dictTalkData.Add(1000, new string[] { "[Player]님! :0", "오셨군요 :2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
-        dictTalkData.Add(2000, new string[] { "[플레이어이름]! :0","던전마을로 가는거야? :1", "몸조심해! :2" });
+        dictTalkData.Add(1000, new string[] { GameMgr.playerData[0].GetPlayerName()+"님!:0", "오셨군요 :0" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
+        dictTalkData.Add(2000, new string[] { GameMgr.playerData[0].GetPlayerName() + "님!:0", "오셨군요 :0" });
         //dictTalkData.Add(1000, new string[] { "안녕!" + GameMgr.playerData.NAME + ":0", "이 곳에 처음 왔구나?:1", "개쩌는 김치피자탕수육을 만들어주렴:2" });// 하나의 대화에는 여러 문장이 있으므로 배열로 선언
         //dictTalkData.Add(2000, new string[] { GameMgr.playerData.NAME+"! :0","던전마을로 가는거야? :1", "몸조심해! :2" });
         dictTalkData.Add(5000, new string[] { "상자" });
@@ -33,49 +33,55 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
         //dictTalkData.Add(01 + 1000, new string[] { "안녕! :0", "이 곳에 처음 왔구나?:1", "나는 루나라고해!:2" });
         dictTalkData.Add(10 + 1000, new string[] {
             "[플레이어]님 안녕하세요. 모험가 길드에 가입하려고 오셨군요. :0",
-            "저희가 준비한 모의전투에 승리하면 \n 모험가 길드에 가입할 수 있습니다. :1",
-            "모의 전투에 필요한 기본 장비를 지급 해드릴테니 \n 다시 대화를 걸어주세요 :1",
+            "저희가 준비한 모의전투에 승리하면 \n 모험가 길드에 가입할 수 있습니다. :0",
+            "모의 전투에 필요한 기본 장비를 지급 해드릴테니 \n 다시 대화를 걸어주세요 :0",
         });
         dictTalkData.Add(11 + 2000, new string[] { 
             "여기 기본 장비 4종을 지급해드렸으니 착용하고 다시 와주세요. :0", 
-            "(장비를 착용하고 다시 말을 걸자.) :1" // 여기까지는 정상구현 완료.
+            "(장비를 착용하고 다시 오자.) :1" // 여기까지는 정상구현 완료.
         });
 
 
         // QestRange-20, NPC-1000
-        dictTalkData.Add(20 + 1000, new string[] { "인벤토리는는 키보드의 I키 혹은 하단의 가방 아이콘을 통해 열 수 있습니다. :0", "장비는 클릭을 통하여 착용 할 수 있습니다. :0" });
+        dictTalkData.Add(20 + 1000, new string[] { "인벤토리는 키보드의 I키 혹은 하단의 가방 아이콘을 통해 열 수 있습니다. :0", "장비는 클릭을 통하여 착용 할 수 있습니다. :0" });
         // QestRange-20, NPC-2000
-        dictTalkData.Add(21 + 2000, new string[] { "장비를 전부 착용하셨군요! :2", 
-            "다음은 모의 전투 진행방법을 알려드릴테니 다시 대화를 걸어주세요. :2" 
+        dictTalkData.Add(21 + 2000, new string[] { "장비를 전부 착용하셨군요! :0", 
+            "다음은 모의 전투 진행방법을 알려드릴테니 다시 대화를 걸어주세요. :0" 
         });
 
         // QestRange-30, NPC-1000
         dictTalkData.Add(30 + 1000, new string[] {
             "좌측에 있는 포탈로 입장하면 모의 전투를 진행할 수 있습니다. :0",
-            " (포탈로 이동해서 모의전투를 하고 돌아오자.) :0"
+            "우측의 게시판이나 키보드의 P키를 통해 파티원을 모집하고 전투를 진행하세요.:0",
+            " (포탈로 이동해서 모의전투를 하고 돌아오자.) :1"
         }); ;
         dictTalkData.Add(31 + 1000, new string[] {
-            "견습 모험가님의 건투를 빕니다. :2"
+            "파티원을 모집하는 방법은 우측의 게시판을 이용하거나 키보드의 P키를 누르시면 됩니다. :0"
         });
         // QestRange-30, NPC-2000
         dictTalkData.Add(31 + 2000, new string[] {
             "던전을 클리어하고 오셨군요! :0",
-            "우선 체력회복을 위해 물약을 드릴테니 다시 대화를 걸어주세요. :2"
+            "이제부터 "+GameMgr.playerData[0].GetPlayerName()+" 모험가님은 정식으로 9급 모험가가 되셨습니다.:0",
+            "앞으로도 "+GameMgr.playerData[0].GetPlayerName()+" 9급 모험가님의 활약을 기대하겠습니다.:0"
+            //"우선 체력회복을 위해 물약을 드릴테니 다시 대화를 걸어주세요. :2"
         });
 
         // QestRange-40, NPC-1000
         dictTalkData.Add(40 + 1000, new string[] {
+            "앞으로도"+ GameMgr.playerData[0].GetPlayerName()+"님의 멋진 활약 기대하겠습니다. :0"
+        });
+        /*dictTalkData.Add(40 + 1000, new string[] {
             " 체력 회복을 위한 물약을 지급해 드렸으니 사용하고 다시 와주세요 :0",
             " (I키로 인벤토리를 열고 물약을 사용하자.) :0"
-        });
-        dictTalkData.Add(41 + 1000, new string[] {
+        });*/
+        /*dictTalkData.Add(41 + 1000, new string[] {
             " (인벤토리를 열고 물약을 먹은 뒤 이야기하자.) :0"
         });
         // QestRange-40, NPC-2000
         dictTalkData.Add(41 + 2000, new string[] {
             "[Player]님 저희 모험가 길드에 가입한 것을 축하드립니다. :1",
             "앞으로도 [Player]님의 멋진 활약 기대하겠습니다. :2"
-        });
+        });*/
 
         //dictTalkData.Add(20 + 2000, new string[] { "찾으면 꼭 가져다줘 :1"});
         //dictTalkData.Add(20 + 9000, new string[] { "책을 발견했다." });
@@ -83,9 +89,7 @@ public class TalkMgr : MonoBehaviour // 대화 데이터를 관리할 매니저 
         //Portrait Data, 0:Idel, 1: Talk, 2: Happy, 3: Angry
         // (내가 지정한 Npc의 ID + NPC상태에 따른 변수), 스프라이트배열 aryPortraitSprite에 저장된 스프라이트 이미지 << 이건 추후에 배열번호가아니라 배열에저장된 스프라이트 이름으로 주는식으로 변경할수있을듯 
         dictPortraitSprite.Add(1000 + 0, aryPortraitSprite[0]);// Idel
-        dictPortraitSprite.Add(1000 + 1, aryPortraitSprite[1]);
-        dictPortraitSprite.Add(1000 + 2, aryPortraitSprite[2]);
-        dictPortraitSprite.Add(1000 + 3, aryPortraitSprite[3]);
+        dictPortraitSprite.Add(1000 + 1, aryPortraitSprite[8]);
 
         dictPortraitSprite.Add(2000 + 0, aryPortraitSprite[0]);// Idel
         dictPortraitSprite.Add(2000 + 1, aryPortraitSprite[8]);
