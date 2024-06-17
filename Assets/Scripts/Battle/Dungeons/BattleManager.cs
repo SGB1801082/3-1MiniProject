@@ -73,8 +73,14 @@ public class BattleManager : MonoBehaviour
         ChangePhase(BattlePhase.Start); // 방 체크
     }
 
-    public void BattleReady() // 전투 방일 시 실행되는 메서드
+    public IEnumerator BattleReady() // 전투 방일 시 실행되는 메서드
     {
+        ui.OpenPopup(ui.battle_Ready_Banner);
+        yield return StartCoroutine(ui.StartBanner(ui.battle_Ready_Banner));
+        yield return new WaitForSeconds(0.15f);
+
+        if (!ui.party_List.activeSelf)
+            ui.party_List.SetActive(true);
         Enemy[] entity = FindObjectsOfType<Enemy>(); // 몬스터를 찾음
         battleEnded = false;
 
@@ -138,7 +144,7 @@ public class BattleManager : MonoBehaviour
             case BattlePhase.Deploy:
                 if (ui.out_Portal.activeSelf)
                     ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
-                BattleReady();
+                StartCoroutine(BattleReady());
                 break;
             case BattlePhase.Battle:
                 if (ui.in_Portal.activeSelf)
@@ -158,6 +164,9 @@ public class BattleManager : MonoBehaviour
 
     public IEnumerator BattleStart()
     {
+        if (ui.party_List.activeSelf)
+            ui.party_List.SetActive(false);
+
         ui.OpenPopup(ui.battle_Start_Banner);
         yield return StartCoroutine(ui.StartBanner(ui.battle_Start_Banner));
         yield return new WaitForSeconds(0.15f);
