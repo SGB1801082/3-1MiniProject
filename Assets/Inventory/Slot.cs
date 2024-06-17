@@ -96,31 +96,20 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
         Debug.Log("Run Methode: Clicked ItemSlot");
         //int||float 아이템효과 담을 변수 선언
-        if ( !(this.item.itemType == Item.ItemType.Ect) && !(this.item.itemType==Item.ItemType.Consumables) &&  this.wearChek == true)// 장착중인 장비와 상호작용
+        if (this.wearChek == true)// 장착중인 장비와 상호작용
         {
-            GameUiMgr.single.nowSlot = this;
-            GameUiMgr.single.textEquipPanel.text = "장비를 해제 하시겠 습니까?";//OK버튼 클릭했을때 다른효과가 나와야하는데 생각조금 더 해봐야함
-            GameUiMgr.single.addEquipPanel.gameObject.SetActive(true);
-
-            Debug.Log("Run Methode: Take Off Item, Item Code: " + this.item.itemCode);
-            
-
-            //해당아이템의 효과수치 받아올 메서드(this.item); 를 실행
-            /*switch (item.itemType)
+            if (!(item.itemType == Item.ItemType.Ect) && !(item.itemType == Item.ItemType.Consumables))
             {
-                //ex 모자 = 체력, 무기 = 공격력, 신발 = 공속, 갑옷 = 범위 인데 받아온 효과변수의 수치만큼 GameMgr.PlayerData[0]. 모자면 hp, 무기면 atk, 신발은 spd, 갑옷은 range에서 -- 하고, 해당 itme을 remove한 뒤 해당 targetSlot의 item을 비우고 itemType를 재 지정해 준 후 아이템을 인벤토리에 add
-                *//*case Item.ItemType.Equipment_Arrmor:
-                    break;
-                case Item.ItemType.Equipment_Boots:
-                    break;
-                case Item.ItemType.Equipment_Helmet:
-                    break;
-                case Item.ItemType.Equipment_Weapon:
-                    break;*//*
-                default:
-                    
-                    break;
-            }*/
+                GameUiMgr.single.nowSlot = this;
+                GameUiMgr.single.textEquipPanel.text = "장비를 해제 하시겠습니까?";//OK버튼 클릭했을때 다른효과가 나와야하는데 생각조금 더 해봐야함
+                GameUiMgr.single.addEquipPanel.gameObject.SetActive(true);
+
+                Debug.Log("Run Methode: Take Off Item, Item Code: " + this.item.itemCode); 
+            }
+            else
+            {
+                return;
+            }
             return;
         }
 
@@ -146,12 +135,11 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                     break;
                 default:
                     GameUiMgr.single.nowSlot = this;
+
                     GameUiMgr.single.textEquipPanel.text = "장비를 장착 하시겠습니까?";
+                    Debug.Log("gggggggggg" + item.itemType);
                     GameUiMgr.single.addEquipPanel.gameObject.SetActive(true);
-
-
                     //클릭하면 팝업창 출력되고. 팝업창에서 확인 클릭하면 실행되어야함
-
                     //isDraging = true;
                     GameUiMgr.single.tooltip.SetActive(false);
                     break;

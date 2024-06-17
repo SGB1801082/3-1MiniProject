@@ -49,7 +49,7 @@ public class MainMenuMgr : MonoBehaviour
 
     public void OnClickedGameStart()
     {
-        mainMenu.SetActive(false);
+        //mainMenu.SetActive(false);
         addUserName.gameObject.SetActive(true);
     }
     public void OnClickedOptions()

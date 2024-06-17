@@ -346,6 +346,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 if (inventory_panel.activeSelf)
                 {
                     ActiveInventory();
+                    tooltip.SetActive(false);
                     if (objSubButtonFrame.activeSelf)
                     {
                         ToggleSubButtons();
@@ -783,6 +784,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         {
             Debug.Log("퀘스트ID가 20미만");
         }
+        tooltip.SetActive(false);
     }
     public void SetupTooltip(string _name, string _title, string _desc, Sprite _img)
     {
@@ -857,7 +859,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             return;
         }
 
-        if (nowSlot.wearChek)
+        if (nowSlot.wearChek && nowSlot.GetComponent<Button>().interactable == true)
         {
             //장착해제 Sound
             AudioManager.single.PlaySfxClipChange(2);
@@ -914,6 +916,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         for (int i = 0; i < targetSlots.Length; i++)
         {
+            targetSlots[i].usability = true;
             switch (i)
             {
                 case 0:
@@ -953,6 +956,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 targetSlots[i].itemIcon.sprite = nowSlot.itemIcon.sprite;
                 targetSlots[i].itemIcon.gameObject.SetActive(true);
                 targetSlots[i].wearChek = true;
+                targetSlots[i].GetComponent<Button>().interactable = true;
                 // 아이템 설정
                 targetSlots[i].item = clonedItem;
 
