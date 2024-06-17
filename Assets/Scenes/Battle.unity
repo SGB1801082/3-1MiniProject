@@ -1410,7 +1410,15 @@ PrefabInstance:
     - target: {fileID: 4749513540777147531, guid: 7e2aa6d1c20da4d469125c89cdc67dcb, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 117b17facff65dc42b1b57deb7c21551, type: 3}
+      objectReference: {fileID: 21300000, guid: c09dd93d1c8c27148b4cad97d25a9a44, type: 3}
+    - target: {fileID: 4749513540777147531, guid: 7e2aa6d1c20da4d469125c89cdc67dcb, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749513540777147531, guid: 7e2aa6d1c20da4d469125c89cdc67dcb, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5719006761444597991, guid: 7e2aa6d1c20da4d469125c89cdc67dcb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -3324,7 +3332,8 @@ MonoBehaviour:
   - dialogue_Name: "\uB358\uC804 \uAD50\uAD00"
     Icon: {fileID: 21300000, guid: e4025d8891ed16b4fb70c3697c95086b, type: 3}
     dialogue_Text: "\uB0B4\uAC00 \uC790\uB124\uC758 \uCCB4\uB825\uC744 \uC870\uAE08
-      \uAE4E\uC744 \uD14C\uB2C8 \n\uB9C8\uC744\uC5D0\uC11C \uBC1B\uC740 \uD3EC\uC158\uC744
+      \uAE4E\uC744 \uD14C\uB2C8\n\uC785\uC7A5\uD560 \uB54C \uB0B4\uAC00 \uC790\uB124
+      \uC778\uBCA4\uD1A0\uB9AC\uC5D0 \uBAB0\uB798 \uB123\uC5B4\uB454 \n\uD3EC\uC158\uC744
       \uD655\uC778\uD558\uACE0 \uC0AC\uC6A9\uD574 \uBCF4\uAC8C\uB098."
     isPlayer: 0
     isQuest: 1
@@ -9442,7 +9451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.19607843}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.23529412}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

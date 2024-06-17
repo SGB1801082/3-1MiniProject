@@ -252,7 +252,7 @@ public class BattleManager : MonoBehaviour
                 total_Exp += exp_Cnt;
 
                 GameMgr.playerData[0].player_Gold += ran_Gold;
-                GameMgr.playerData[0].player_cur_Exp += exp_Cnt;
+                GameMgr.playerData[0].GetPlayerExp(exp_Cnt);
             }
 
 
