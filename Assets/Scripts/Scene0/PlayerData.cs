@@ -91,6 +91,27 @@ public class PlayerData //플레이어 데이터만을 저장하는 데이터 �
         return this.NAME;
     }
 
+    public void GetPlayerExp(float _exp)
+    {
+        Debug.Log("얻은 경험치: " + _exp);
+        if ((this.player_max_Exp - this.player_cur_Exp) <= _exp )//내가 레벨업까지 필요로하는 경험치의 양 보다. 지금 집어먹은 경험치의 양이 클때.
+        {
+            _exp -= (this.player_max_Exp - this.player_cur_Exp); //2
+
+            player_level++;
+            this.player_max_Exp *= 2;
+            this.player_cur_Exp = 0;
+            Debug.Log("계산 후 경험치: "+_exp);
+
+            GetPlayerExp(_exp);
+        }
+        else
+        {
+            this.player_cur_Exp += _exp;
+        }
+
+    }
+
 }
 [System.Serializable]
 public class SaveData

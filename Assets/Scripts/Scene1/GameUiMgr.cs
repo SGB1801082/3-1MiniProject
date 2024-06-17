@@ -93,8 +93,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public bool equipmnet;
     //Add
     public TextMeshProUGUI textEquipPanel;
-    
-    
 
     [Header("ToolTip")]
     public GameObject tooltip;
@@ -1119,7 +1117,25 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         //현재 슬롯의 아이템 지우기
         _Slot.item = new();
-        _Slot.itemIcon.sprite = ItemResources.instance.iconRS[0];
+
+        switch (_Slot.item.itemType)
+        {
+            case Item.ItemType.Equipment_Helmet:
+                _Slot.itemIcon.sprite = ItemResources.instance.iconRS[1];
+                break;
+            case Item.ItemType.Equipment_Arrmor:
+                _Slot.itemIcon.sprite = ItemResources.instance.iconRS[2];
+                break;
+            case Item.ItemType.Equipment_Weapon:
+                _Slot.itemIcon.sprite = ItemResources.instance.iconRS[3];
+                break;
+            case Item.ItemType.Equipment_Boots:
+                _Slot.itemIcon.sprite = ItemResources.instance.iconRS[4];
+                break;
+            default:
+                _Slot.itemIcon.sprite = ItemResources.instance.iconRS[0];
+                break;
+        }
         //_Slot.usability = true;//까먹을까봐 넣어둠 내가 클릭한 슬롯의 주소값을 참조하고있을(확실하진 않은데 그간 경험상 맞을거임) _Slot의 item들과 wearChek만 수정해주면되서 얘는 시작할때 건드려둔거 안 건드려도됨.
 
         //다시 장착할때 필요한 기본설정 초기화

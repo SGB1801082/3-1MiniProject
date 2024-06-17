@@ -96,7 +96,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
         Debug.Log("Run Methode: Clicked ItemSlot");
         //int||float 아이템효과 담을 변수 선언
-        if (this.wearChek == true)// 장착중인 장비와 상호작용
+        if ( !(this.item.itemType == Item.ItemType.Ect) && !(this.item.itemType==Item.ItemType.Consumables) &&  this.wearChek == true)// 장착중인 장비와 상호작용
         {
             GameUiMgr.single.nowSlot = this;
             GameUiMgr.single.textEquipPanel.text = "장비를 해제 하시겠 습니까?";//OK버튼 클릭했을때 다른효과가 나와야하는데 생각조금 더 해봐야함
