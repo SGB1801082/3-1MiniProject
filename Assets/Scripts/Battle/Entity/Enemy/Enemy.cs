@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Enemy : BaseEntity
 {
+    public float exp_Cnt;
+
     protected override void Update()
     {
         base.Update();
     }
 
     // 최대 체력, 최대 마나, 공격력, 공격속도, 사거리, 근접유무, 스킬유무
-    public void InitStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange, bool isMelee, bool able_Skill)
+    public void InitStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange, bool isMelee, bool able_Skill, float exp)
     {
         stat = new(
             max_Hp,
@@ -19,7 +21,8 @@ public class Enemy : BaseEntity
             atkSpd,
             atkRange,
             isMelee,
-            able_Skill
+            able_Skill,
+            exp
             );
 
         this.max_Hp = stat.max_Hp;
@@ -31,5 +34,6 @@ public class Enemy : BaseEntity
         this.atkRange = stat.atkRange;
         this.isMelee = stat.isMelee;
         this.able_Skill = stat.able_Skill;
+        exp_Cnt = stat.exp;
     }
 }

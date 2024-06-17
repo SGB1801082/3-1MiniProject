@@ -100,7 +100,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.25
-  m_Speed: 2
+  m_Speed: 2.2
   m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -184,8 +184,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.2050209}
-  m_Size: {x: 0.6711134, y: 2.540042}
+  m_Offset: {x: 0, y: 0.85}
+  m_Size: {x: 0.6711134, y: 1.85}
   m_Direction: 0
 --- !u!95 &8262451124436653978
 Animator:

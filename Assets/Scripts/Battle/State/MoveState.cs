@@ -13,6 +13,7 @@ public class MoveState : BaseState
         if (entity != null && entity.FindTarget() != null)
         {
             Debug.Log("Move Enter ½ÇÇàµÊ");
+            entity.ani.ResetTrigger("isAtk");
             entity.ani.SetBool("isMove", true);
             entity.MoveToTarget();
         }

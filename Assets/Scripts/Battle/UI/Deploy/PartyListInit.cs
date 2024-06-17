@@ -54,11 +54,13 @@ public class PartyListInit : MonoBehaviour
                     UnitPlacement unit = obj.GetComponent<UnitPlacement>();
 
                     unit.InitList(BattleManager.Instance.party_List[i], BattleManager.Instance.party_List[i].GetComponent<SpriteRenderer>().sprite, GameMgr.playerData[i]);
-
                     party.Add(obj);
                 }
             }
         }
+
+
+
         
         /*for (int i = 0; i < GameUiMgr.single.poolMoveInSlot.Count; i++)
         {

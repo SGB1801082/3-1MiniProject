@@ -15,6 +15,7 @@ public class EntityStat : MonoBehaviour
     public float atkRange;
     public bool isMelee;
     public bool able_Skill;
+    public float exp;
 
     public EntityStat(int index, string name, int level, float max_Hp, float cur_hp, float max_Mp, float atkDmg, float atkSpd, float atkRange, bool isMelee, bool able_Skill)
     {
@@ -32,7 +33,7 @@ public class EntityStat : MonoBehaviour
     }
 
 
-    public EntityStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange, bool isMelee, bool able_Skill)
+    public EntityStat(float max_Hp, float max_Mp, float atkDmg, float atkSpd, float atkRange, bool isMelee, bool able_Skill, float exp)
     {
         this.max_Hp = max_Hp;
         this.max_Mp = max_Mp;
@@ -41,6 +42,7 @@ public class EntityStat : MonoBehaviour
         this.atkRange = atkRange;
         this.isMelee = isMelee;
         this.able_Skill = able_Skill;
+        this.exp = exp;
     }
 
 }

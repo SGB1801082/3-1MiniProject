@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,9 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
+    public bool isDeploy_Tutorial;
+    public bool isItem_Tutorial;
+
     public void Tutorial(int quest_cnt)
     {
         Debug.Log(quest_cnt);
@@ -15,6 +19,7 @@ public class TutorialManager : MonoBehaviour
                 BattleManager.Instance.ui.ui_Tutorial_Rest.SetActive(true);
 
                 Canvas in_Portal = BattleManager.Instance.ui.in_Portal.AddComponent<Canvas>();
+                in_Portal.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 in_Portal.overrideSorting = true;
                 in_Portal.sortingOrder = 1;
 
@@ -29,6 +34,7 @@ public class TutorialManager : MonoBehaviour
                 EndTutorial(quest_cnt - 1);
 
                 Canvas out_Portal = BattleManager.Instance.ui.out_Portal.AddComponent<Canvas>();
+                out_Portal.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 out_Portal.overrideSorting = true;
                 out_Portal.sortingOrder = 1;
 
@@ -44,6 +50,7 @@ public class TutorialManager : MonoBehaviour
                 EndTutorial(quest_cnt - 1);
 
                 Canvas stat_Bar = BattleManager.Instance.ui.player_Statbar.AddComponent<Canvas>();
+                stat_Bar.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 stat_Bar.overrideSorting = true;
                 stat_Bar.sortingOrder = 1;
 
@@ -59,6 +66,7 @@ public class TutorialManager : MonoBehaviour
                 EndTutorial(quest_cnt - 1);
 
                 Canvas mini_Map = BattleManager.Instance.ui.mini_Map.AddComponent<Canvas>();
+                mini_Map.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 mini_Map.overrideSorting = true;
                 mini_Map.sortingOrder = 1;
 
@@ -74,6 +82,7 @@ public class TutorialManager : MonoBehaviour
                 EndTutorial(quest_cnt - 1);
 
                 Canvas item_Bar = BattleManager.Instance.ui.item_Bar.AddComponent<Canvas>();
+                item_Bar.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 item_Bar.overrideSorting = true;
                 item_Bar.sortingOrder = 1;
                 
@@ -94,7 +103,10 @@ public class TutorialManager : MonoBehaviour
             case 6:
                 Debug.Log("아이템 사용 튜토리얼");
 
+                GameMgr.playerData[0].cur_Player_Hp -= 5;
+                isItem_Tutorial = true;
                 Canvas item_Bar_Use = BattleManager.Instance.ui.item_Bar.AddComponent<Canvas>();
+                item_Bar_Use.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 item_Bar_Use.overrideSorting = true;
                 item_Bar_Use.sortingOrder = 1;
                 BattleManager.Instance.ui.item_Bar.AddComponent<GraphicRaycaster>();
@@ -111,6 +123,7 @@ public class TutorialManager : MonoBehaviour
                 BattleManager.Instance.ui.ui_Tutorial_Deploy.SetActive(true);
 
                 Canvas party_List = BattleManager.Instance.ui.party_List.AddComponent<Canvas>();
+                party_List.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 party_List.overrideSorting = true;
                 party_List.sortingOrder = 1;
 
@@ -148,6 +161,7 @@ public class TutorialManager : MonoBehaviour
                 BattleManager.Instance.ui.dialogue_Box.transform.position = new Vector3(BattleManager.Instance.ui.dialogue_Box.transform.position.x, 410f, 0);
 
                 Canvas battle_Start = BattleManager.Instance.ui.battleStart.AddComponent<Canvas>();
+                battle_Start.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 battle_Start.overrideSorting = true;
                 battle_Start.sortingOrder = 1;
 
@@ -163,9 +177,10 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 14:
                 Debug.Log("유닛 배치 튜토리얼");
-
+                isDeploy_Tutorial = true;
                 Canvas party_List_Deploy = BattleManager.Instance.ui.party_List.AddComponent<Canvas>();
                 BattleManager.Instance.ui.party_List.AddComponent<GraphicRaycaster>();
+                party_List_Deploy.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
                 party_List_Deploy.overrideSorting = true;
                 party_List_Deploy.sortingOrder = 1;
 
@@ -174,6 +189,56 @@ public class TutorialManager : MonoBehaviour
                 {
                     BattleManager.Instance.ui.ui_Tutorial_Deploy.transform.GetChild((quest_cnt - quest_cnt) + 4).gameObject.SetActive(true);
                 }
+                break;
+            case 15:
+                EndTutorial(quest_cnt);
+                break;
+            case 16:
+                EndTutorial(quest_cnt);
+                break;
+            case 17:
+                if(BattleManager.Instance.ui.out_Portal.activeSelf)
+                {
+                    BattleManager.Instance.ui.out_Portal.GetComponent<FadeEffect>().fadein = true;
+                }
+                BoxOpen[] box = FindObjectsOfType<BoxOpen>();
+                foreach (BoxOpen boxs in box)
+                {
+                    if (boxs.tag == "Box")
+                    {
+                        boxs.SetTutorial(false);
+                    }
+                    else
+                    {
+                        boxs.SetTutorial(true);
+                    }
+                }
+
+                BattleManager.Instance.ui.ui_Tutorial_Box.SetActive(true);
+                if (BattleManager.Instance.ui.ui_Tutorial_Box.activeSelf)
+                {
+                    BattleManager.Instance.ui.ui_Tutorial_Box.transform.GetChild((quest_cnt - quest_cnt)).gameObject.SetActive(true);
+                }
+
+                BattleManager.Instance.ui.dialogue_Bg.SetActive(false);
+                BattleManager.Instance.dialogue.ONOFF(false);
+                break;
+            case 18:
+                BattleManager.Instance.ui.ui_Tutorial_Box.SetActive(true);
+                if (BattleManager.Instance.ui.ui_Tutorial_Box.activeSelf)
+                {
+                    BattleManager.Instance.ui.ui_Tutorial_Box.transform.GetChild((quest_cnt - quest_cnt)).gameObject.SetActive(false);
+                    BattleManager.Instance.ui.ui_Tutorial_Box.transform.GetChild((quest_cnt - quest_cnt) + 1).gameObject.SetActive(true);
+                }
+                BattleManager.Instance.ui.dialogue_Bg.SetActive(false);
+                BattleManager.Instance.dialogue.ONOFF(false);
+
+                BoxOpen mimic = GameObject.FindGameObjectWithTag("Mimic").GetComponent<BoxOpen>();
+                mimic.SetTutorial(false);
+
+                break;
+            case 19:
+                EndTutorial(quest_cnt);
                 break;
             default:
                 Debug.Log("아직 구현안함");
@@ -218,7 +283,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 6:
                 Debug.Log("아이템 튜토리얼 끝");
-
+                isItem_Tutorial = false;
                 Destroy(BattleManager.Instance.ui.item_Bar.GetComponent<GraphicRaycaster>());
                 Destroy(BattleManager.Instance.ui.item_Bar.GetComponent<Canvas>());
 
@@ -249,8 +314,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 14:
                 Debug.Log("유닛 배치 튜토리얼 끝");
-                BattleManager.Instance.dialogue.isTutorial = false;
-
+                isDeploy_Tutorial = false;
                 Destroy(BattleManager.Instance.ui.party_List.GetComponent<GraphicRaycaster>());
                 Destroy(BattleManager.Instance.ui.party_List.GetComponent<Canvas>());
 
@@ -258,6 +322,38 @@ public class TutorialManager : MonoBehaviour
 
                 BattleManager.Instance.dialogue.ONOFF(true);
                 BattleManager.Instance.dialogue.NextDialogue();
+                break;
+            case 15:
+                Debug.Log("전투 방 튜토리얼 끝");
+                BattleManager.Instance.ui.ui_Tutorial_Deploy.SetActive(false);
+                BattleManager.Instance.dialogue.ONOFF(false);
+                BattleManager.Instance.ui.dialogue_Bg.SetActive(false);
+                break;
+            case 16:
+                Debug.Log("전투 방 종료");
+                BattleManager.Instance.dialogue.ONOFF(false);
+                BattleManager.Instance.ui.dialogue_Bg.SetActive(false);
+                break;
+            case 17:
+                Debug.Log("일반 상자 튜토리얼 끝");
+                BattleManager.Instance.ui.dialogue_Bg.SetActive(true);
+                BattleManager.Instance.ui.ui_Tutorial_Box.transform.GetChild((quest_cnt - quest_cnt)).gameObject.SetActive(false);
+
+                BattleManager.Instance.dialogue.ONOFF(true);
+                BattleManager.Instance.dialogue.NextDialogue();
+                break;
+            case 18:
+                Debug.Log("미믹 튜토리얼 끝");
+                BattleManager.Instance.ui.dialogue_Bg.SetActive(true);
+                BattleManager.Instance.ui.ui_Tutorial_Box.transform.GetChild((quest_cnt - quest_cnt) + 1).gameObject.SetActive(false);
+                BattleManager.Instance.ui.ui_Tutorial_Box.SetActive(false);
+
+                BattleManager.Instance.dialogue.ONOFF(true);
+                BattleManager.Instance.dialogue.NextDialogue();
+                break;
+            case 19:
+                BattleManager.Instance.dialogue.ONOFF(false);
+                BattleManager.Instance.ui.dialogue_Bg.SetActive(false);
                 break;
             default:
                 Debug.Log("아직 구현안함");

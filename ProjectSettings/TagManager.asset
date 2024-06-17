@@ -12,8 +12,8 @@ TagManager:
   - Wait
   - Battle
   - Deploy
-  - NextRoom
-  - InRoom
+  - Mimic
+  - Box
   layers:
   - Default
   - TransparentFX

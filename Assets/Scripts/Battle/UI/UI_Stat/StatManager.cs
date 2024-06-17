@@ -26,7 +26,8 @@ public class StatManager : MonoBehaviour
     public List<Sprite> portrait_List = new List<Sprite>();
 
 
-    bool isDeploy;
+    public bool isDeploy;
+    public bool isDead;
 
     public void InitStat(PlayerData player, Ally.JobClass type, int level, string name)
     {
@@ -107,14 +108,19 @@ public class StatManager : MonoBehaviour
             if (player.cur_Player_Hp > 0)
             {
                 dead_Check.SetActive(false);
+                isDead = false;
             }
             else
             {
                 dead_Check.SetActive(true);
+                isDead = true;
             }
 
             // 배치 상태 업데이트
-            deploy_Check.SetActive(!isDeploy);
+            if (!isDead) 
+            {
+                deploy_Check.SetActive(!isDeploy);
+            }   
         }
     }
 }
