@@ -44,6 +44,81 @@ public class AudioManager : MonoBehaviour
          
     }
 
+    public void EnemySound(int partyIndex, int _enemyIndex, int sfx_Index)
+    {
+        // sfx_Index : 0 Die, 1 Attack
+
+/*        if (sfx_Index != 0)
+        {
+            PlaySfxVolumeChange(partyIndex, 0.2f);
+        }
+        else
+        {
+            PlaySfxVolumeChange(partyIndex, 0.5f);
+        }*/
+        
+
+        switch (_enemyIndex)
+        {
+            case 0:
+                sfxPlayers[partyIndex].clip = slime_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 1:
+                sfxPlayers[partyIndex].clip = gobline_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 2:
+                sfxPlayers[partyIndex].clip = mimic_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 3:
+                sfxPlayers[partyIndex].clip = skelletone_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void PlayerSound(int partyIndex, int _enemyIndex, int sfx_Index)
+    {
+        // sfx_Index : 0 Die, 1 Attack
+
+/*        if (sfx_Index != 0)
+        {
+            PlaySfxVolumeChange(partyIndex, 0.2f);
+        }
+        else
+        {
+            PlaySfxVolumeChange(partyIndex, 0.5f);
+        }*/
+
+        switch (_enemyIndex)
+        {
+            case 0:
+                sfxPlayers[partyIndex].clip = hero_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 1:
+                sfxPlayers[partyIndex].clip = ranger_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 2:
+                sfxPlayers[partyIndex].clip = wizard_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            case 3:
+                sfxPlayers[partyIndex].clip = knight_sfxClip[sfx_Index];
+                sfxPlayers[partyIndex].Play();
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
     void Awake()
     {
         if (single == null)

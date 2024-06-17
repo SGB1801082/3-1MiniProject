@@ -11,13 +11,12 @@ public class PartyListButton : MonoBehaviour
     public Vector2 vec_From;
     public Vector2 vec_To;
     public float f_Set_Timer;
-    public bool isOpen = true;
+    public bool isOpen = false;
     [SerializeField] bool isMove = false;
 
     private void Start()
     {
         obj_Side.GetComponent<RectTransform>().anchoredPosition = vec_From;
-        isOpen = true;
         isMove = false;
     }
 

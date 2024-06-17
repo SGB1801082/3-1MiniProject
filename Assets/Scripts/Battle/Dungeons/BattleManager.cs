@@ -83,6 +83,7 @@ public class BattleManager : MonoBehaviour
 
     public IEnumerator BattleReady() // 전투 방일 시 실행되는 메서드
     {
+
         ui.OpenPopup(ui.battle_Ready_Banner);
         yield return StartCoroutine(ui.StartBanner(ui.battle_Ready_Banner));
         yield return new WaitForSeconds(0.15f);
@@ -184,7 +185,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-
+            AudioManager.single.PlaySfxClipChange(7);
             ui.OpenPopup(ui.battle_Start_Banner);
             yield return StartCoroutine(ui.StartBanner(ui.battle_Start_Banner));
             yield return new WaitForSeconds(0.15f);
@@ -233,6 +234,7 @@ public class BattleManager : MonoBehaviour
         {
             if (deploy_Player_List.Count == 0)
             {
+                AudioManager.single.PlaySfxClipChange(10);
                 ui.OpenPopup(ui.def_Banner);
                 yield return StartCoroutine(ui.Def_Banner());
                 yield return new WaitForSeconds(0.15f);
@@ -240,6 +242,7 @@ public class BattleManager : MonoBehaviour
             }
             else if (deploy_Enemy_List.Count == 0)
             {
+                AudioManager.single.PlaySfxClipChange(9);
                 ui.OpenPopup(ui.vic_Banner);
                 yield return StartCoroutine(ui.StartBanner(ui.vic_Banner));
                 yield return new WaitForSeconds(0.15f);
@@ -362,10 +365,6 @@ public class BattleManager : MonoBehaviour
             {
                 AudioManager.single.PlayBgmClipChange(3);
             }
-            else
-            {
-                AudioManager.single.PlayBgmClipChange(2);
-            }
 
             ChangePhase(BattlePhase.Deploy);
         }
@@ -386,6 +385,7 @@ public class BattleManager : MonoBehaviour
         GameMgr.playerData[0].cur_Player_Sn -= 5;
         GameMgr.playerData[0].cur_Player_Hp = GameMgr.playerData[0].max_Player_Hp;
 
+        GameMgr.single.IsGameLoad(true);
         GameUiMgr.single.GameSave();
 
         StartCoroutine(ReturnToTownFadeOut());
