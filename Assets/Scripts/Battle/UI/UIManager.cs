@@ -14,9 +14,14 @@ public class UIManager : MonoBehaviour
     public GameObject battleStart;
     public GameObject in_Portal;
     public GameObject out_Portal;
-    public GameObject banner;
+    
     public GameObject next_Room_Popup;
     public GameObject item_Use_UI;
+
+    [Header("Reward")]
+    public GameObject def_Banner;
+    public GameObject vic_Banner;
+    public GameObject battle_Start_Banner;
 
 
     [Header("Battle_Popup")]
@@ -125,56 +130,40 @@ public class UIManager : MonoBehaviour
     }
 
 
-    /*public IEnumerator Banner()
+    public IEnumerator Def_Banner()
     {
-        if (BattleManager.Instance.deploy_Enemy_List.Count == 0 && BattleManager.Instance.room.rooms.Length - 1 != BattleManager.Instance.room.room_Count)
-        {
-            OpenPopup(banner);
-            banner.GetComponent<TitleInit>().Init("전투 종료");
+        CanvasGroup canvas = def_Banner.GetComponent<CanvasGroup>();
 
-            CanvasGroup canvasGroup = banner.GetComponent<CanvasGroup>();
-
-            yield return StartCoroutine(FadeIn(canvasGroup, 1f)); // 페이드인, 1초 동안
-            yield return new WaitForSeconds(2f); // 2초 동안 유지
-            yield return StartCoroutine(FadeOut(canvasGroup, 1f)); // 페이드아웃, 1초 동안
-        }
-
-        yield return null;
+        yield return StartCoroutine(FadeTo(canvas, 0f, 1.0f, 1f));
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(FadeTo(canvas, 1f, 0f, 1f));
+        CancelPopup(def_Banner);
     }
 
 
-    private IEnumerator FadeIn(CanvasGroup canvasGroup, float duration)
+    private IEnumerator FadeTo(CanvasGroup group, float start, float targetAlpha, float duration)
     {
-        float startAlpha = 0f;
-        float endAlpha = 1f;
-        float elapsedTime = 0f;
+        float startAlpha = start;
+        float timer = 0f;
 
-        while (elapsedTime < duration)
+        while (timer < duration)
         {
-            elapsedTime += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
+            float alpha = Mathf.Lerp(startAlpha, targetAlpha, timer / duration);
+            group.alpha = alpha;
+            timer += Time.deltaTime;
             yield return null;
         }
 
-        canvasGroup.alpha = endAlpha;
+        group.alpha = targetAlpha;
     }
 
-    private IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
+
+    public IEnumerator StartBanner(GameObject banner)
     {
-        float startAlpha = 1f;
-        float endAlpha = 0f;
-        float elapsedTime = 0f;
+        Animator ani = banner.GetComponent<Animator>();
+        AnimatorStateInfo aniInfo = ani.GetCurrentAnimatorStateInfo(0);
 
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
-            yield return null;
-        }
-
-        canvasGroup.alpha = endAlpha;
-        canvasGroup.gameObject.SetActive(false);
+        yield return new WaitForSeconds(aniInfo.length);
+        CancelPopup(banner);
     }
-*/
-
 }
