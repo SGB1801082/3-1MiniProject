@@ -73,6 +73,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     [Header("Quest Manager")]
     public QuestMgr questMgr;//퀘스트 번호를 가져올 퀘스트 매니저 변수 생성
     public TextMeshProUGUI questDesc;
+    //06-18 퀘스트 Id, Index가 정상저장이되지않는상태이기때문에 이를 해결하기위한 추가변수 도입
+    public static int quest_Id = 0;
+    public static int quest_Index = 0;
 
     [Header("Invnetory")]
     [SerializeField] private GameObject inventory_panel;
@@ -162,12 +165,6 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     private void Awake()
     {
         single = this;
-/*
-        if (firstLoad && GameMgr.single.LoadChecker() == true)
-        {
-            GameLoad();
-            firstLoad = false;
-        }*/
     }
     public void AddItemTest()
     {
@@ -203,7 +200,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             Debug.Log("player cur sn: " + player_Cur_SN);
         }
 
-        SliderChange();
+        //SliderChange();
     }
     
 
@@ -220,6 +217,25 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         if (GameMgr.single.LoadChecker() == true)
         {
             GameLoad();
+            SetPlayerDatas();
+            Debug.Log("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+            Debug.Log("게임데이터를 불러온 다음입니다.");
+
+            Debug.Log("PlayerData - QID: " + GameUiMgr.single.questMgr.questId);
+            Debug.Log("PlayerData - AID: " + GameUiMgr.single.questMgr.questActionIndex);
+            Debug.Log("NowGold: " + GameMgr.playerData[0].player_Gold);
+            Debug.Log("Now_SN" + GameMgr.playerData[0].cur_Player_Sn);
+            Debug.Log("Now_HP" + GameMgr.playerData[0].cur_Player_Hp);
+
+            Debug.Log("Now_Lv" + GameMgr.playerData[0].player_level);
+            Debug.Log("Now_cur - exp" + GameMgr.playerData[0].player_cur_Exp);
+            Debug.Log("Now_max - exp" + GameMgr.playerData[0].player_max_Exp);
+
+            Debug.Log("Load Type: " + GameMgr.single.LoadChecker());
+        }
+        else
+        {
+            Debug.Log("지금은 게임 로드중이 아닙니다.");
         }
         
         //06-14 BGM
@@ -256,11 +272,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         questDesc.text = questMgr.CheckQuest();
 
-        SetPlayerDatas();
-
-        SliderChange();
-
-        //if dungeonClear Ck == true
+        SetPlayerDatas();//PlayerData[0]의 데이터를가져와서 데이터 저장하고 Dsce/각종 게이지 슬라이더/골드 변동사항 반영
+        
+        //if dungeonClear Ck == true 임시코드임
         if (questMgr.questId == 40 && questMgr.questActionIndex == 1)
         {
             TutorialDungeonClear();
@@ -514,38 +528,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         s_SN.value = this.player_Cur_SN / this.player_Max_SN;
         s_EXP.value = this.player_Cur_EXP / this.player_Max_EXP;
 
+        SliderChange();
     }
-    /*private void LoadGameValues()//06-16 Add
-    {
-        questMgr.questId = GameMgr.playerData[0].playerQuestID;
-        questMgr.questActionIndex = GameMgr.playerData[0].playerQuestIndex;
-
-        Debug.Log(questMgr.questId);
-        Debug.Log(questMgr.questActionIndex);
-
-        LoadInventory(GameMgr.playerData[0].listInventory);
-        LoadEquipment(GameMgr.playerData[0].listEquipment);
-
-    }*/
-
-    /*public void GameSave()
-    {
-        GameMgr.playerData[0].listInventory.Clear();
-        GameMgr.playerData[0].listInventory = inventory.items;
-        
-        GameMgr.playerData[0].listEquipment.Clear();
-        foreach (Slot _slot in targetSlots)
-        {
-            if (_slot.wearChek)
-            {
-                GameMgr.playerData[0].listEquipment.Add(_slot.item);
-            }
-        }
-        GameMgr.playerData[0].playerQuestID = questMgr.questId;
-        GameMgr.playerData[0].playerQuestIndex = questMgr.questActionIndex;
-
-    }*/
-
     public void SliderChange()
     {
         s_HP.value = this.player_Cur_HP / this.player_Max_HP;
@@ -603,6 +587,13 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         //End Talk
         if (talkData == null)
         {
+            //is Tutorol Event
+            if (questMgr.receptionist[1].activeSelf && questMgr.questId == 40)
+            {
+                //튜토리얼던전을 클리어했고, 튜토리얼던전 클리어시 활성화되는 접수원1이 활성화 상태이면서, 모의던전클리어 퀘스트(Qid 40)를 진행중일때.
+                tmp_PlayerRating.text = "견습 모험가";
+            }
+
             //Debug.Log("NulltalkData // ToosTalkData: " + scanObj_ID); // 04 -23 Debug
             /*if (AllEquipChek())
             {
@@ -615,13 +606,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
             talkIndex = 0;
             questDesc.text = questMgr.CheckQuest(scanObj_ID);
-                /*if (questMgr.questId ==10 && questMgr.questActionIndex == 0)
-                {
-                    questMgr.receptionist[0].SetActive(false);
-                    questMgr.receptionist[1].SetActive(true);
-                }*/
 
-                return;
+            return;
         }
 
         //Continue Talk
@@ -656,6 +642,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public void GameSave()
     {
+        Debug.Log("Run SaveData");
         /*if (menuSet.activeSelf)
         {
             menuSet.SetActive(false);
@@ -671,16 +658,16 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         for (int i = 0; i < targetSlots.Length; i++)
         {
-            if (targetSlots[i].wearChek == true)
+            if (targetSlots[i].wearChek == true && targetSlots[i].item != null)
             {
                 saveWearItem.Add(targetSlots[i].item);
             }
         }
 
-        SaveData gameSaveData = new SaveData(GameMgr.playerData[0].GetPlayerName(), playerLevel, playerGold, questMgr.questId, questMgr.questActionIndex, 
-            player_Max_HP, player_Cur_HP, player_Max_SN, player_Cur_SN, player_Max_MP, player_Cur_MP, 
-            player_Atk_Speed, player_Atk_Range, player_Base_Atk_Dmg, 
-            player_Max_EXP, player_Cur_EXP, 
+        SaveData gameSaveData = new SaveData(GameMgr.playerData[0].GetPlayerName(), GameMgr.playerData[0].player_level, GameMgr.playerData[0].player_Gold, GameUiMgr.single.questMgr.questId, GameUiMgr.single.questMgr.questActionIndex,
+            GameMgr.playerData[0].max_Player_Hp, GameMgr.playerData[0].cur_Player_Hp, GameMgr.playerData[0].max_Player_Sn, GameMgr.playerData[0].cur_Player_Sn, GameMgr.playerData[0].max_Player_Mp, GameMgr.playerData[0].cur_Player_Mp ,
+            GameMgr.playerData[0].atk_Speed, GameMgr.playerData[0].atk_Range, GameMgr.playerData[0].base_atk_Dmg ,
+            GameMgr.playerData[0].player_max_Exp, GameMgr.playerData[0].player_cur_Exp , 
             saveInventoryItem, saveWearItem);
         SaveSystem.Save(gameSaveData, "save");
 
@@ -692,9 +679,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
         //Load Player Data => save_001.x, save_001.y, save_001.questId, save_001.QuestActionIndex 
 
-        GameMgr.playerData.Clear();
         GameMgr.single.OnSelectPlayer(loadData.playerName);
 
+        Debug.Log("PlayerDatas: "+GameMgr.playerData.Count);
         /*Vector3 lodingPosition = new Vector3(loadData.playerX, loadData.playerY);
         player.transform.position = lodingPosition;*/
         //Debug.Log("load x, y: "+loadData.playerX +", "+ loadData.playerY);
@@ -727,8 +714,15 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         LoadInventory(loadData.listInven);
         LoadEquipment(loadData.listEquip);
 
-        questMgr.questId = loadData.questId;
-        questMgr.questActionIndex = loadData.questActionIndex;
+        if (this.questMgr.questId <= 40)
+        {
+            questMgr.questId = loadData.questId;
+            questMgr.questActionIndex = loadData.questActionIndex;
+        }
+        else
+        {
+
+        }
         questMgr.ControlQuestObejct();
         //GetNowPositon();
 

@@ -165,10 +165,14 @@ public class QuestMgr : MonoBehaviour
                 }
                 else if (questActionIndex == 2)
                 {
-                    GameUiMgr.single.tmp_PlayerRating.text = "견습 모험가";
                     Debug.Log("Case 42");
-                    receptionist[0].SetActive(true);
-                    receptionist[1].SetActive(false);
+
+                    GameMgr.single.IsGameLoad(true);
+                    GameUiMgr.single.GameSave();
+                    SceneManager.LoadScene("Title");
+
+                    /*receptionist[0].SetActive(true);
+                    receptionist[1].SetActive(false);*/
 
                 }
                 break;
