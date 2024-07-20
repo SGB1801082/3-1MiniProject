@@ -22,17 +22,42 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    #region Singletone
-    public static Inventory single;
+    #region singletone
+    private static Inventory single;
+    public static Inventory Single
+    {
+        get
+        {
+            if (single == null)
+            {
+                single = FindObjectOfType<Inventory>();
+
+                if (single == null)
+                {
+                    Debug.Log("#Make A New Inventory");
+                    var instanceContainer = new GameObject("Inventory");
+                    single = instanceContainer.AddComponent<Inventory>();
+                    DontDestroyOnLoad(instanceContainer);
+                }
+            }
+            return single;
+        }
+    }
     private void Awake()
     {
-        if (single != null)
+        // Ensure there's only one instance of Inventory
+        if (single == null)
         {
-            Destroy(single);
-            return;
+            single = this;
+            DontDestroyOnLoad(gameObject);
         }
-        single = this;
+        /*else if (single != this)
+        {
+            Debug.Log("#Destroy Inventory");
+            Destroy(gameObject.GetComponentInChildren<Inventory>());
+        }*/
     }
+
     #endregion
 
     private void Start()

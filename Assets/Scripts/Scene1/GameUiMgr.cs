@@ -207,7 +207,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     private void Start()
     {
         //03-31 Start Inventory - try.4
-        inventory = Inventory.single;
+        inventory = Inventory.Single;
         
         inventory_panel.SetActive(activeInventory);
         inventory.onSlotCountChange += SlotChange;
@@ -982,39 +982,81 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
 
         Debug.Log("Now EquipItem Power: " + _equip.itemPower);
-        switch (_equip.itemType)
+
+        if (equipPower > 0)
         {
-            case Item.ItemType.Equipment_Helmet:
-                Debug.Log("장착전 HP: " + GameMgr.playerData[0].max_Player_Hp);
-                GameMgr.playerData[0].max_Player_Hp += equipPower;
+            switch (_equip.itemType)
+            {
+                case Item.ItemType.Equipment_Helmet:
+                    Debug.Log("장착전 HP: " + GameMgr.playerData[0].max_Player_Hp);
+                    GameMgr.playerData[0].max_Player_Hp += equipPower;
 
-                Debug.Log("장착후 HP: "+GameMgr.playerData[0].max_Player_Hp);
-                break;
-            case Item.ItemType.Equipment_Arrmor:
-                Debug.Log("장착전 Range: " + GameMgr.playerData[0].atk_Range);
-                GameMgr.playerData[0].atk_Range += equipPower;
+                    Debug.Log("장착후 HP: " + GameMgr.playerData[0].max_Player_Hp);
+                    break;
+                case Item.ItemType.Equipment_Arrmor:
+                    Debug.Log("장착전 Range: " + GameMgr.playerData[0].atk_Range);
+                    GameMgr.playerData[0].atk_Range += equipPower;
 
-                Debug.Log("장착후 Range: " + GameMgr.playerData[0].atk_Range);
-                break;
-            case Item.ItemType.Equipment_Weapon:
-                Debug.Log("장착전 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
-                GameMgr.playerData[0].base_atk_Dmg += equipPower;
+                    Debug.Log("장착후 Range: " + GameMgr.playerData[0].atk_Range);
+                    break;
+                case Item.ItemType.Equipment_Weapon:
+                    Debug.Log("장착전 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
+                    GameMgr.playerData[0].base_atk_Dmg += equipPower;
 
-                Debug.Log("장착후 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
-                break;
-            case Item.ItemType.Equipment_Boots:
-                Debug.Log("장착전 SPD: " + GameMgr.playerData[0].atk_Speed);
-                GameMgr.playerData[0].atk_Speed += equipPower;
+                    Debug.Log("장착후 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
+                    break;
+                case Item.ItemType.Equipment_Boots:
+                    Debug.Log("장착전 SPD: " + GameMgr.playerData[0].atk_Speed);
+                    GameMgr.playerData[0].atk_Speed += equipPower;
 
-                Debug.Log("장착후 SPD: " + GameMgr.playerData[0].atk_Speed);
-                break;
-            /*case Item.ItemType.Consumables:
-                break;
-            case Item.ItemType.Ect:
-                break;*/
-            default:
-                break;
+                    Debug.Log("장착후 SPD: " + GameMgr.playerData[0].atk_Speed);
+                    break;
+                /*case Item.ItemType.Consumables:
+                    break;
+                case Item.ItemType.Ect:
+                    break;*/
+                default:
+                    break;
+            }
         }
+        else
+        {
+            switch (_equip.itemType)
+            {
+                case Item.ItemType.Equipment_Helmet:
+                    Debug.Log("장비 해제 전 HP: " + GameMgr.playerData[0].max_Player_Hp);
+                    GameMgr.playerData[0].max_Player_Hp += equipPower;
+
+                    Debug.Log("장비 해제 후 HP: " + GameMgr.playerData[0].max_Player_Hp);
+                    break;
+                case Item.ItemType.Equipment_Arrmor:
+                    Debug.Log("장비 해제 전 Range: " + GameMgr.playerData[0].atk_Range);
+                    GameMgr.playerData[0].atk_Range += equipPower;
+
+                    Debug.Log("장비 해제 후 Range: " + GameMgr.playerData[0].atk_Range);
+                    break;
+                case Item.ItemType.Equipment_Weapon:
+                    Debug.Log("장비 해제 전 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
+                    GameMgr.playerData[0].base_atk_Dmg += equipPower;
+
+                    Debug.Log("장비 해제 후 Dmg: " + GameMgr.playerData[0].base_atk_Dmg);
+                    break;
+                case Item.ItemType.Equipment_Boots:
+                    Debug.Log("장비 해제 전 SPD: " + GameMgr.playerData[0].atk_Speed);
+                    GameMgr.playerData[0].atk_Speed += equipPower;
+
+                    Debug.Log("장비 해제 후 SPD: " + GameMgr.playerData[0].atk_Speed);
+                    break;
+                /*case Item.ItemType.Consumables:
+                    break;
+                case Item.ItemType.Ect:
+                    break;*/
+                default:
+                    break;
+            }
+        }
+        
+        
     }
 
     public bool AllEquipChek()
