@@ -222,16 +222,16 @@ public class QuestMgr : MonoBehaviour
         questIcons[0].GetComponent<SpriteRenderer>().sprite = spQuestIcons[1];
 
         questItem = ItemResources.instance.itemRS[2];
-        Inventory.Single.AddItem(questItem);
+        Inventory.single.AddItem(questItem);
 
         questItem = ItemResources.instance.itemRS[3];
-        Inventory.Single.AddItem(questItem);
+        Inventory.single.AddItem(questItem);
 
         questItem = ItemResources.instance.itemRS[4];
-        Inventory.Single.AddItem(questItem);
+        Inventory.single.AddItem(questItem);
 
         questItem = ItemResources.instance.itemRS[5];
-        Inventory.Single.AddItem(questItem);
+        Inventory.single.AddItem(questItem);
 
         GameUiMgr.single.RedrawSlotUI();
     }

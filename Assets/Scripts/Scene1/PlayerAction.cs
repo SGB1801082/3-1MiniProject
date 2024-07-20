@@ -16,24 +16,25 @@ public class PlayerAction : MonoBehaviour
     private Vector3 dirVec;// Ray를 발사하고 충돌을 체크할때 사용할, 현재 바라보고 있는 방향 값을 가진 변수 선언 
     private GameObject scanRayObjcet;// Ray에 충돌한 오브젝트를 저장할 변수
 
+    //3차
+    public GameUiMgr gUiMgr;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-
-        gameObject.transform.position = new Vector3(0, 0, 0);
     }
     private void Update()
     {
         // Move Value //플레이어가 대화 상호작용 중일때에는 캐릭터가 움직이지 못 하도록 isActionTalk값이 없을때만 움직일 수 있도록 코드 수정
-        h = GameUiMgr.single.isActionTalk ? 0 : Input.GetAxisRaw("Horizontal");
-        v = GameUiMgr.single.isActionTalk ? 0 : Input.GetAxisRaw("Vertical");
+        h = gUiMgr.isActionTalk ? 0 : Input.GetAxisRaw("Horizontal");
+        v = gUiMgr.isActionTalk ? 0 : Input.GetAxisRaw("Vertical");
 
         // Check Button Down & Up //플레이어가 대화 상호작용 중일때에는 캐릭터가 움직이지 못 하도록 isActionTalk값이 없을때만 움직일 수 있도록 코드 수정
-        bool hDown = GameUiMgr.single.isActionTalk ? false : Input.GetButtonDown("Horizontal");// 오른쪽
-        bool vDown = GameUiMgr.single.isActionTalk ? false : Input.GetButtonDown("Vertical");// 아래
-        bool hUp = GameUiMgr.single.isActionTalk ? false : Input.GetButtonDown("Horizontal");// 왼쪽
-        bool vUp = GameUiMgr.single.isActionTalk ? false : Input.GetButtonDown("Vertical");// 위
+        bool hDown = gUiMgr.isActionTalk ? false : Input.GetButtonDown("Horizontal");// 오른쪽
+        bool vDown = gUiMgr.isActionTalk ? false : Input.GetButtonDown("Vertical");// 아래
+        bool hUp = gUiMgr.isActionTalk ? false : Input.GetButtonDown("Horizontal");// 왼쪽
+        bool vUp = gUiMgr.isActionTalk ? false : Input.GetButtonDown("Vertical");// 위
 
         // Check Horizontal Move
         if (hDown)
@@ -122,7 +123,7 @@ public class PlayerAction : MonoBehaviour
                 }
             }
 
-            GameUiMgr.single.TalkAction(scanRayObjcet);// Ray로 상호작용한 Object의 정보를 twonMgr로 넘겨서 그곳에 있는 대화창에 정보를 출력하게 함.
+            gUiMgr.TalkAction(scanRayObjcet);// Ray로 상호작용한 Object의 정보를 twonMgr로 넘겨서 그곳에 있는 대화창에 정보를 출력하게 함.
         }
 
     }

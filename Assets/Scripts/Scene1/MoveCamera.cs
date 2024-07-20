@@ -5,6 +5,7 @@ using UnityEngine;
 public class MoveCamera : MonoBehaviour
 {
     public Transform target;
+
     [Header("Camera Speed")]
     [SerializeField] private float cameraSpeed;// Time.deltaTime* (cameraSpeed == 5)
 
@@ -28,9 +29,6 @@ public class MoveCamera : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target == null)
-            return;
-        
         //transform.position = new Vector3(target.position.x, target.position.y, -10f);
         transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * cameraSpeed);
         //transform.position = new Vector3(transform.position.x, transform.position.y, -10f); -> Line: 42

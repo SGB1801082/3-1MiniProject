@@ -129,7 +129,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                             GameUiMgr.single.questMgr.receptionist[0].SetActive(false);
                             GameUiMgr.single.questMgr.receptionist[1].SetActive(true);
                         }
-                        Inventory.Single.RemoveItem(slotnum);
+                        Inventory.single.RemoveItem(slotnum);
                         GameUiMgr.single.tooltip.SetActive(false);
                     }
                     break;
