@@ -69,6 +69,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     [Header("Player Options")]
     public GameObject player;
+    public PlaceState nowPlayerPlace;
+    public Transform[] arySpawnPoint;
 
     [Header("Quest Manager")]
     public QuestMgr questMgr;//퀘스트 번호를 가져올 퀘스트 매니저 변수 생성
@@ -1510,8 +1512,22 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         poolMoveInSlot[0].btnMy.interactable = false;
         /*        PartySlot nSlot = new();
                 nSlot.Init(pd);*/
-
-        
     }
 
+    public void ChangePlayerPlace(PlaceState _playerState)
+    {
+        player.transform.position = arySpawnPoint[((int)_playerState)].position;
+
+        MovePlayerPlace((int)_playerState);
+    }
+    public void MovePlayerPlace(int _stateIndex)
+    {
+        nowPlayerPlace = (PlaceState)_stateIndex;
+    }
+}
+public enum PlaceState
+{
+    Guild,
+    Town,
+    Act
 }
