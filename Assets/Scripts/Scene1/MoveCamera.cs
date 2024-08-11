@@ -37,7 +37,7 @@ public class MoveCamera : MonoBehaviour
             {
                 oneTime = !oneTime;
                 gameObject.SetActive(false);
-                center = target.position;
+                center = target.position;//얘는 추후 이동된에 수정해야함.
                 transform.position = target.position;
                 gameObject.SetActive(true);
                 return;

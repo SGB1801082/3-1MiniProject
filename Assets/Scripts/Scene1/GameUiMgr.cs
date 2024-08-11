@@ -85,7 +85,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     [HideInInspector] public bool activeInventory = false;
     //03-31 variable Inventoty - try.4LocalDataStore
     public Slot[] slots;
-    public Transform slotHolder;
+    public Transform slotHolder;// 인벤토리의 아이템슬롯 오브젝트가 들어가는 부모 오브젝트 위치
     //04-21 Inventory Slot Drag items
     public Image dragIcon;
     public Slot nowSlot;
@@ -171,9 +171,12 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     public void AddItemTest()
     {
         Debug.Log("AddItem");
-
-        Item newItem = ItemResources.instance.itemRS[UnityEngine.Random.Range(1,6)]; // 새로운 아이템 생성
+        //아 버그 왜 생기는거냐 진짜 소모아이템생성로직에 문제가있는데
+        Item newItem = ItemResources.instance.itemRS[Random.Range(0,2)]; // 새로운 아이템 생성
         inventory.AddItem(newItem); // 인벤토리에 아이템 추가,
+
+        Debug.Log("Make A NewItem Code: " + newItem.itemCode);
+
         RedrawSlotUI();
     }
     public void ValueUpdate()
@@ -960,7 +963,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
             }
         }
         // 사용한 아이템 제거 
-        inventory.RemoveItem(slots[index].slotnum);
+        inventory.RemoveItem(slots[index].item);
         RedrawSlotUI();
 
         nowSlot = null;

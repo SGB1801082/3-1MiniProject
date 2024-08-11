@@ -15,7 +15,11 @@ public class Item
         Ect
     }
     public ItemType itemType;
-    //public int itemStack = 1;
+
+    // 아이탬 개수 & 강화수치 stack 변수 추가
+    public int itemStack = 0;
+    public int modifyStack = 0;
+    
     public string itemName;
     public Sprite itemImage;
     public List<ItemEffect> efts;
