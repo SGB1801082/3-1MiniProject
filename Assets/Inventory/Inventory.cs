@@ -84,13 +84,8 @@ public class Inventory : MonoBehaviour
                         {
                             items[i].itemStack++;
 
-                            if (onChangeItem != null)
-                                onChangeItem.Invoke();
+                            onChangeItem?.Invoke();// 대리자 호출 간소화, if (onChangeItem != null) {onChangeItem.Invoke();} <- 정상적으로 쓰면 이런 코드임
                             return true;
-                        }
-                        else
-                        {
-
                         }
                     }
                 }
@@ -133,23 +128,31 @@ public class Inventory : MonoBehaviour
                 if (_item.itemStack >= 1)
                 {
                     _item.itemStack--;
-                    return;
-                }
-                else if (_item.itemStack == 1)
-                {
-                    _item.itemStack = 0;
+
+                    if (_item.itemStack <= 0)
+                    {
+                        items.RemoveAt(_item.itemIndex);
+                        //GameUiMgr.single.RedrawSlotUI();
+                        //아이템이 제거될 때 남은 아이템들의 itemIndex 수정
+                        for (int i = _item.itemIndex; i < items.Count; i++)
+                        {
+                            items[i].itemIndex = i;
+                        }
+                    }
                 }
             }
-
-            items.RemoveAt(_item.itemIndex);
-
-            // 아이템이 제거될 때 남은 아이템들의 itemIndex 수정
-            for (int i = 0; i < items.Count; i++)
+            else
             {
-                items[i].itemIndex = i;
-            }
+                items.RemoveAt(_item.itemIndex);
 
-            onChangeItem?.Invoke();
+                // 아이템이 제거될 때 남은 아이템들의 itemIndex 수정
+                for (int i = 0; i < items.Count; i++)
+                {
+                    items[i].itemIndex = i;
+                }
+
+                onChangeItem?.Invoke();
+            }
         }
         else
         {

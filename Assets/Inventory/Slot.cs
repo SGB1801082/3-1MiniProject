@@ -15,9 +15,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     [Header("Display")]
     public TextMeshProUGUI itemStack;// 소모품 개수 표시
-    public int intItemStack;
     public TextMeshProUGUI modifyStack;// 강화 수치 표시
-    public int intModifyStack;
     //private bool isDraging;
 
     public void UpdateSloutUI()
@@ -30,9 +28,9 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
         else if (item.itemType == Item.ItemType.Equipment_Helmet || item.itemType == Item.ItemType.Equipment_Weapon || item.itemType == Item.ItemType.Equipment_Boots || item.itemType == Item.ItemType.Equipment_Arrmor)
         {
-            if (intModifyStack > 0)
+            if (item.modifyStack > 0)
             {
-                modifyStack.text = intModifyStack.ToString();
+                modifyStack.text = item.modifyStack.ToString();
                 modifyStack.gameObject.SetActive(true);
             }
         }
@@ -185,7 +183,17 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void UpdateStack()
     {
-        itemStack.text = intItemStack.ToString();
-        modifyStack.text = intModifyStack.ToString();
+        if (item.itemStack == 0)
+        {
+            GameUiMgr.single.RedrawSlotUI();
+        }
+        if (itemStack.gameObject.activeSelf)
+        {
+            itemStack.text = item.itemStack.ToString();
+        }
+        if (modifyStack.gameObject.activeSelf)
+        {
+            modifyStack.text = item.modifyStack.ToString();
+        }
     }
 }

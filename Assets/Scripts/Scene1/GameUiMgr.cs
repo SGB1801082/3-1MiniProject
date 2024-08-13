@@ -306,22 +306,26 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
     {
         inventory.SlotCnt += 5;
     }
-    public void RedrawSlotUI()
+    public void RedrawSlotUI()// 08-14 수정
     {
-        for(int i = 0; i< slots.Length;i++)
+        // 모든 슬롯 초기화
+        for (int i = 0; i < slots.Length; i++)
         {
             slots[i].RemoveSlot();
         }
-        for(int i = 0; i< inventory.items.Count; i++)
+
+        // 아이템 개수만큼만 슬롯 업데이트
+        int itemCount = Mathf.Min(inventory.items.Count, slots.Length);
+        for (int i = 0; i < itemCount; i++)
         {
             slots[i].item = inventory.items[i];
             slots[i].item.itemIndex = i;
-            //Debug.Log(slots[i].item.itemIndex);
 
-            if (slots[i].name == ItemResources.instance.itemRS[i].itemName)
+            if (i < ItemResources.instance.itemRS.Count && slots[i].name == ItemResources.instance.itemRS[i].itemName)
             {
                 slots[i].item.itemCode = ItemResources.instance.itemRS[i].itemCode;
             }
+
             slots[i].UpdateSloutUI();
         }
     }
