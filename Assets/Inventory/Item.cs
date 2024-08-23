@@ -34,7 +34,8 @@ public class Item
     public int itemCode;
     //06
     public float itemPower;
-
+    //08
+    public int itemPrice;// 아이템가격
     public bool Use()
     {
         bool isUsed = false;
