@@ -14,22 +14,31 @@ public class ShopSlot : MonoBehaviour
 {
     [SerializeField] private Item item;
     [SerializeField] private ShopState state;
-    public int itemPrice;
+    public int slotPirce = 0;
+    public int shopIndex = 0;
 
     public TextMeshProUGUI textItemPrice;
     public TextMeshProUGUI textItemStack;
-    public TextMeshProUGUI textItemPower;
+    public TextMeshProUGUI textItemModifyStack;
     public Image imgSlodOut;
+    
+    public Image slotIcon;
     
     public void Init(Item _item, ShopState _state)
     {
         item = _item;
         state = _state;
 
-        //아이템이 생성될때 바로 표시 초기화
-        itemPrice = item.itemPrice;
-        textItemPrice.text = itemPrice.ToString();
-        
+        //Debug.Log($"Item Price: {item.itemPrice}");
+        Debug.Log("지금생성된 아이템의 스택: " + _item.itemStack);
+
+        slotPirce = item.itemPrice;
+        if (state == ShopState.SELL)
+        {
+            slotPirce = (int)(slotPirce * 0.7);
+        }
+        slotIcon.sprite = item.itemImage;
+        textItemPrice.text = slotPirce.ToString();
         DrawBuyShop(item);
     }
 
@@ -41,9 +50,11 @@ public class ShopSlot : MonoBehaviour
             if (_item.itemStack > 0)
             {
                 textItemStack.text = _item.itemStack.ToString();
+                textItemStack.gameObject.SetActive(true);
             }
             else
             {
+                textItemStack.gameObject.SetActive(false);
                 if (state != ShopState.SOLDOUT)
                 {
                     state = ShopState.SOLDOUT;
@@ -55,10 +66,13 @@ public class ShopSlot : MonoBehaviour
         else
         {
             // 장비아이템일 경우 표시
-            if (_item.itemPower > 0)
+            if (_item.modifyStack > 0)
             {
-                textItemPower.text = _item.itemPower.ToString();
+                textItemModifyStack.text = "+"+_item.modifyStack.ToString();
+                textItemModifyStack.gameObject.SetActive(true);
             }
+            else
+                textItemModifyStack.gameObject.SetActive(false);
         }
     }
     void DrawSellShop()//상점 '판매'아이템 표시 초기화

@@ -164,6 +164,9 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
 
     public bool uiEventCk = true;
 
+    // Item ShopUI
+    [SerializeField] ShopMgr shopMgr;
+
     private void Awake()
     {
         single = this;
@@ -286,6 +289,8 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
         }
         //Tooltip
         canvaseWidth = canvas_Tooltip.GetComponent<CanvasScaler>().referenceResolution.x * 0.5f;
+
+
     }
 
     //03-31 Method Inventory - try.4
@@ -1521,7 +1526,7 @@ public class GameUiMgr : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IEndD
                 nSlot.Init(pd);*/
     }
 
-    public void ChangePlayerPlace(PlaceState _playerState)
+    public void ChangePlayerPlace(PlaceState _playerState)// 플레이어 스폰 포인트(= arySpawnPoint) 값을 사전에 인스펙터창에서 등록하여 enum값과 통일시켜주어서 State값으로 이동하는기능 
     {
         player.transform.position = arySpawnPoint[((int)_playerState)].position;
 

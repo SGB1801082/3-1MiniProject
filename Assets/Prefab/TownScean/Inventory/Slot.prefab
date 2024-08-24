@@ -873,10 +873,9 @@ MonoBehaviour:
     isDraggable: 0
     itemCode: 0
     itemPower: 0
+    itemPrice: 0
   itemIcon: {fileID: 3075729782443131875}
   wearChek: 0
   usability: 0
   itemStack: {fileID: 6336225492957605371}
-  intItemStack: 0
   modifyStack: {fileID: 6324725985346950192}
-  intModifyStack: 0
